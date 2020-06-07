@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.Usuario;
 
+import brave.Tracer;
 import feign.FeignException;
 
 /**
@@ -34,7 +35,10 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private IUsuarioFeign usuarioBean;
-
+	
+	@Autowired
+	private Tracer tracer;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
@@ -49,8 +53,13 @@ public class UsuarioService implements UserDetailsService {
 					true, true, true, authorities);
 
 		} catch (FeignException e) {
-			logger.error("Error en el Login: no existe el usuario '" + username + "' en el sistema!");
-			throw new UsernameNotFoundException("Username: " + username + " no existe en el sistema!");
+			String mns = "Error en el Login: no existe el usuario '" + username + "' en el sistema!";
+			logger.error(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+			logger.error(mns);
+			
+			tracer.currentSpan().tag("error login", mns + ": " + e.getMessage());
+			
+			throw new UsernameNotFoundException(mns);
 		}
 
 	}
