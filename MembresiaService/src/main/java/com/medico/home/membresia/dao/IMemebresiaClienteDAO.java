@@ -15,7 +15,7 @@ import com.medico.home.commons.membresia.model.MembresiaCliente;
  * @author rgarciaq
  *
  */
-@RepositoryRestResource(path = "membresia")
+@RepositoryRestResource(path = "membresia-cliente")
 public interface IMemebresiaClienteDAO extends PagingAndSortingRepository<MembresiaCliente, Long> {
 
 	List<MembresiaCliente> findByClientePersonaClienteCliId(Integer cliId);

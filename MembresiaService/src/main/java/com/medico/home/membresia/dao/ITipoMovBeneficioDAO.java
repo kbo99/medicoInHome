@@ -14,7 +14,7 @@ import com.medico.home.commons.beneficio.model.TipoMovimientoBene;
  * @author rgarciaq
  *
  */
-@RepositoryRestResource(path = "membresia")
+@RepositoryRestResource(path = "tpo-mov-bene")
 public interface ITipoMovBeneficioDAO extends PagingAndSortingRepository<TipoMovimientoBene, Long> {
 	
 	TipoMovimientoBene findByTmbId(Integer tmbId);
