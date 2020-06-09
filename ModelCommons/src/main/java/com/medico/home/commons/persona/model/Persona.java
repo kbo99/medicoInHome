@@ -15,6 +15,7 @@ public class Persona implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="per_id")
 	private int perId;
 
@@ -31,59 +32,129 @@ public class Persona implements Serializable {
 	@Column(name="per_falta")
 	private Date perFalta;
 
+	@Temporal(TemporalType.DATE)
+	@Column(name="per_fnacimiento")
+	private Date perFnacimiento;
+
 	@Column(name="per_nombre")
 	private String perNombre;
 
-	public Persona() {
-	}
+	@Column(name="per_rfc")
+	private String perRfc;
 
+	/**
+	 * @return the perId
+	 */
 	public int getPerId() {
-		return this.perId;
+		return perId;
 	}
 
+	/**
+	 * @param perId the perId to set
+	 */
 	public void setPerId(int perId) {
 		this.perId = perId;
 	}
 
+	/**
+	 * @return the perApeMat
+	 */
 	public String getPerApeMat() {
-		return this.perApeMat;
+		return perApeMat;
 	}
 
+	/**
+	 * @param perApeMat the perApeMat to set
+	 */
 	public void setPerApeMat(String perApeMat) {
 		this.perApeMat = perApeMat;
 	}
 
+	/**
+	 * @return the perApePate
+	 */
 	public String getPerApePate() {
-		return this.perApePate;
+		return perApePate;
 	}
 
+	/**
+	 * @param perApePate the perApePate to set
+	 */
 	public void setPerApePate(String perApePate) {
 		this.perApePate = perApePate;
 	}
 
+	/**
+	 * @return the perEmail
+	 */
 	public String getPerEmail() {
-		return this.perEmail;
+		return perEmail;
 	}
 
+	/**
+	 * @param perEmail the perEmail to set
+	 */
 	public void setPerEmail(String perEmail) {
 		this.perEmail = perEmail;
 	}
 
+	/**
+	 * @return the perFalta
+	 */
 	public Date getPerFalta() {
-		return this.perFalta;
+		return perFalta;
 	}
 
+	/**
+	 * @param perFalta the perFalta to set
+	 */
 	public void setPerFalta(Date perFalta) {
 		this.perFalta = perFalta;
 	}
 
-	public String getPerNombre() {
-		return this.perNombre;
+	/**
+	 * @return the perFnacimiento
+	 */
+	public Date getPerFnacimiento() {
+		return perFnacimiento;
 	}
 
+	/**
+	 * @param perFnacimiento the perFnacimiento to set
+	 */
+	public void setPerFnacimiento(Date perFnacimiento) {
+		this.perFnacimiento = perFnacimiento;
+	}
+
+	/**
+	 * @return the perNombre
+	 */
+	public String getPerNombre() {
+		return perNombre;
+	}
+
+	/**
+	 * @param perNombre the perNombre to set
+	 */
 	public void setPerNombre(String perNombre) {
 		this.perNombre = perNombre;
 	}
+
+	/**
+	 * @return the perRfc
+	 */
+	public String getPerRfc() {
+		return perRfc;
+	}
+
+	/**
+	 * @param perRfc the perRfc to set
+	 */
+	public void setPerRfc(String perRfc) {
+		this.perRfc = perRfc;
+	}
+	
+	
 
 	
 

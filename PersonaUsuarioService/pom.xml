@@ -24,7 +24,7 @@
 
 		<dependency>
 			<groupId>com.medico.home.commons</groupId>
-			<artifactId>commons-model</artifactId>
+			<artifactId>model-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
