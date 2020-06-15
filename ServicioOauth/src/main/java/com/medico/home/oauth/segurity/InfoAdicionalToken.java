@@ -31,7 +31,8 @@ public class InfoAdicionalToken implements TokenEnhancer {
 		Usuario usuario = usuarioBean.findByUsuUsuario(authentication.getName());
 		Persona persona = personaService.findPersonaByIs(usuario.getPerId());
 		
-		map.put("Nombre", persona.getPerNombre());
+		map.put("perId", persona.getPerId());
+		map.put("nombre", persona.getPerNombre());
 		map.put("apeM", persona.getPerApeMat());
 		map.put("apeP", persona.getPerApePate());
 		map.put("email", persona.getPerEmail());
