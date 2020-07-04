@@ -27,7 +27,7 @@ public class Usuario implements Serializable {
 	@Column(name="usu_usuario")
 	private String usuUsuario;
 
-	@Column
+	@Column(name="per_id")
 	private Integer perId;
 	
 	//bi-directional many-to-many association to Grupo
