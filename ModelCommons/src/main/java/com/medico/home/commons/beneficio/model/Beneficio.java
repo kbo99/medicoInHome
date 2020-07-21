@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.medico.home.commons.membresia.model.MembresiaBeneficio;
+import com.medico.home.commons.servicio.model.TipoServicio;
 
 
 /**
@@ -46,10 +49,19 @@ public class Beneficio implements Serializable {
 
 	@Column(name="usu_registra")
 	private String usuRegistra;
+	
+	@Column(name="ben_cantidad_aplica")
+	private int benCantidadAplica;
 
-	//bi-directional many-to-one association to BeneficioDetalle
-	@OneToMany(mappedBy="beneficio")
-	private List<BeneficioDetalle> beneficioDetalles;
+	@Column(name="ben_descuento")
+	private int besDescuento;
+
+	@Column(name="ben_periodo_renovacion_dias")
+	private int ben_periodoRenovacionDias;
+
+	@ManyToOne
+	@JoinColumn(name="tps_id")
+	private TipoServicio tipoServicio;
 
 	//bi-directional many-to-one association to MembresiaBeneficio
 	@OneToMany(mappedBy="beneficio")
@@ -106,27 +118,7 @@ public class Beneficio implements Serializable {
 		this.usuRegistra = usuRegistra;
 	}
 
-	public List<BeneficioDetalle> getBeneficioDetalles() {
-		return this.beneficioDetalles;
-	}
-
-	public void setBeneficioDetalles(List<BeneficioDetalle> beneficioDetalles) {
-		this.beneficioDetalles = beneficioDetalles;
-	}
-
-	public BeneficioDetalle addBeneficioDetalle(BeneficioDetalle beneficioDetalle) {
-		getBeneficioDetalles().add(beneficioDetalle);
-		beneficioDetalle.setBeneficio(this);
-
-		return beneficioDetalle;
-	}
-
-	public BeneficioDetalle removeBeneficioDetalle(BeneficioDetalle beneficioDetalle) {
-		getBeneficioDetalles().remove(beneficioDetalle);
-		beneficioDetalle.setBeneficio(null);
-
-		return beneficioDetalle;
-	}
+	
 
 	public List<MembresiaBeneficio> getMembresiaBeneficios() {
 		return this.membresiaBeneficios;

@@ -26,9 +26,9 @@ public class TipoProducto implements Serializable {
 	@Column(name="tpoprod_nombre")
 	private String tpoprodNombre;
 
-	//bi-directional many-to-one association to Producto
-	@OneToMany(mappedBy="tipoProducto")
-	private List<Producto> productos;
+	@Column(name="tpoprod_estatus")
+	private String tpoprodEstatus;
+	
 
 	public TipoProducto() {
 	}
@@ -57,26 +57,21 @@ public class TipoProducto implements Serializable {
 		this.tpoprodNombre = tpoprodNombre;
 	}
 
-	public List<Producto> getProductos() {
-		return this.productos;
+	/**
+	 * @return the tpoprodEstatus
+	 */
+	public String getTpoprodEstatus() {
+		return tpoprodEstatus;
 	}
 
-	public void setProductos(List<Producto> productos) {
-		this.productos = productos;
+	/**
+	 * @param tpoprodEstatus the tpoprodEstatus to set
+	 */
+	public void setTpoprodEstatus(String tpoprodEstatus) {
+		this.tpoprodEstatus = tpoprodEstatus;
 	}
 
-	public Producto addProducto(Producto producto) {
-		getProductos().add(producto);
-		producto.setTipoProducto(this);
+	
 
-		return producto;
-	}
-
-	public Producto removeProducto(Producto producto) {
-		getProductos().remove(producto);
-		producto.setTipoProducto(null);
-
-		return producto;
-	}
 
 }

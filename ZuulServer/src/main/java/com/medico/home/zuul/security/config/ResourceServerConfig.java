@@ -2,8 +2,15 @@ package com.medico.home.zuul.security.config;
 
 import java.util.Arrays;
 
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.commons.httpclient.ApacheHttpClientConnectionManagerFactory;
+import org.springframework.cloud.commons.httpclient.ApacheHttpClientFactory;
+import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
+import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
+import org.springframework.cloud.netflix.zuul.filters.route.SimpleHostRoutingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -33,8 +40,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/api/security/oauth/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/api/personas/listar", "/api/persona-usuario/listar", "/api/usuarios/usuarios").permitAll()
+		http.authorizeRequests().antMatchers("/api/security/oauth/**", 
+				"/api/servicio-admin/persona/register/**", 
+				"/api/usuarios/generaUsuario/**",
+				"/api/notificacion/sendMessageSingUp/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/api/personas/listar", "/api/persona-usuario/listar", 
+				"/api/usuarios/usuarios").permitAll()
 //		.antMatchers(HttpMethod.GET, "/api/productos/ver/{id}", 
 //				"/api/items/ver/{id}/cantidad/{cantidad}", 
 //				"/api/usuarios/usuarios/{id}").hasAnyRole("ADMIN")

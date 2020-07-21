@@ -45,10 +45,7 @@ public class ClientePersona implements Serializable {
 	@Column(name="cpe_fultima_mod")
 	private Date cpeFultimaMod;
 
-	//bi-directional many-to-one association to ClienteDireccion
-	@OneToMany(mappedBy="clientePersona")
-	private List<ClienteDireccion> clienteDireccions;
-
+	
 	//bi-directional many-to-one association to Cliente
 	@ManyToOne
 	@JoinColumn(name="cli_id")
@@ -64,13 +61,6 @@ public class ClientePersona implements Serializable {
 	@JoinColumn(name="per_id")
 	private Persona persona;
 
-	//bi-directional many-to-one association to MembresiaCliente
-	@OneToMany(mappedBy="clientePersona")
-	private List<MembresiaCliente> membresiaClientes;
-
-	//bi-directional many-to-one association to Paciente
-	@OneToMany(mappedBy="clientePersona")
-	private List<Paciente> pacientes;
 
 	public ClientePersona() {
 	}
@@ -99,27 +89,7 @@ public class ClientePersona implements Serializable {
 		this.cpeFultimaMod = cpeFultimaMod;
 	}
 
-	public List<ClienteDireccion> getClienteDireccions() {
-		return this.clienteDireccions;
-	}
-
-	public void setClienteDireccions(List<ClienteDireccion> clienteDireccions) {
-		this.clienteDireccions = clienteDireccions;
-	}
-
-	public ClienteDireccion addClienteDireccion(ClienteDireccion clienteDireccion) {
-		getClienteDireccions().add(clienteDireccion);
-		clienteDireccion.setClientePersona(this);
-
-		return clienteDireccion;
-	}
-
-	public ClienteDireccion removeClienteDireccion(ClienteDireccion clienteDireccion) {
-		getClienteDireccions().remove(clienteDireccion);
-		clienteDireccion.setClientePersona(null);
-
-		return clienteDireccion;
-	}
+	
 
 	public Cliente getCliente() {
 		return this.cliente;
@@ -145,48 +115,6 @@ public class ClientePersona implements Serializable {
 		this.persona = persona;
 	}
 
-	public List<MembresiaCliente> getMembresiaClientes() {
-		return this.membresiaClientes;
-	}
 
-	public void setMembresiaClientes(List<MembresiaCliente> membresiaClientes) {
-		this.membresiaClientes = membresiaClientes;
-	}
-
-	public MembresiaCliente addMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().add(membresiaCliente);
-		membresiaCliente.setClientePersona(this);
-
-		return membresiaCliente;
-	}
-
-	public MembresiaCliente removeMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().remove(membresiaCliente);
-		membresiaCliente.setClientePersona(null);
-
-		return membresiaCliente;
-	}
-
-	public List<Paciente> getPacientes() {
-		return this.pacientes;
-	}
-
-	public void setPacientes(List<Paciente> pacientes) {
-		this.pacientes = pacientes;
-	}
-
-	public Paciente addPaciente(Paciente paciente) {
-		getPacientes().add(paciente);
-		paciente.setClientePersona(this);
-
-		return paciente;
-	}
-
-	public Paciente removePaciente(Paciente paciente) {
-		getPacientes().remove(paciente);
-		paciente.setClientePersona(null);
-
-		return paciente;
-	}
 
 }
