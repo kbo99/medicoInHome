@@ -54,19 +54,16 @@ public class Beneficio implements Serializable {
 	private int benCantidadAplica;
 
 	@Column(name="ben_descuento")
-	private int besDescuento;
+	private int benDescuento;
 
 	@Column(name="ben_periodo_renovacion_dias")
-	private int ben_periodoRenovacionDias;
+	private int benPeriodoRenovacionDias;
 
 	@ManyToOne
 	@JoinColumn(name="tps_id")
 	private TipoServicio tipoServicio;
 
-	//bi-directional many-to-one association to MembresiaBeneficio
-	@OneToMany(mappedBy="beneficio")
-	private List<MembresiaBeneficio> membresiaBeneficios;
-
+	
 	public Beneficio() {
 	}
 
@@ -118,28 +115,39 @@ public class Beneficio implements Serializable {
 		this.usuRegistra = usuRegistra;
 	}
 
+	public int getBenCantidadAplica() {
+		return benCantidadAplica;
+	}
+
+	public void setBenCantidadAplica(int benCantidadAplica) {
+		this.benCantidadAplica = benCantidadAplica;
+	}
+
+	public int getBenDescuento() {
+		return benDescuento;
+	}
+
+	public void setBenDescuento(int besDescuento) {
+		this.benDescuento = besDescuento;
+	}
+
+	public int getBenPeriodoRenovacionDias() {
+		return benPeriodoRenovacionDias;
+	}
+
+	public void setBenPeriodoRenovacionDias(int benPeriodoRenovacionDias) {
+		this.benPeriodoRenovacionDias = benPeriodoRenovacionDias;
+	}
+
+	public TipoServicio getTipoServicio() {
+		return tipoServicio;
+	}
+
+	public void setTipoServicio(TipoServicio tipoServicio) {
+		this.tipoServicio = tipoServicio;
+	}
+
 	
 
-	public List<MembresiaBeneficio> getMembresiaBeneficios() {
-		return this.membresiaBeneficios;
-	}
-
-	public void setMembresiaBeneficios(List<MembresiaBeneficio> membresiaBeneficios) {
-		this.membresiaBeneficios = membresiaBeneficios;
-	}
-
-	public MembresiaBeneficio addMembresiaBeneficio(MembresiaBeneficio membresiaBeneficio) {
-		getMembresiaBeneficios().add(membresiaBeneficio);
-		membresiaBeneficio.setBeneficio(this);
-
-		return membresiaBeneficio;
-	}
-
-	public MembresiaBeneficio removeMembresiaBeneficio(MembresiaBeneficio membresiaBeneficio) {
-		getMembresiaBeneficios().remove(membresiaBeneficio);
-		membresiaBeneficio.setBeneficio(null);
-
-		return membresiaBeneficio;
-	}
 
 }

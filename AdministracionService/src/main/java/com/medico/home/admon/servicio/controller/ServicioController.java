@@ -25,6 +25,7 @@ public class ServicioController {
 	@Autowired
 	private IServicio servicioService;
 	
+	@Autowired
 	private IMembresiaAdmonService membresiaAdmonService;
 	
 	
@@ -47,6 +48,11 @@ public class ServicioController {
 	@PostMapping("/nuevoBeneficio")
 	public Beneficio generaNuevo(@RequestBody Beneficio tpoSer) throws Exception{
 		return membresiaAdmonService.nuevoBeneficio(tpoSer);	
+	}
+	
+	@PostMapping("/findByBenEstatus")
+	public List<Beneficio> findByBenEstatus(@RequestBody String benEstatus) throws Exception{
+		return membresiaAdmonService.findBeneficioByBenEstatus(benEstatus);	
 	}
 
 }
