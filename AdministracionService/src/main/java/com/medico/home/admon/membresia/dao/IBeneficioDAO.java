@@ -5,6 +5,7 @@ package com.medico.home.admon.membresia.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -51,5 +52,8 @@ public interface IBeneficioDAO extends PagingAndSortingRepository<Beneficio, Lon
 	 */
 	@RestResource(path = "busca-ben-by-likeno")
 	List<Beneficio> findByBenNombreLike(String benNombre);
+	
+	@Query("SELECT ben FROM Beneficio ben WHERE ben.benId NOT IN (?1) AND ben.benEstatus = ?2")
+	List<Beneficio> getBeneficioAdmonMembresia(List<Integer> lstBenId, String estatus);
 	
 }

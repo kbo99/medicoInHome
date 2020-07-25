@@ -19,4 +19,5 @@ public interface IUsuarioDAO extends PagingAndSortingRepository<Usuario, Integer
 	@RestResource(path = "busca-usuario")
 	public Usuario findByUsuUsuario (String usuUsuario);
 	
+	
 }

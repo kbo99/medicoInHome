@@ -3,6 +3,7 @@
  */
 package com.medico.home.admon.membresia.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medico.home.admon.membresia.dao.IBeneficioDAO;
+import com.medico.home.admon.membresia.dao.IMembresiaDAO;
 import com.medico.home.commons.beneficio.model.Beneficio;
+import com.medico.home.commons.membresia.model.Membresia;
+import com.medico.home.commons.membresia.model.MembresiaBeneficio;
 import com.medico.home.commons.util.Const;
 
 /**
@@ -26,6 +30,9 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	
 	@Autowired
 	IBeneficioDAO beneficioDAO;
+	
+	@Autowired
+	IMembresiaDAO membresiaDAO;
 
 	@Override
 	public Beneficio save(Beneficio beneficio) throws Exception {
@@ -61,6 +68,52 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 			throw new Exception(e);
 		}
 		return lstBen;
+	}
+
+	@Override
+	public List<Beneficio> getBeneficioAdmonMembresia(List<Integer> lstBenId, String estatus) throws Exception {
+		List<Beneficio> lstBen = null;
+		try {
+			lstBen = beneficioDAO.getBeneficioAdmonMembresia(lstBenId, estatus);
+		} catch (Exception e) {
+			logger.error("Error al buscar beneficios asignados a memebresia by estatus"+ estatus, e);
+			throw new Exception(e);
+		}
+		return lstBen;
+	}
+
+	@Override
+	public Membresia save(Membresia membresia) throws Exception {
+		try {
+			membresia = membresiaDAO.save(membresia);
+		} catch (Exception e) {
+			logger.error("Error al guardar memebresia", e);
+			throw new Exception(e);
+		}
+		return membresia;
+	}
+
+	@Override
+	public Membresia nueva(final Membresia membresia) throws Exception {
+		Membresia membresiaTmp = new Membresia();
+		try {
+			membresia.setMemEstatus(Const.ESTATUS_ACTIVO);
+			membresia.setMemFcreacion(new Date());
+			List<MembresiaBeneficio> lstTmp = new ArrayList<MembresiaBeneficio>();
+			membresia.getBeneficios().forEach(item-> {
+				MembresiaBeneficio tmp = new MembresiaBeneficio();
+				tmp.setBeneficio(item);
+				tmp.setMembresia(membresia);
+				lstTmp.add(tmp);
+			});
+			membresiaTmp = membresia;
+			membresiaTmp.setMembresiaBeneficios(lstTmp);
+			membresiaTmp = save(membresiaTmp);
+		} catch (Exception e) {
+			logger.error("Error al guardar memebresia", e);
+			throw new Exception(e);
+		}
+		return membresiaTmp;
 	}
 
 	

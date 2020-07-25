@@ -28,10 +28,10 @@ public class UsuarioController {
 	
 	
 	@PostMapping("/generaUsuario")
-	public Persona generaNuevoUsuario(@RequestBody final Persona usuario) throws Exception {
+	public Persona generaNuevoUsuario(@RequestBody  Usuario usuario) throws Exception {
 		Usuario userTmp = null;
 		try {
-			usuarioService.generateNuevo(usuario);
+			usuarioService.generateNuevo(usuario); 
 		} catch (Exception e) {
 			throw new Exception();
 		}

@@ -32,31 +32,16 @@ public class Token implements Serializable {
 	@Column
 	private Date tknFecha;
 	
-	@Column
-	private String tknOrigen;
 	
-	/**
-	 * @return the tknOrigen
-	 */
-	public String getTknOrigen() {
-		return tknOrigen;
-	}
 
-	/**
-	 * @param tknOrigen the tknOrigen to set
-	 */
-	public void setTknOrigen(String tknOrigen) {
-		this.tknOrigen = tknOrigen;
-	}
 
 	public Token () {
 		
 	}
 	
-	public Token (String usuario, String token, String tknOrigen) {
+	public Token (String usuario, String token) {
 		this.usuario = usuario;
 		this.token = token;
-		this.tknOrigen = tknOrigen;
 		this.tknFecha = new Date();
 		
 	}

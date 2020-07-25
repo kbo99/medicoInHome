@@ -14,5 +14,5 @@ public interface IUsuario {
 
 	Usuario save(Usuario usuario) throws Exception;
 	
-	Usuario generateNuevo(Persona usuario) throws Exception;
+	Usuario generateNuevo(Usuario usuario) throws Exception;
 }

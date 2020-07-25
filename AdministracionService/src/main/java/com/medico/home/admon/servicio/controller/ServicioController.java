@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medico.home.admon.membresia.service.IMembresiaAdmonService;
 import com.medico.home.admon.servicio.service.IServicio;
 import com.medico.home.commons.beneficio.model.Beneficio;
+import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.servicio.model.TipoServicio;
+import com.medico.home.commons.util.Const;
 
 /**
  * @author macpro
@@ -53,6 +55,16 @@ public class ServicioController {
 	@PostMapping("/findByBenEstatus")
 	public List<Beneficio> findByBenEstatus(@RequestBody String benEstatus) throws Exception{
 		return membresiaAdmonService.findBeneficioByBenEstatus(benEstatus);	
+	}
+	
+	@PostMapping("/findByBenMemAdmon")
+	public List<Beneficio> findByBenEstatus(@RequestBody List<Integer> benEstatus) throws Exception{
+		return membresiaAdmonService.getBeneficioAdmonMembresia(benEstatus, Const.ESTATUS_ACTIVO);
+	}
+	
+	@PostMapping("/guardarMem")
+	public Membresia save(@RequestBody Membresia tpoSer) throws Exception{
+		return membresiaAdmonService.nueva(tpoSer);
 	}
 
 }

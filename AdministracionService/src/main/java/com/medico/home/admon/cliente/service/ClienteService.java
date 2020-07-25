@@ -3,7 +3,9 @@
  */
 package com.medico.home.admon.cliente.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import com.medico.home.commons.cliente.model.Cliente;
 import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.cliente.model.PerfilPersonaCliente;
 import com.medico.home.commons.persona.model.Persona;
+import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.util.Const;
 
 /**
@@ -62,8 +65,13 @@ public class ClienteService implements IClienteService {
 			clienTmp.setCliFregistro(new Date());
 			clienTmp.setCliEstatus(Const.ESTATUS_ACTIVO);
 			
+			//Se crea el perfil de cliente
+			List<Grupo> lstGrp = new ArrayList<Grupo>();
+			Grupo grp = new Grupo();
+			grp.setGrpId(Const.PERFIL_USU_CLIENTE_TITULAR);
+			lstGrp.add(grp);
 			//Se manda a generar nueva persona y usuario
-			persona = personaService.registraNueva(persona);
+			persona = personaService.registraNueva(persona, lstGrp);
 			//se guarda el cliente.
 			clienTmp = save(clienTmp);
 			//Se manda a generar el cliente persona como titular

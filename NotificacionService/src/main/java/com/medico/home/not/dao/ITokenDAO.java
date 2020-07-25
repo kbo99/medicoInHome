@@ -15,7 +15,11 @@ import com.medico.home.not.model.Token;
  */
 public interface ITokenDAO extends PagingAndSortingRepository<Token, String> {
 	
-	List<Token>  findByTknOrigen(String tkonOrigen);
+
 
 	List<Token> findByUsuarioIn(List<String> lstDoctores);
+	
+	Token findByUsuario(String usuario);
+	
+	
 }

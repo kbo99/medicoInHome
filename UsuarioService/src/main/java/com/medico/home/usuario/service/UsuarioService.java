@@ -15,8 +15,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medico.home.commons.persona.model.Persona;
+import com.medico.home.commons.usuario.model.Grupo;
+import com.medico.home.commons.usuario.model.UsuGrupo;
+import com.medico.home.commons.usuario.model.UsuGrupoEmbededId;
 import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.commons.util.Const;
+import com.medico.home.usuario.dao.IUsuGrupoDAO;
 import com.medico.home.usuario.dao.IUsuarioDAO;
 
 /**
@@ -30,6 +34,9 @@ public class UsuarioService implements IUsuario {
 	
 	@Autowired
 	IUsuarioDAO usuarioDAO;
+	
+	@Autowired
+	IUsuGrupoDAO usuGrupoDAO;
 
 	@Override
 	public Usuario save(Usuario usuario) throws Exception {
@@ -43,16 +50,23 @@ public class UsuarioService implements IUsuario {
 	}
 
 	@Override
-	public Usuario generateNuevo(Persona usuario) throws Exception {
+	public Usuario generateNuevo(Usuario usuario) throws Exception {
 		Usuario user = new Usuario();
 		try {
-			user.setUsuEstatus(Const.ESTATUS_ACTIVO);
-			user.setUsuPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
-			user.setPerId(usuario.getPerId());
-			user.setUsuUsuario(usuario.getPerTelefono());
+			usuario.setUsuEstatus(Const.ESTATUS_ACTIVO);
+			usuario.setUsuPassword(new BCryptPasswordEncoder().encode(usuario.getUsuPassword()));
+			
 			//se manda a guardar el usuario
-			user = save(user);
+			user = save(usuario);
 		
+			for( Grupo grupo : usuario.getGrupos()) {
+				UsuGrupo usuGrp = new UsuGrupo();
+				usuGrp.setId(new UsuGrupoEmbededId());
+				usuGrp.getId().setUsuId(user.getUsuId());
+				usuGrp.getId().setGrpId(grupo.getGrpId());
+				usuGrupoDAO.save(usuGrp);
+			}
+			
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
