@@ -17,5 +17,7 @@ public interface IMedicoNotifiacionDAO extends PagingAndSortingRepository<Medico
 	
 	
 	List<MedicoNotificacion> findByMnrDispon(String dispon);
+	
+	MedicoNotificacion findByMnrUsu(String usuario);
 
 }

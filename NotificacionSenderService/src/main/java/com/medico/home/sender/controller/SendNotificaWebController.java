@@ -27,14 +27,15 @@ public class SendNotificaWebController {
 	@PostMapping("/mandaDoctor")
 	public NotificacionVO mandaNtofiLlamadaDoc(@RequestBody NotificacionVO notifica) {
 		this.websocket.convertAndSend(notifica.getTopicDestino(), notifica);
+		this.websocket.convertAndSend("/topic/notify/incomincall/"+notifica.getSendFromUser(), notifica);
 	    return notifica;
 	   
 	}
 	
-	@GetMapping("/mandaPaciente")
-	public Object simpleTest(@DestinationVariable String fleetId) {
-		this.websocket.convertAndSend("/topic/notify/call/test", "");
-	    return new Object();
+	@PostMapping("/mandaPaciente")
+	public NotificacionVO simpleTest(@RequestBody NotificacionVO notifica) {
+		this.websocket.convertAndSend("/topic/notify/call/"+notifica.getSendFromUser(), notifica);
+	    return notifica;
 	}
 
 }

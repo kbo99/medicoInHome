@@ -33,6 +33,8 @@ public class NotificacionVO implements Serializable {
 	
 	private String sendFromUser;
 	
+	private String angoraString;
+	
 	
 	public NotificacionVO() {
 		
@@ -148,6 +150,20 @@ public class NotificacionVO implements Serializable {
 	 */
 	public void setSendFromUser(String sendFromUser) {
 		this.sendFromUser = sendFromUser;
+	}
+
+	/**
+	 * @return the angoraString
+	 */
+	public String getAngoraString() {
+		return angoraString;
+	}
+
+	/**
+	 * @param angoraString the angoraString to set
+	 */
+	public void setAngoraString(String angoraString) {
+		this.angoraString = angoraString;
 	}
 	
 	

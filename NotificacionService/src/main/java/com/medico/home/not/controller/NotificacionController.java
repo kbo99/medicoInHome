@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
+import com.medico.home.not.model.LlamadaPendiente;
 import com.medico.home.not.model.Token;
 import com.medico.home.not.service.INotifyService;
 
@@ -34,14 +36,28 @@ public class NotificacionController  {
 	@PostMapping("/send")
 	public String sendUser(@RequestBody String user) {
 		return notificacionService.sendNotificacionLlamadaEntrante(user);
-		
-		
 	}
 	
 	@PostMapping("/sendMessageSingUp")
 	public String sendMessageSingUp(@RequestBody Usuario persona) throws Exception {
 		return notificacionService.sendNotificacionSingUp(persona);
 		
+	}
+	
+	@PostMapping("/getCallPend")
+	public LlamadaPendiente consultaLlamada(@RequestBody String user) {
+		LlamadaPendiente llamada = null;
+		try {
+			llamada= notificacionService.buscaAtiendeLlamadaPendiente(user, null);
+		} catch (Exception e) {
+			
+		}
+		return llamada;
+	}
+	
+	@PostMapping("/atiendeLlamado")
+	public NotificacionVO atiendeLlamada(@RequestBody NotificacionVO notificacion) throws Exception{
+		return notificacionService.atiendeLlamada(notificacion);
 	}
 	
 	

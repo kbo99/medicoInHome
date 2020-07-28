@@ -3,6 +3,7 @@
  */
 package com.medico.home.not.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.commons.util.Const;
 import com.medico.home.not.dao.IMedicoNotifiacionDAO;
 import com.medico.home.not.dao.ITokenDAO;
+import com.medico.home.not.model.LlamadaPendiente;
 import com.medico.home.not.model.MedicoNotificacion;
 import com.medico.home.not.model.Token;
 import com.twilio.Twilio;
@@ -47,7 +49,10 @@ public class NotifyService implements INotifyService {
 	@Autowired
 	IParametroNotify parametroNotify;
 	
-
+	@Autowired
+	ILlamadaPendiente llamadaPendienteService;
+	
+	
 	
 	@Override
 	public String userTokenSubscribe(String usuario, String token) {
@@ -58,16 +63,28 @@ public class NotifyService implements INotifyService {
 
 	@Override
 	public String sendNotificacionLlamadaEntrante(String userFrom) {
-		//SE OBTIENEN LOS PARametors necesarios para mandar la notificacion de llamada a medoco
-		Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
-				Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE, Const.URL_SKT_MESSAGE, Const.TOPIC_LLAMADA_DOC);
+	
 		try {
-			envioNotificacionLlamadaDoctor(mapConfig, userFrom);
+			//SE OBTIENEN LOS PARametors necesarios para mandar la notificacion de llamada a medoco
+		Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
+				Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE, Const.URL_SKT_MESSAGE, Const.TOPIC_LLAMADA_DOC,
+				Const.TKN_LLAMADA_ANGORA,Const.URL_SKT_MESSAGE_CLI);
+		
+		LlamadaPendiente llam = llamadaPendienteService.findByUsuSolAndLlpEstatus(userFrom, Const.ESTATUS_LLAMADA_X_ATENDER);
+		if(llam != null) {
+			//si existe una llamada se cancela(llamada Perdida) 
+			llam.setLlpEstatus(Const.ESTATUS_LLAMADA_NO_ATENDIDA);
+			llam.setLlpAtendida(Const.STRING_F);
+			llamadaPendienteService.save(llam);
+		}
+		//Se genera la nueva llamada
+		llamadaPendienteService.buildLlamadaPenIni(userFrom);
+		envioNotificacionLlamadaDoctor(mapConfig, userFrom);
 		} catch (Exception e) {
 			logger.error("Error al generar notify ", e);
 		}
 		
-		return "succees o tal vez no";
+		return "success";
 	}
 	
 	private void envioNotificacionLlamadaDoctor(Map<String, String> mapConfig, String userFrom) {
@@ -83,9 +100,9 @@ public class NotifyService implements INotifyService {
 			sendMessage(mapConfig, item.getMnrUsu(), "Un paciente solicita una videollamada \n "
 					+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
 			//se manda la notificacion al sockete
-			sendNotificationToSocket(userFrom,mapConfig.get(Const.URL_SKT_MESSAGE),
+			sendNotificationToSocket(item.getMnrUsu(),mapConfig.get(Const.URL_SKT_MESSAGE),
 					"Un paciente solicita una videollamada",mapConfig.get(Const.TOPIC_LLAMADA_DOC)+item.getMnrUsu(),
-					"/medicall");
+					"/medicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),userFrom);
 			
 		});
 	}
@@ -93,13 +110,17 @@ public class NotifyService implements INotifyService {
 	
 	
 	private void sendNotificationToSocket(String userFrom, 
-			String hostSender, String message, String topic, String accion) {
+			String hostSender, String message, String topic, String accion, 
+			String angoraTKn, String userTo) {
 		
 	     //Se construye el objeto de notificacion
 			NotificacionVO noti = new NotificacionVO();
 			noti.setIdLlamada(userFrom);
 			noti.setMensaje(message);
 			noti.setTopicDestino(topic);
+			noti.setAngoraString(angoraTKn);
+			noti.setSendFromUser(userFrom);
+			noti.setSendToUser(userTo);
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -138,6 +159,7 @@ public class NotifyService implements INotifyService {
 	
 	
 	
+	@SuppressWarnings("static-access")
 	private String sendNotificationPush(WebpushNotification notifica,String token) {
 		String response = "";
 		notifica.builder().putCustomData("click_action", "www.doctoresensucasa.com");
@@ -200,6 +222,110 @@ public class NotifyService implements INotifyService {
 		}
 		return "success";
 	}
+
+
+	@Override
+	public LlamadaPendiente buscaAtiendeLlamadaPendiente(String medicoId,Map<String, String> mapConfig) throws Exception {
+		LlamadaPendiente llamda = null;
+		try {
+			if(mapConfig == null) {
+				mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
+						Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE, Const.URL_SKT_MESSAGE, 
+						Const.TOPIC_LLAMADA_PAC, Const.TKN_LLAMADA_ANGORA,Const.URL_SKT_MESSAGE_CLI);
+			}
+			List<LlamadaPendiente> lstLlamadaPendientes = 
+					llamadaPendienteService.getFirstLlamadaPendienteByEstatus(Const.ESTATUS_LLAMADA_X_ATENDER);
+			if(lstLlamadaPendientes != null && lstLlamadaPendientes.size() > 0) {
+				 for(LlamadaPendiente llamada : lstLlamadaPendientes) {
+					 llamada.setLlpAtendida(Const.STRING_V);
+					 llamada.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA);
+					 //se valida que la llamda no haya cambiado de estatus en el inter por si la tomo 
+					 //otro medico si no es null quiere decir que no cambio estatus y se asigna
+					if(llamadaPendienteService.findByUsuSolAndLlpEstatus(llamada.getUsuSol(), 
+							Const.ESTATUS_LLAMADA_X_ATENDER) != null) {
+						// asigna llamada
+						llamda = llamadaPendienteService.save(llamada);
+						llamda.setTknAgora(mapConfig.get(Const.TKN_LLAMADA_ANGORA));
+						MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(medicoId);
+						mod.setMnrDispon(Const.STRING_F);
+						//se aparta el medico y se mandan notifc¡icaciones
+						medicoNotifyAdd(mod);
+						//falta envio de notificacion paciente
+						//Se obtiene token para notificacion push
+						Token tkn = tokenDAO.findByUsuario(llamada.getUsuSol());
+						//Si tiene token registrado se manda la notificacion push
+						if(tkn != null)
+							sendMessagesPacienteLlamada(mapConfig, tkn.getToken(), llamada.getUsuSol(),medicoId);
+						
+					}else {
+						//quiere decir que cambio de estatus vuelve a consultar las pendientes
+						buscaAtiendeLlamadaPendiente(medicoId,mapConfig);
+					}
+				 }
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}	
+		return llamda == null ? new LlamadaPendiente() : llamda;
+	}
+
+
+	
+	@Override
+	public NotificacionVO atiendeLlamada(NotificacionVO medico) throws Exception {
+		try {
+			Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
+					Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE, Const.URL_SKT_MESSAGE, 
+					Const.TOPIC_LLAMADA_PAC, Const.TKN_LLAMADA_ANGORA,Const.URL_SKT_MESSAGE_CLI);
+			//Va por la llamada
+			LlamadaPendiente llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(medico.getSendToUser(), 
+					Const.ESTATUS_LLAMADA_X_ATENDER);
+			//si no han tomado la llamada la tomamos
+			if(llamamdaPendiente != null) {
+				llamamdaPendiente.setLlpAtendida(Const.STRING_V);
+				llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA);
+				llamadaPendienteService.save(llamamdaPendiente);
+				
+				//Recuperamos el token
+				Token tkn = tokenDAO.findByUsuario(medico.getSendToUser());
+				
+				MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(medico.getSendFromUser());
+				mod.setMnrDispon(Const.STRING_F);
+				//se aparta el medico y se mandan notifc¡icaciones
+				medicoNotifyAdd(mod);
+
+				//Se mandan los mensajes
+				sendMessagesPacienteLlamada(mapConfig, tkn.getToken(), medico.getSendToUser(), medico.getSendFromUser());
+			}
+			
+		} catch (Exception e) {
+			logger.error("",e);
+		}
+		// TODO Auto-generated method stub
+		return medico;
+	}
+	
+
+
+	private void sendMessagesPacienteLlamada(Map<String, String> mapConfig, String tkn, String usuSol, 
+			String usuFrom) {
+		sendNotificationPush(new WebpushNotification("Su llamada fue atendida",
+				"www.doctoresensucasa.com", "Doctores en su casa"), tkn);
+		//Se manda el mensaje al paciente
+		sendMessage(mapConfig, usuSol, "Su llamada fue atendida \n "
+				+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
+		//se manda la notificacion al sockete
+		sendNotificationToSocket(usuSol,mapConfig.get(Const.URL_SKT_MESSAGE_CLI),
+				"Su llamada fue atendida",mapConfig.get(Const.TOPIC_LLAMADA_PAC)+usuSol,
+				"/clicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),usuFrom);
+	}
+
+	
+
+
+	
+
 	
 	
 
