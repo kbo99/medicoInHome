@@ -239,6 +239,7 @@ public class NotifyService implements INotifyService {
 				 for(LlamadaPendiente llamada : lstLlamadaPendientes) {
 					 llamada.setLlpAtendida(Const.STRING_V);
 					 llamada.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA);
+					 llamada.setUsuAtiende(medicoId);
 					 //se valida que la llamda no haya cambiado de estatus en el inter por si la tomo 
 					 //otro medico si no es null quiere decir que no cambio estatus y se asigna
 					if(llamadaPendienteService.findByUsuSolAndLlpEstatus(llamada.getUsuSol(), 
@@ -285,7 +286,9 @@ public class NotifyService implements INotifyService {
 			if(llamamdaPendiente != null) {
 				llamamdaPendiente.setLlpAtendida(Const.STRING_V);
 				llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA);
-				llamadaPendienteService.save(llamamdaPendiente);
+				llamamdaPendiente.setUsuAtiende(medico.getSendFromUser());
+				
+
 				
 				//Recuperamos el token
 				Token tkn = tokenDAO.findByUsuario(medico.getSendToUser());
@@ -319,6 +322,24 @@ public class NotifyService implements INotifyService {
 		sendNotificationToSocket(usuSol,mapConfig.get(Const.URL_SKT_MESSAGE_CLI),
 				"Su llamada fue atendida",mapConfig.get(Const.TOPIC_LLAMADA_PAC)+usuSol,
 				"/clicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),usuFrom);
+	}
+
+
+	@Override
+	public void finalizaLlamada(String userSol) throws Exception {
+		try {
+			LlamadaPendiente llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(userSol, 
+					Const.ESTATUS_LLAMADA_ATENDIDA);
+			llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_FIN);
+			llamadaPendienteService.save(llamamdaPendiente);
+			MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(llamamdaPendiente.getUsuAtiende());
+			mod.setMnrDispon(Const.STRING_V);
+			//se aparta el medico y se mandan notifc¡icaciones
+			medicoNotifyAdd(mod);
+			
+		} catch (Exception e) {
+			logger.error("",e);
+		}
 	}
 
 	

@@ -46,6 +46,9 @@ public class LlamadaPendiente implements Serializable {
 	@Column
 	private String llpAtendida;
 	
+	@Column
+	private String usuAtiende;
+	
 	@Transient
 	private String tknAgora;
 	
@@ -148,6 +151,22 @@ public class LlamadaPendiente implements Serializable {
 	 */
 	public void setTknAgora(String tknAgora) {
 		this.tknAgora = tknAgora;
+	}
+
+
+	/**
+	 * @return the usuAtiende
+	 */
+	public String getUsuAtiende() {
+		return usuAtiende;
+	}
+
+
+	/**
+	 * @param usuAtiende the usuAtiende to set
+	 */
+	public void setUsuAtiende(String usuAtiende) {
+		this.usuAtiende = usuAtiende;
 	}
 	
 	

@@ -29,6 +29,6 @@ public interface INotifyService {
 	
 	NotificacionVO atiendeLlamada(NotificacionVO medico) throws Exception;
 	
-	
+	void finalizaLlamada(String userSol)throws Exception;
 	
 }

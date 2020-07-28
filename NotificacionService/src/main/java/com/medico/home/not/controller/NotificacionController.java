@@ -61,6 +61,12 @@ public class NotificacionController  {
 	}
 	
 	
+	@PostMapping("/finalizaCall")
+	public void finalizaLlamda(@RequestBody String idSol) throws Exception{
+		notificacionService.finalizaLlamada(idSol);
+	}
+	
+	
 	
 
 }
