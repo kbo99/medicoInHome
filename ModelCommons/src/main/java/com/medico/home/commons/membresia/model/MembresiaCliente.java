@@ -69,6 +69,9 @@ public class MembresiaCliente implements Serializable {
 	//bi-directional many-to-one association to MovimientoMembresia
 	@OneToMany(mappedBy="membresiaCliente")
 	private List<MovimientoMembresia> movimientoMembresias;
+	
+	@Column
+	private String mecFolio;
 
 	public MembresiaCliente() {
 	}
@@ -180,5 +183,21 @@ public class MembresiaCliente implements Serializable {
 
 		return movimientoMembresia;
 	}
+
+	/**
+	 * @return the mecFolio
+	 */
+	public String getMecFolio() {
+		return mecFolio;
+	}
+
+	/**
+	 * @param mecFolio the mecFolio to set
+	 */
+	public void setMecFolio(String mecFolio) {
+		this.mecFolio = mecFolio;
+	}
+	
+	
 
 }

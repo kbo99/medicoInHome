@@ -31,4 +31,6 @@ public interface INotifyService {
 	
 	void finalizaLlamada(String userSol)throws Exception;
 	
+	String getSktCnt()throws Exception;
+	
 }

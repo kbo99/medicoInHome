@@ -26,8 +26,8 @@ public class ParametroNotify implements IParametroNotify {
 
 	@Override
 	public String getParamValorById(String prnId) {
-		// TODO Auto-generated method stub
-		return null;
+		Parametro param = parametroDAO.findByPrnId(prnId);
+		return  param != null ? param.getPrnValor() : null;
 	}
 
 	@Override

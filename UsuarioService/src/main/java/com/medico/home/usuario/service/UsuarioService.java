@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.UsuGrupo;
 import com.medico.home.commons.usuario.model.UsuGrupoEmbededId;
@@ -22,6 +21,7 @@ import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.commons.util.Const;
 import com.medico.home.usuario.dao.IUsuGrupoDAO;
 import com.medico.home.usuario.dao.IUsuarioDAO;
+import com.medico.home.usuario.parametro.service.IParametroService;
 
 /**
  * @author macpro
@@ -37,6 +37,9 @@ public class UsuarioService implements IUsuario {
 	
 	@Autowired
 	IUsuGrupoDAO usuGrupoDAO;
+	
+	@Autowired
+	IParametroService parametroService;
 
 	@Override
 	public Usuario save(Usuario usuario) throws Exception {
@@ -71,8 +74,9 @@ public class UsuarioService implements IUsuario {
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
+			String uri = parametroService.findByPrmNombre(Const.URL_SERVICE_SENDER_SING_UP);
 			HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(usuario), headers);
-			restTemplate.postForLocation("http://localhost:8090/api/notificacion/sendMessageSingUp", entity);
+			restTemplate.postForLocation(uri, entity);
 			
 			
 		} catch (Exception e) {

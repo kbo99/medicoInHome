@@ -66,7 +66,13 @@ public class NotificacionController  {
 		notificacionService.finalizaLlamada(idSol);
 	}
 	
-	
+	@PostMapping("/notificacionjs")
+	public NotificacionVO sendMessageSingUp() throws Exception {
+		NotificacionVO not = new  NotificacionVO();
+		not.setTopicDestino(notificacionService.getSktCnt());
+		return not;
+		
+	}
 	
 
 }

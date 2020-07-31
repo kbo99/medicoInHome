@@ -47,6 +47,9 @@ public class Persona implements Serializable {
 	
 	@Transient
 	private String password;
+	
+	@Transient
+	private Integer membresia;
 
 	/**
 	 * @return the perId
@@ -187,6 +190,22 @@ public class Persona implements Serializable {
 	public void setPerTelefono(String perTelefono) {
 		this.perTelefono = perTelefono;
 	}
+
+	/**
+	 * @return the membresia
+	 */
+	public Integer getMembresia() {
+		return membresia;
+	}
+
+	/**
+	 * @param membresia the membresia to set
+	 */
+	public void setMembresia(Integer membresia) {
+		this.membresia = membresia;
+	}
+	
+	
 	
 	
 

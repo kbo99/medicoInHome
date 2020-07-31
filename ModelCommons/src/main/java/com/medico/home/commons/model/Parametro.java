@@ -13,14 +13,12 @@ import javax.persistence.*;
 public class Parametro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="prm_id")
-	private int prmId;
+	
 
 	@Column(name="prm_descrp")
 	private String prmDescrp;
 
+	@Id
 	@Column(name="prm_nombre")
 	private String prmNombre;
 
@@ -30,14 +28,7 @@ public class Parametro implements Serializable {
 	public Parametro() {
 	}
 
-	public int getPrmId() {
-		return this.prmId;
-	}
-
-	public void setPrmId(int prmId) {
-		this.prmId = prmId;
-	}
-
+	
 	public String getPrmDescrp() {
 		return this.prmDescrp;
 	}

@@ -13,7 +13,11 @@ public class Const {
 	
 	public static final Integer PERFIL_PER_TITULAR = 1;
 	
+	public static final Integer PERFIL_PER_BENE= 2;
+	
 	public static final Integer PERFIL_USU_CLIENTE_TITULAR = 1;
+	
+	public static final Integer PERFIL_USU_CLIENTE_BENE = 2;
 
 	public static final Integer PERFIL_USU_DOCTOR = 4;
 	
@@ -44,6 +48,15 @@ public class Const {
 	public static final String TOPIC_LLAMADA_PAC = "TOPIC_CLICALL";
 	
 	public static final String TKN_LLAMADA_ANGORA = "TKN_AGORA_CALL";
+	
+	public static final String URL_SERVICE_USUARIO = "URL_SERVICE_USUER";
+	
+	public static final String URL_SERVICE_SENDER_SING_UP = "URL_SERVICE_SENDER_SING_UP";
+	
+	public static final String URL_SKT_SUSCRIBE = "URL_SKT_SUSCR";
+	
+	public static final Integer MOV_MEM_ADD_NEW = 1;
+	
 	
 	
 }

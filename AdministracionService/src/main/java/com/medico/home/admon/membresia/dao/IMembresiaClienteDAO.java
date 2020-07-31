@@ -16,13 +16,20 @@ import com.medico.home.commons.membresia.model.MembresiaCliente;
  *
  */
 @RepositoryRestResource(path = "membresia-cliente")
-public interface IMemebresiaClienteDAO extends PagingAndSortingRepository<MembresiaCliente, Long> {
+public interface IMembresiaClienteDAO extends PagingAndSortingRepository<MembresiaCliente, Long> {
 
 	List<MembresiaCliente> findByClientePersonaClienteCliId(Integer cliId);
+	
+	MembresiaCliente findByClientePersonaClienteCliIdAndClientePersonaPerfilPersonaClientePpcId(Integer cliId,
+			Integer perfil);
 
 	List<MembresiaCliente> findByClientePersonaClienteCliNomCorto(String nombre);
 
 	List<MembresiaCliente> findByClientePersonaPersonaPerId(Integer perId);
+	
+	//List<MembresiaCliente> findByClientePersonaPersonaPerTelefono(String telefono);
+	
+	MembresiaCliente findByClientePersonaPersonaPerTelefono(String telefono);
 
 	List<MembresiaCliente> findByClientePersonaClienteCliIdAndMecEstatus(Integer cliId, String mecEstatus);
 

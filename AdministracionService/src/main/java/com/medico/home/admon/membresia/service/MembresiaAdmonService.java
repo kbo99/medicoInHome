@@ -13,10 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medico.home.admon.membresia.dao.IBeneficioDAO;
+import com.medico.home.admon.membresia.dao.IMembresiaClienteDAO;
 import com.medico.home.admon.membresia.dao.IMembresiaDAO;
+import com.medico.home.admon.membresia.dao.IMovimientoMembresiaDAO;
 import com.medico.home.commons.beneficio.model.Beneficio;
+import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.membresia.model.MembresiaBeneficio;
+import com.medico.home.commons.membresia.model.MembresiaCliente;
+import com.medico.home.commons.membresia.model.MovimientoMembresia;
+import com.medico.home.commons.membresia.model.TipoMovimientoMembresia;
 import com.medico.home.commons.util.Const;
 
 /**
@@ -33,6 +39,13 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	
 	@Autowired
 	IMembresiaDAO membresiaDAO;
+	
+	@Autowired
+	IMembresiaClienteDAO membresiaClienteDAO;
+	
+	@Autowired
+	IMovimientoMembresiaDAO movimientoMembresiaDAO;
+	
 
 	@Override
 	public Beneficio save(Beneficio beneficio) throws Exception {
@@ -116,6 +129,92 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 		return membresiaTmp;
 	}
 
+	
+	@Override
+	public MembresiaCliente save(MembresiaCliente clienPer) throws Exception {
+		try {
+			clienPer.setMecFultimaMod(new Date());
+			clienPer = membresiaClienteDAO.save(clienPer);
+		} catch (Exception e) {
+			logger.error("Error al MembresiaCliente", e);
+			throw new Exception(e);
+		}
+		return clienPer;
+	}
+
+	@Override
+	public MovimientoMembresia generaMovimiento(MembresiaCliente memCli, Integer tpoMov) throws Exception {
+		MovimientoMembresia mm = null;
+		try {
+			//Se guarda la membresia
+			save(memCli);
+			
+			//Se genera el tpo movimiento
+		    mm = new MovimientoMembresia();
+			mm.setMembresiaCliente(memCli);
+			mm.setMomFmodficiacion(new Date());
+			mm.setTipoMovimientoMembresia(new TipoMovimientoMembresia());
+			mm.getTipoMovimientoMembresia().setTmmId(tpoMov);
+			mm = movimientoMembresiaDAO.save(mm);
+			
+		} catch (Exception e) {
+			logger.error("Error al MembresiaCliente", e);
+			throw new Exception(e);
+		}
+		return mm;
+	}
+
+	@Override
+	public MembresiaCliente save(ClientePersona clienPer, Integer tpoMov) throws Exception {
+		MembresiaCliente mc = null;
+		try {
+			mc = new MembresiaCliente();
+			mc.setClientePersona(clienPer);
+			mc.setMembresia(new Membresia());
+			mc.getMembresia().setMemId(clienPer.getPersona().getMembresia());
+			//si es el totular se agina el folio nuevo, caso contrario consultamos el folio del titular y se asigna
+			//Se genera folio con el memId y con el perId mas 00 y M para que se vea loco
+				mc.setMecFolio(clienPer.getPerfilPersonaCliente().getPpcId() == Const.PERFIL_PER_TITULAR ? 
+						"00"+clienPer.getPersona().getMembresia()+"00"+clienPer.getPersona().getPerId()+"M" :
+					membresiaClienteDAO.findByClientePersonaClienteCliIdAndClientePersonaPerfilPersonaClientePpcId(
+							clienPer.getCliente().getCliId(), Const.PERFIL_PER_TITULAR).getMecFolio());
+			
+			
+			mc = generaMovimiento(mc, tpoMov).getMembresiaCliente();
+			
+		} catch (Exception e) {
+			logger.error("Error al MembresiaCliente", e);
+			throw new Exception(e);
+		}
+		return mc;
+	}
+
+	
+	@Override
+	public List<MembresiaCliente> getMisMembresias(String usuario) throws Exception {
+		List<MembresiaCliente> lstTmp = new ArrayList<MembresiaCliente>();
+		try {
+			//buscamos las membresias del cliente se amarra por el telefono que es el usuario 
+			//lstTmp = membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(usuario);
+		} catch (Exception e) {
+			logger.error("Error al buscar Membresias del Cliente", e);
+			throw new Exception(e);
+		}
+		return lstTmp;
+	}
+
+	@Override
+	public MembresiaCliente getMembresiaByUser(String user) throws Exception {
+		MembresiaCliente membresia = new MembresiaCliente();
+		try {
+			membresia =  membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(user);
+			
+		} catch (Exception e) {
+			logger.error("Error al buscar Membresias del Cliente", e);
+			throw new Exception(e);
+		}
+		return membresia;
+	}
 	
 
 }

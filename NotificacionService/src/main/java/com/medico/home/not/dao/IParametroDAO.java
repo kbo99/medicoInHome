@@ -16,5 +16,7 @@ import com.medico.home.not.model.Parametro;
 public interface IParametroDAO extends PagingAndSortingRepository<Parametro, String> {
 	
 	List<Parametro> findByPrnIdIn(List<String> lstPrnId);
+	
+	Parametro findByPrnId(String param);
 
 }

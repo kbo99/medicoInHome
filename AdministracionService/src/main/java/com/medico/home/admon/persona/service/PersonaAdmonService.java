@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.medico.home.admon.parametro.service.IParametroAdmService;
 import com.medico.home.admon.persona.dao.IDoctorDAO;
 import com.medico.home.admon.persona.dao.IPersonaDAO;
 import com.medico.home.commons.doctor.model.Doctor;
@@ -37,6 +38,9 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 	
 	@Autowired
 	IDoctorDAO doctorDAO;
+	
+	@Autowired
+	IParametroAdmService parametroAdmService;
 
     Logger logger = LoggerFactory.getLogger(PersonaAdmonService.class);
     
@@ -75,8 +79,9 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
 			try {
+				String uri = parametroAdmService.findByPrmNombre(Const.URL_SERVICE_USUARIO);
 				HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(userNew), headers);
-				restTemplate.postForLocation("http://localhost:8090/api/usuarios/generaUsuario", entity);
+				restTemplate.postForLocation(uri, entity);
 			} catch (Exception e) {
 				logger.error("Error al generar persona ", e);
 			}

@@ -316,8 +316,8 @@ public class NotifyService implements INotifyService {
 		sendNotificationPush(new WebpushNotification("Su llamada fue atendida",
 				"www.doctoresensucasa.com", "Doctores en su casa"), tkn);
 		//Se manda el mensaje al paciente
-		sendMessage(mapConfig, usuSol, "Su llamada fue atendida \n "
-				+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
+		//sendMessage(mapConfig, usuSol, "Su llamada fue atendida \n "
+		//		+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
 		//se manda la notificacion al sockete
 		sendNotificationToSocket(usuSol,mapConfig.get(Const.URL_SKT_MESSAGE_CLI),
 				"Su llamada fue atendida",mapConfig.get(Const.TOPIC_LLAMADA_PAC)+usuSol,
@@ -340,6 +340,18 @@ public class NotifyService implements INotifyService {
 		} catch (Exception e) {
 			logger.error("",e);
 		}
+	}
+
+
+	@Override
+	public String getSktCnt() throws Exception {
+		String skt = null;
+		try {
+			skt = parametroNotify.getParamValorById(Const.URL_SKT_SUSCRIBE);
+		} catch (Exception e) {
+			logger.error("",e);
+		}
+		return skt;
 	}
 
 	

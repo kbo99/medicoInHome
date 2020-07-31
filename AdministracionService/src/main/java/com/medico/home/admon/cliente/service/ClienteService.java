@@ -14,10 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.medico.home.admon.cliente.dao.IClienteDAO;
 import com.medico.home.admon.cliente.dao.IClientePersonaDAO;
+import com.medico.home.admon.membresia.service.IMembresiaAdmonService;
 import com.medico.home.admon.persona.service.IPersonaAdmonService;
 import com.medico.home.commons.cliente.model.Cliente;
 import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.cliente.model.PerfilPersonaCliente;
+import com.medico.home.commons.membresia.model.Membresia;
+import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.util.Const;
@@ -39,6 +42,11 @@ public class ClienteService implements IClienteService {
 	
 	@Autowired
 	IPersonaAdmonService personaService;
+	
+	@Autowired
+	IMembresiaAdmonService membresiaAdmonService;
+	
+
 	
 	
 	@Override
@@ -90,7 +98,7 @@ public class ClienteService implements IClienteService {
 	public ClientePersona generaClientePersona(Cliente cliente, Persona persona, Integer perfId) throws Exception {
 		ClientePersona cp = new ClientePersona();
 		try {
-			
+			Integer membresoa = persona.getMembresia();
 			//se arma el cliente persona
 			cp.setCliente(cliente);
 			cp.setPersona(persona);
@@ -99,6 +107,10 @@ public class ClienteService implements IClienteService {
 			cp.setCpeFregistro(new Date());
 			// se manda a generar el nuevo cliente persona
 			cp = save(cp);
+			
+			//Se le cuelga su membresia
+			cp.getPersona().setMembresia(membresoa);
+			membresiaAdmonService.save(cp, Const.MOV_MEM_ADD_NEW);
 			
 		} catch (Exception e) {
 			logger.error("Error al generar el  nuevo cliente persona",e);
@@ -122,5 +134,27 @@ public class ClienteService implements IClienteService {
 		}
 		return clienPer;
 	}
+
+	@Override
+	public ClientePersona generaClienteBene(ClientePersona persona) throws Exception {
+		
+		try {
+			List<Grupo> lstGrp = new ArrayList<Grupo>();
+			Grupo grp = new Grupo();
+			grp.setGrpId(Const.PERFIL_USU_CLIENTE_BENE);
+			lstGrp.add(grp);
+			//Se manda a generar nueva persona y usuario
+			persona.setPersona(personaService.registraNueva(persona.getPersona(), lstGrp));
+			
+			//Se manda a generar el cliente persona como beneficiario
+			persona = generaClientePersona(persona.getCliente(), persona.getPersona(), Const.PERFIL_PER_BENE);
+		} catch (Exception e) {
+			logger.error("Error al generar el  nuevo cliente beneficiario",e);
+			throw new Exception(e);
+		}
+		return persona;
+	}
+
+
 
 }
