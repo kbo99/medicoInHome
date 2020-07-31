@@ -1,5 +1,7 @@
 package com.medico.home.admon.cliente.service;
 
+import java.util.List;
+
 import com.medico.home.commons.cliente.model.Cliente;
 import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.membresia.model.MembresiaCliente;
@@ -16,5 +18,7 @@ public interface IClienteService {
 	ClientePersona save(ClientePersona clienPer) throws Exception;
 	
 	ClientePersona generaClienteBene(ClientePersona persona) throws Exception;
+	
+	List<ClientePersona> getMisBeneficiarios(String usuer)throws Exception;
 
 }

@@ -155,6 +155,7 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 			mm.setMomFmodficiacion(new Date());
 			mm.setTipoMovimientoMembresia(new TipoMovimientoMembresia());
 			mm.getTipoMovimientoMembresia().setTmmId(tpoMov);
+			mm.setUsuModifica("TITULAR");
 			mm = movimientoMembresiaDAO.save(mm);
 			
 		} catch (Exception e) {
@@ -172,6 +173,10 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 			mc.setClientePersona(clienPer);
 			mc.setMembresia(new Membresia());
 			mc.getMembresia().setMemId(clienPer.getPersona().getMembresia());
+			mc.setMecEstatus(Const.ESTATUS_ACTIVO);
+			mc.setMecFinicio(new Date());
+			mc.setMecFvencimiento(0);
+			mc.setMecDuracion(0);
 			//si es el totular se agina el folio nuevo, caso contrario consultamos el folio del titular y se asigna
 			//Se genera folio con el memId y con el perId mas 00 y M para que se vea loco
 				mc.setMecFolio(clienPer.getPerfilPersonaCliente().getPpcId() == Const.PERFIL_PER_TITULAR ? 

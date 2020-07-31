@@ -56,6 +56,7 @@ public class UsuarioService implements IUsuario {
 	public Usuario generateNuevo(Usuario usuario) throws Exception {
 		Usuario user = new Usuario();
 		try {
+			String passTmp = usuario.getUsuPassword();
 			usuario.setUsuEstatus(Const.ESTATUS_ACTIVO);
 			usuario.setUsuPassword(new BCryptPasswordEncoder().encode(usuario.getUsuPassword()));
 			
@@ -69,6 +70,7 @@ public class UsuarioService implements IUsuario {
 				usuGrp.getId().setGrpId(grupo.getGrpId());
 				usuGrupoDAO.save(usuGrp);
 			}
+			usuario.setUsuPassword(passTmp);
 			
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();

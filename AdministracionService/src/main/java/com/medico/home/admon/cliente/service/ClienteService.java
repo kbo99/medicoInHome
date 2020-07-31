@@ -143,6 +143,8 @@ public class ClienteService implements IClienteService {
 			Grupo grp = new Grupo();
 			grp.setGrpId(Const.PERFIL_USU_CLIENTE_BENE);
 			lstGrp.add(grp);
+			persona.getPersona().setPassword(persona.getPersona().getPerNombre().substring(0,2)+
+					persona.getPersona().getPerApePate().substring(0,2)+persona.getPersona().getPerTelefono().substring(0,4));
 			//Se manda a generar nueva persona y usuario
 			persona.setPersona(personaService.registraNueva(persona.getPersona(), lstGrp));
 			
@@ -153,6 +155,19 @@ public class ClienteService implements IClienteService {
 			throw new Exception(e);
 		}
 		return persona;
+	}
+
+	@Override
+	public List<ClientePersona> getMisBeneficiarios(String usuer) throws Exception {
+		List<ClientePersona> lstBen = new ArrayList<ClientePersona>();
+		try {
+			lstBen = clientePersonaDAO.findByPersonaPerTelefonoAndPerfilPersonaClientePpcId(usuer, 
+					Const.PERFIL_PER_BENE);
+		} catch (Exception e) {
+			logger.error("Error al generar el  nuevo cliente beneficiario",e);
+			throw new Exception(e);
+		}
+		return lstBen;
 	}
 
 

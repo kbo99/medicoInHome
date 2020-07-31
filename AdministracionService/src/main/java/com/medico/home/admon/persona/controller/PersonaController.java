@@ -3,6 +3,9 @@
  */
 package com.medico.home.admon.persona.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,4 +90,18 @@ public class PersonaController {
 		}
 		return mem; 
 	}
+	
+	
+	@PostMapping("/misbene")
+	 public List<ClientePersona> getMisBeneficiarios(@RequestBody String usuer) throws Exception {
+		 List<ClientePersona> mem = new ArrayList<ClientePersona>();
+			try {
+				mem = clienteService.getMisBeneficiarios(usuer);
+			} catch (Exception e) {
+				//se dispara nueva expecion, aun no bien controlada xd 
+				//pero asi ya no llega a la vista el error
+				throw new Exception();
+			}
+			return mem; 
+	 }
 }

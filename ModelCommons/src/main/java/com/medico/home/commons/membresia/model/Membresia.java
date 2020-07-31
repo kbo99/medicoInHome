@@ -48,10 +48,7 @@ public class Membresia implements Serializable {
 
 	private List<MembresiaBeneficio> membresiaBeneficios;
 
-	//bi-directional many-to-one association to MembresiaCliente
-	@OneToMany(mappedBy="membresia")
-	@JsonIgnore
-	private List<MembresiaCliente> membresiaClientes;
+	
 	
 	@Column(name="mem_costo")
 	private Integer memCosto;
@@ -147,28 +144,7 @@ public class Membresia implements Serializable {
 		return membresiaBeneficio;
 	}
 
-	@JsonIgnore
-	public List<MembresiaCliente> getMembresiaClientes() {
-		return this.membresiaClientes;
-	}
 
-	public void setMembresiaClientes(List<MembresiaCliente> membresiaClientes) {
-		this.membresiaClientes = membresiaClientes;
-	}
-
-	public MembresiaCliente addMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().add(membresiaCliente);
-		membresiaCliente.setMembresia(this);
-
-		return membresiaCliente;
-	}
-
-	public MembresiaCliente removeMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().remove(membresiaCliente);
-		membresiaCliente.setMembresia(null);
-
-		return membresiaCliente;
-	}
 
 	public Integer getMemCosto() {
 		return memCosto;

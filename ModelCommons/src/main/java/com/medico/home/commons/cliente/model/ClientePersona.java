@@ -13,10 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.medico.home.commons.doctor.model.Paciente;
 import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.persona.model.Persona;
@@ -47,17 +49,18 @@ public class ClientePersona implements Serializable {
 
 	
 	//bi-directional many-to-one association to Cliente
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="cli_id")
 	private Cliente cliente;
 
 	//bi-directional many-to-one association to PerfilPersonaCliente
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="ppc_id")
 	private PerfilPersonaCliente perfilPersonaCliente;
 
 	//bi-directional many-to-one association to Persona
-	@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name="per_id")
 	private Persona persona;
 

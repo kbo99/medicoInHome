@@ -189,7 +189,9 @@ public class NotifyService implements INotifyService {
 			StringBuffer message = new StringBuffer();
 			message.append("Hola, ").append(" \n").append("Bienvendo a Doctores en su casa. \n")
 			.append("Su usuario es su numero telefonico registrado. \n")
-			.append(". \n")
+			.append(" Su password es: ")
+			.append(persona.getUsuPassword())
+			.append("/n")
 			.append("Ingresar a www.doctoresensucasa.com/admin/login");
 			
 			Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,

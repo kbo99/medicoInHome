@@ -54,9 +54,6 @@ public class Cliente implements Serializable {
 	@JoinColumn(name="tpc_id")
 	private TipoPersonaClie tipoPersonaClie;
 
-	//bi-directional many-to-one association to ClientePersona
-	@OneToMany(mappedBy="cliente")
-	private List<ClientePersona> clientePersonas;
 
 	public Cliente() {
 	}
@@ -149,26 +146,8 @@ public class Cliente implements Serializable {
 		this.tipoPersonaClie = tipoPersonaClie;
 	}
 
-	public List<ClientePersona> getClientePersonas() {
-		return this.clientePersonas;
-	}
 
-	public void setClientePersonas(List<ClientePersona> clientePersonas) {
-		this.clientePersonas = clientePersonas;
-	}
 
-	public ClientePersona addClientePersona(ClientePersona clientePersona) {
-		getClientePersonas().add(clientePersona);
-		clientePersona.setCliente(this);
 
-		return clientePersona;
-	}
-
-	public ClientePersona removeClientePersona(ClientePersona clientePersona) {
-		getClientePersonas().remove(clientePersona);
-		clientePersona.setCliente(null);
-
-		return clientePersona;
-	}
 
 }
