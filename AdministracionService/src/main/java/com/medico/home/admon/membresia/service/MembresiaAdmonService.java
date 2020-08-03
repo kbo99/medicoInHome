@@ -221,5 +221,10 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 		return membresia;
 	}
 	
+	
+	@Override
+	public List<Membresia> findAllByMem()  throws Exception {
+		return membresiaDAO.findByMemEstatus("AC");
+	}
 
 }

@@ -39,5 +39,6 @@ public interface IMembresiaAdmonService {
 	
 	MembresiaCliente getMembresiaByUser(String user)throws Exception;
 	
+	List<Membresia> findAllByMem() throws Exception;
 
 }
