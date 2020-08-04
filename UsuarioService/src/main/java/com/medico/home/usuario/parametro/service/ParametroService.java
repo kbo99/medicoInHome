@@ -37,7 +37,7 @@ public class ParametroService implements IParametroService {
 			logger.error("error al buscar lst param", e);
 			throw new Exception(e);
 		}
-		return param != null ? param.getPrmNombre() : null;
+		return param != null ? param.getPrmValor() : null;
 	}
 
 	@Override

@@ -4,6 +4,7 @@
 package com.medico.home.commons.notificacion;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author macpro
@@ -34,6 +35,8 @@ public class NotificacionVO implements Serializable {
 	private String sendFromUser;
 	
 	private String angoraString;
+	
+	private Map<String, String> mapConfig;
 	
 	
 	public NotificacionVO() {
@@ -164,6 +167,20 @@ public class NotificacionVO implements Serializable {
 	 */
 	public void setAngoraString(String angoraString) {
 		this.angoraString = angoraString;
+	}
+
+	/**
+	 * @return the mapConfig
+	 */
+	public Map<String, String> getMapConfig() {
+		return mapConfig;
+	}
+
+	/**
+	 * @param mapConfig the mapConfig to set
+	 */
+	public void setMapConfig(Map<String, String> mapConfig) {
+		this.mapConfig = mapConfig;
 	}
 	
 	

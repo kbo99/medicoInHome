@@ -94,15 +94,16 @@ public class NotifyService implements INotifyService {
 			Token tkn = tokenDAO.findByUsuario(item.getMnrUsu());
 			//Si tiene token registrado se manda la notificacion push
 			if(tkn != null)
-				sendNotificationPush(new WebpushNotification("Tiene una llamada",
-					"www.doctoresensucasa.com", "Doctores en su casa"), tkn.getToken());
+				//sendNotificationPush(new WebpushNotification("Tiene una llamada",
+				//	"www.doctoresensucasa.com", "Doctores en su casa"), tkn.getToken());
 			//Se manda el mensaje al doctor
-			sendMessage(mapConfig, item.getMnrUsu(), "Un paciente solicita una videollamada \n "
-					+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
+			//sendMessage(mapConfig, item.getMnrUsu(), "Un paciente solicita una videollamada \n "
+				//	+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
+			mapConfig.put(Const.USER_NM_MESSAGE, item.getMnrUsu());
 			//se manda la notificacion al sockete
 			sendNotificationToSocket(item.getMnrUsu(),mapConfig.get(Const.URL_SKT_MESSAGE),
 					"Un paciente solicita una videollamada",mapConfig.get(Const.TOPIC_LLAMADA_DOC)+item.getMnrUsu(),
-					"/medicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),userFrom);
+					"/medicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),userFrom, mapConfig);
 			
 		});
 	}
@@ -111,7 +112,7 @@ public class NotifyService implements INotifyService {
 	
 	private void sendNotificationToSocket(String userFrom, 
 			String hostSender, String message, String topic, String accion, 
-			String angoraTKn, String userTo) {
+			String angoraTKn, String userTo, Map<String, String> mapConfig) {
 		
 	     //Se construye el objeto de notificacion
 			NotificacionVO noti = new NotificacionVO();
@@ -121,6 +122,7 @@ public class NotifyService implements INotifyService {
 			noti.setAngoraString(angoraTKn);
 			noti.setSendFromUser(userFrom);
 			noti.setSendToUser(userTo);
+			noti.setMapConfig(mapConfig);
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -195,8 +197,13 @@ public class NotifyService implements INotifyService {
 			.append("Ingresar a www.doctoresensucasa.com/admin/login");
 			
 			Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
-					Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE);
-			response = sendMessage(mapConfig, persona.getUsuUsuario(),message.toString());
+					Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE,Const.URL_SKT_MESSAGE_SENDER);
+			//response = sendMessage(mapConfig, persona.getUsuUsuario(),message.toString());
+			
+			mapConfig.put(Const.USER_NM_MESSAGE, persona.getUsuUsuario());
+			sendNotificationToSocket(null,mapConfig.get(Const.URL_SKT_MESSAGE_SENDER),
+					message.toString(),null,
+					null, null,null, mapConfig);
 			
 			persona.getGrupos().forEach(item->{
 				if(item.getGrpId() == Const.PERFIL_USU_DOCTOR) {
@@ -315,15 +322,16 @@ public class NotifyService implements INotifyService {
 
 	private void sendMessagesPacienteLlamada(Map<String, String> mapConfig, String tkn, String usuSol, 
 			String usuFrom) {
-		sendNotificationPush(new WebpushNotification("Su llamada fue atendida",
-				"www.doctoresensucasa.com", "Doctores en su casa"), tkn);
+		//sendNotificationPush(new WebpushNotification("Su llamada fue atendida",
+		//		"www.doctoresensucasa.com", "Doctores en su casa"), tkn);
 		//Se manda el mensaje al paciente
 		//sendMessage(mapConfig, usuSol, "Su llamada fue atendida \n "
 		//		+ "Entre a:\n wwww.doctoresensucasa/admin/medicall");
+		mapConfig.put(Const.USER_NM_MESSAGE, usuSol);
 		//se manda la notificacion al sockete
 		sendNotificationToSocket(usuSol,mapConfig.get(Const.URL_SKT_MESSAGE_CLI),
 				"Su llamada fue atendida",mapConfig.get(Const.TOPIC_LLAMADA_PAC)+usuSol,
-				"/clicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),usuFrom);
+				"/clicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),usuFrom, mapConfig);
 	}
 
 
