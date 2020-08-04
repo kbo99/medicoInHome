@@ -59,7 +59,9 @@ public class UsuarioService implements IUsuario {
 			String passTmp = usuario.getUsuPassword();
 			usuario.setUsuEstatus(Const.ESTATUS_ACTIVO);
 			usuario.setUsuPassword(new BCryptPasswordEncoder().encode(usuario.getUsuPassword()));
-			
+			Grupo gpo = new Grupo();
+			gpo.setGrpId(1);
+			usuario.getGrupos().add(gpo);
 			//se manda a guardar el usuario
 			user = save(usuario);
 		
