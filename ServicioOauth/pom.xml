@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.medico.home.oauth</groupId>
-	<artifactId>config-server</artifactId>
+	<artifactId>servicio-oauth</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ServicioOauth</name>
 	<description>Servidor de Autentificacion</description>

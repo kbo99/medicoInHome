@@ -67,4 +67,8 @@ public class ServicioController {
 		return membresiaAdmonService.nueva(tpoSer);
 	}
 
+	@PostMapping("/findAllTipoMem")
+	public List<Membresia> findAllMem() throws Exception {
+		return membresiaAdmonService.findAllByMem();
+	}
 }
