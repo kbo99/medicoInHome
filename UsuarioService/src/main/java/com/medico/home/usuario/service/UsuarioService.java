@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,7 +81,7 @@ public class UsuarioService implements IUsuario {
 
 			String uri = parametroService.findByPrmNombre(Const.URL_SERVICE_SENDER_SING_UP);
 			HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(usuario), headers);
-			restTemplate.postForLocation(uri, entity);
+			restTemplate.exchange(uri, HttpMethod.POST, entity, Usuario.class);
 			
 			
 		} catch (Exception e) {

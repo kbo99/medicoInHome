@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +22,7 @@ import com.medico.home.admon.parametro.service.IParametroAdmService;
 import com.medico.home.admon.persona.dao.IDoctorDAO;
 import com.medico.home.admon.persona.dao.IPersonaDAO;
 import com.medico.home.commons.doctor.model.Doctor;
+import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.Usuario;
@@ -81,7 +83,7 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 			try {
 				String uri = parametroAdmService.findByPrmNombre(Const.URL_SERVICE_USUARIO);
 				HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(userNew), headers);
-				restTemplate.postForLocation(uri, entity);
+				restTemplate.exchange(uri, HttpMethod.POST, entity, Usuario.class);
 			} catch (Exception e) {
 				logger.error("Error al generar persona ", e);
 			}
