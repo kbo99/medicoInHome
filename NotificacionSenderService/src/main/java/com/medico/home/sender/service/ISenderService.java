@@ -20,5 +20,7 @@ public interface ISenderService {
 	static final String USER_NM_MESSAGE = "USER_NM_MESSAGE";
 	
 	void sendMessageContingengia(NotificacionVO notificacion);
+	
+	void sendMessageContingengia();
 
 }

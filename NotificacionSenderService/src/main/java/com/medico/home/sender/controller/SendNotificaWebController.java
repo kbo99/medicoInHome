@@ -48,5 +48,11 @@ public class SendNotificaWebController {
 		senderService.sendMessageContingengia(notifica);
 	    return new NotificacionVO();
 	}
+	
+	@PostMapping("/pruebamensaje")
+	public NotificacionVO testApi() {
+		senderService.sendMessageContingengia();
+	    return new NotificacionVO();
+	}
 
 }

@@ -36,4 +36,22 @@ public class SenderService implements ISenderService {
 		}
 	}
 
+	@Override
+	public void sendMessageContingengia() {
+		try {
+			Twilio.init("AC0d506b518801d1adea3d4862b63b7a9a", 
+					"e604fb9928bb35647c39c215d348f46b");
+			
+		       com.twilio.rest.api.v2010.account.Message messageWhat = com.twilio.rest.api.v2010.account.Message.creator(
+		               new com.twilio.type.PhoneNumber("+5215574689312"),
+		               new com.twilio.type.PhoneNumber("+15103423126"),
+		               "Prueba desde server")
+		           .create();
+		       messageWhat.getSid();
+		} catch (Exception e) {
+			logger.error("Error al mandar mensaje de text", e);
+		}
+		
+	}
+
 }

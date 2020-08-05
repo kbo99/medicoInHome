@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -80,7 +81,7 @@ public class NotifyService implements INotifyService {
 		//Se genera la nueva llamada
 		llamadaPendienteService.buildLlamadaPenIni(userFrom);
 		
-		//envioNotificacionLlamadaDoctor(mapConfig, userFrom);
+		envioNotificacionLlamadaDoctor(mapConfig, userFrom);
 		} catch (Exception e) {
 			logger.error("Error al generar notify ", e);
 		}
@@ -130,7 +131,9 @@ public class NotifyService implements INotifyService {
 
 			try {
 				HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(noti), headers);
-				restTemplate.postForLocation(hostSender, entity);
+				logger.info("///////////////////////"+hostSender);
+				restTemplate.exchange(hostSender, HttpMethod.POST, entity, NotificacionVO.class);
+				
 			} catch (Exception e) {
 				logger.error("Error al generar notify ", e);
 			}
@@ -265,8 +268,8 @@ public class NotifyService implements INotifyService {
 						//Se obtiene token para notificacion push
 						Token tkn = tokenDAO.findByUsuario(llamada.getUsuSol());
 						//Si tiene token registrado se manda la notificacion push
-//						if(tkn != null)
-//							sendMessagesPacienteLlamada(mapConfig, tkn.getToken(), llamada.getUsuSol(),medicoId);
+						if(tkn != null)
+							sendMessagesPacienteLlamada(mapConfig, tkn.getToken(), llamada.getUsuSol(),medicoId);
 						
 					}else {
 						//quiere decir que cambio de estatus vuelve a consultar las pendientes
