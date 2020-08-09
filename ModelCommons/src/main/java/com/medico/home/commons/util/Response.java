@@ -12,7 +12,7 @@ public class Response implements java.io.Serializable {
 	
 	private String message;
 	
-	private String error;
+	private String msError;
 	
 	private Object response;
 	
@@ -31,20 +31,6 @@ public class Response implements java.io.Serializable {
 	 */
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	/**
-	 * @return the error
-	 */
-	public String getError() {
-		return error;
-	}
-
-	/**
-	 * @param error the error to set
-	 */
-	public void setError(String error) {
-		this.error = error;
 	}
 
 	/**
@@ -91,5 +77,13 @@ public class Response implements java.io.Serializable {
 
 	public void setTypeMessage(IconAlert iconAlert) {
 		this.typeMessage = iconAlert.getValue();
+	}
+
+	public String getMsError() {
+		return msError;
+	}
+
+	public void setMsError(String msError) {
+		this.msError = msError;
 	}
 }

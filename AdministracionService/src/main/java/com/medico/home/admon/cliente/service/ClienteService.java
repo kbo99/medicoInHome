@@ -22,6 +22,7 @@ import com.medico.home.commons.cliente.model.PerfilPersonaCliente;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.util.Const;
+import com.medico.home.commons.util.MedicBusinessException;
 
 /**
  * @author macpro
@@ -82,6 +83,8 @@ public class ClienteService implements IClienteService {
 			//Se manda a generar el cliente persona como titular
 			generaClientePersona(clienTmp, persona, Const.PERFIL_PER_TITULAR);
 		
+		} catch (MedicBusinessException e) {
+			throw (e);
 		} catch (Exception e) {
 			logger.error("Error al generar el  nuevo cliente ",e);
 			throw new Exception(e);

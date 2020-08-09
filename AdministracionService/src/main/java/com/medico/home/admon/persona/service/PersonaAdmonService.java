@@ -21,12 +21,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medico.home.admon.parametro.service.IParametroAdmService;
 import com.medico.home.admon.persona.dao.IDoctorDAO;
 import com.medico.home.admon.persona.dao.IPersonaDAO;
+import com.medico.home.admon.usuario.service.IUsuarioFeign;
 import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.commons.util.Const;
+import com.medico.home.commons.util.MedicBusinessException;
 
 /**
  * @author macpro
@@ -43,6 +45,9 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 	
 	@Autowired
 	IParametroAdmService parametroAdmService;
+	
+	@Autowired
+	IUsuarioFeign usuarioService;
 
     Logger logger = LoggerFactory.getLogger(PersonaAdmonService.class);
     
@@ -76,20 +81,23 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 			userNew.setPerId(persona.getPerId());
 			userNew.setUsuPassword(pass);
 			userNew.setGrupos(lstGrp);
-			RestTemplate restTemplate = new RestTemplate();
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
+			Usuario usuario = null;
 
+			// si devuelve error el servicio es que no se encontro el usuario 
 			try {
-				String uri = parametroAdmService.findByPrmNombre(Const.URL_SERVICE_USUARIO);
-				HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(userNew), headers);
-				restTemplate.exchange(uri, HttpMethod.POST, entity, Usuario.class);
+				usuario = usuarioService.findByUsuUsuario(userNew.getUsuUsuario());
 			} catch (Exception e) {
-				logger.error("Error al generar persona ", e);
+				// TODO: handle exception
 			}
 			
+			if (usuario != null) {
+				throw new MedicBusinessException("0001", "El usuario " + userNew.getUsuUsuario() + " ya existe");
+			}
 			
+			usuarioService.generaNuevoUsuario(userNew);
 			
+		} catch (MedicBusinessException e) {
+			throw (e);
 		} catch (Exception e) {
 			logger.error("Error al generar persona ", e);
 			throw new Exception(e);
