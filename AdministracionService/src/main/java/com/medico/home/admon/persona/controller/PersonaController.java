@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.persona.model.Persona;
+import com.medico.home.commons.util.IconAlert;
+import com.medico.home.commons.util.Response;
 
 /**
  * @author macpro
@@ -38,6 +42,25 @@ public class PersonaController {
 	@Autowired
 	IMembresiaAdmonService membresiaAdmonService;
 	
+//	@PostMapping("/register")
+//	public ResponseEntity<Response> generaNuevoCliente(@RequestBody Persona persona) throws Exception{
+//		HttpStatus estatus = HttpStatus.OK;
+//		Response response = new Response();
+//		try {
+//			response.setResponse(clienteService.generaNuevoCliente(persona));
+//			response.setMessage("el Usuario  " + persona.getPerNombre() + " se guardo correctamente");
+//			response.setTitle("Usuario Guardado");
+//			response.setTypeMessage(IconAlert.SUCCESS);
+//		} catch(Exception e) {
+//			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+//			response.setTypeMessage(IconAlert.ERROR);
+//			response.setError("Error al guardar usuario");
+//			response.setTitle("Error");
+//		}
+//		return new ResponseEntity<Response>(response, estatus);
+//	}
+	
+	
 	@PostMapping("/register")
 	public Cliente generaNuevoCliente(@RequestBody Persona persona) throws Exception{
 		Cliente cliTpm = null;
@@ -50,7 +73,6 @@ public class PersonaController {
 		}
 		return cliTpm; 
 	}
-	
 	
 	@PostMapping("/registerDoc")
 	public Doctor generaNuevoDoctor(@RequestBody Doctor persona) throws Exception{

@@ -77,10 +77,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 				"/api/notificacion/sendMessageSingUp/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/api/personas/listar", "/api/persona-usuario/listar", 
 				"/api/usuarios/usuarios").permitAll()
+		.antMatchers(HttpMethod.GET, "api/usuarios/menu").authenticated()
 //		.antMatchers(HttpMethod.GET, "/api/productos/ver/{id}", 
 //				"/api/items/ver/{id}/cantidad/{cantidad}", 
 //				"/api/usuarios/usuarios/{id}").hasAnyRole("ADMIN")
-		.antMatchers("/api/personas/**", "/api/usuarios/**").hasRole("ADMIN")
+		//.antMatchers("/api/personas/**", "/api/usuarios/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and().cors().configurationSource(corsConfigurationSource());
 	}

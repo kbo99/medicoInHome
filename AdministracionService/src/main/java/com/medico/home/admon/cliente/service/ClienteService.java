@@ -19,8 +19,6 @@ import com.medico.home.admon.persona.service.IPersonaAdmonService;
 import com.medico.home.commons.cliente.model.Cliente;
 import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.cliente.model.PerfilPersonaCliente;
-import com.medico.home.commons.membresia.model.Membresia;
-import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.util.Const;
@@ -46,8 +44,6 @@ public class ClienteService implements IClienteService {
 	@Autowired
 	IMembresiaAdmonService membresiaAdmonService;
 	
-
-	
 	
 	@Override
 	public Cliente save(Cliente cliente) throws Exception {
@@ -68,11 +64,12 @@ public class ClienteService implements IClienteService {
 	public Cliente generaNuevoCliente(Persona persona) throws Exception {
 		Cliente clienTmp = new Cliente();
 		try {
+			
 			//Se genera el cliente con los datos minimos
 			clienTmp.setCliNomCorto(persona.getPerNombre() + " " + persona.getPerApePate());
 			clienTmp.setCliFregistro(new Date());
 			clienTmp.setCliEstatus(Const.ESTATUS_ACTIVO);
-			
+
 			//Se crea el perfil de cliente
 			List<Grupo> lstGrp = new ArrayList<Grupo>();
 			Grupo grp = new Grupo();
@@ -84,6 +81,7 @@ public class ClienteService implements IClienteService {
 			clienTmp = save(clienTmp);
 			//Se manda a generar el cliente persona como titular
 			generaClientePersona(clienTmp, persona, Const.PERFIL_PER_TITULAR);
+		
 		} catch (Exception e) {
 			logger.error("Error al generar el  nuevo cliente ",e);
 			throw new Exception(e);
