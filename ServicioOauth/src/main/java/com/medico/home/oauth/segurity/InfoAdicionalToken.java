@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Usuario;
-import com.medico.home.oauth.service.persona.IPersonaServiceFeign;
+import com.medico.home.oauth.service.admon.IAdmonServiceFeign;
 import com.medico.home.oauth.service.usuario.IUsuarioFeign;
 
 @Component
 public class InfoAdicionalToken implements TokenEnhancer {
 
 	@Autowired
-	private IPersonaServiceFeign personaService;
+	private IAdmonServiceFeign admonService;
 	
 	@Autowired
 	private IUsuarioFeign usuarioBean;
@@ -29,7 +29,7 @@ public class InfoAdicionalToken implements TokenEnhancer {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Usuario usuario = usuarioBean.findByUsuUsuario(authentication.getName());
-		Persona persona = personaService.findPersonaByIs(usuario.getPerId());
+		Persona persona = admonService.findPersonaById(usuario.getPerId());
 		
 		map.put("perId", persona.getPerId());
 		map.put("nombre", persona.getPerNombre());

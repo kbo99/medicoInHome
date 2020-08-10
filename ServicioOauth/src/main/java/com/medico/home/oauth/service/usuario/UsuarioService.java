@@ -3,7 +3,6 @@
  */
 package com.medico.home.oauth.service.usuario;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.Usuario;
 
 import brave.Tracer;

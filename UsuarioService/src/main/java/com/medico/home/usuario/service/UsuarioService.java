@@ -73,21 +73,26 @@ public class UsuarioService implements IUsuario {
 				usuGrp.getId().setGrpId(grupo.getGrpId());
 				usuGrupoDAO.save(usuGrp);
 			}
+			
 			usuario.setUsuPassword(passTmp);
+			} catch (Exception e) {
+				logger.error("Error al generar nuevo usuario", e);
+				throw new Exception(e);
+			}
+		
 			
-			RestTemplate restTemplate = new RestTemplate();
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
-
-			String uri = parametroService.findByPrmNombre(Const.URL_SERVICE_SENDER_SING_UP);
-			HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(usuario), headers);
-			restTemplate.exchange(uri, HttpMethod.POST, entity, Usuario.class);
-			
-			
-		} catch (Exception e) {
-			logger.error("Error al generar nuevo usuario", e);
-			throw new Exception(e);
-		}
+			try {
+				RestTemplate restTemplate = new RestTemplate();
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(MediaType.APPLICATION_JSON);
+	
+				String uri = parametroService.findByPrmNombre(Const.URL_SERVICE_SENDER_SING_UP);
+				HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(usuario), headers);
+				restTemplate.exchange(uri, HttpMethod.POST, entity, Usuario.class);
+			} catch (Exception e) {
+				logger.error("::::::::::::: Error al generar Notificaciones SERVICE_SENDER :::::::::::::::::::", e);
+			}
+		
 		return user;
 	}
 	

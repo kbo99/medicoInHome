@@ -104,6 +104,18 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 		}
 		return persona;
 	}
+	
+	@Override
+	public List<Persona> findAllPersonas() {
+		return (List<Persona>) personaDAO.findAll();
+	}
+
+	@Override
+	public Persona findPersonaById(Integer id) {
+		return personaDAO.findById(id).orElse(null);
+	}
+
+
 
 	@Override
 	public Doctor save(Doctor doctor) throws Exception {
@@ -127,7 +139,5 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 		}
 		return doctor;
 	}
-
-
 
 }

@@ -12,6 +12,10 @@ public interface IPersonaAdmonService {
 	
 	Persona registraNueva(Persona persona, List<Grupo> lstGrp) throws Exception;
 	
+	List<Persona> findAllPersonas();
+	
+	Persona findPersonaById (Integer id);
+	
 	Doctor save(Doctor doctor) throws Exception;
 	
 	Doctor registraNuevo(Doctor doctor) throws Exception;
