@@ -177,4 +177,9 @@ public class PersonaController {
 			}
 			return mem; 
 	 }
+	
+	@GetMapping("/doctor/listar")
+	public List<Doctor> findallClientePersona() {
+		return personaAdmonService.findallDoctor();
+	}
 }

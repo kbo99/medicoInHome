@@ -10,6 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.medico.home.admon.cliente.dao.IClienteDAO;
@@ -170,6 +171,14 @@ public class ClienteService implements IClienteService {
 		}
 		return lstBen;
 	}
+
+	@Override
+	public List<ClientePersona> findallClientePersona() {
+		List<ClientePersona> result = new ArrayList<ClientePersona>();
+		clientePersonaDAO.findAll().forEach(a -> result.add(a));
+		return result;
+	}
+
 
 
 
