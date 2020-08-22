@@ -10,20 +10,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medico.home.admon.parametro.service.IParametroAdmService;
 import com.medico.home.admon.persona.dao.IDoctorDAO;
 import com.medico.home.admon.persona.dao.IPersonaDAO;
 import com.medico.home.admon.usuario.service.IUsuarioFeign;
 import com.medico.home.commons.doctor.model.Doctor;
-import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.usuario.model.Grupo;
 import com.medico.home.commons.usuario.model.Usuario;
@@ -138,6 +131,13 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 			throw new Exception(e);
 		}
 		return doctor;
+	}
+
+	@Override
+	public List<Doctor> findallDoctor() {
+		List<Doctor> resultDoctors = new ArrayList<Doctor>();
+		doctorDAO.findAll().forEach(a -> resultDoctors.add(a));;
+		return  resultDoctors;
 	}
 
 }

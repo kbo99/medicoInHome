@@ -20,5 +20,15 @@ public interface IClienteService {
 	ClientePersona generaClienteBene(ClientePersona persona) throws Exception;
 	
 	List<ClientePersona> getMisBeneficiarios(String usuer)throws Exception;
+	
+	
+	/**
+	 * Busca todos los cliente Persona
+	 * @return
+	 */
+	List<ClientePersona> findallClientePersona();
+	
+
+	
 
 }

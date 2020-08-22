@@ -20,5 +20,6 @@ public interface IPersonaAdmonService {
 	
 	Doctor registraNuevo(Doctor doctor) throws Exception;
 	
+	List<Doctor> findallDoctor();
 
 }
