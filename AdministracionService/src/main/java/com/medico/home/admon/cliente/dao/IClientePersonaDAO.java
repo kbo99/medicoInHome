@@ -19,3 +19,4 @@ public interface IClientePersonaDAO extends PagingAndSortingRepository<ClientePe
 	
 	List<ClientePersona> findByClienteCliIdAndPerfilPersonaClientePpcId(Integer cliId, Integer pprId);        
 }
+    
