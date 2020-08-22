@@ -15,5 +15,7 @@ import com.medico.home.commons.cliente.model.ClientePersona;
  */
 public interface IClientePersonaDAO extends PagingAndSortingRepository<ClientePersona, Long> {
 
-	List<ClientePersona> findByPersonaPerTelefonoAndPerfilPersonaClientePpcId(String telefono, Integer pprId);
+	ClientePersona findByPersonaPerTelefonoAndPerfilPersonaClientePpcId(String telefono, Integer pprId);
+	
+	List<ClientePersona> findByClienteCliIdAndPerfilPersonaClientePpcId(Integer cliId, Integer pprId);
 }

@@ -3,6 +3,7 @@
  */
 package com.medico.home.not.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -345,9 +346,11 @@ public class NotifyService implements INotifyService {
 			LlamadaPendiente llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(userSol, 
 					Const.ESTATUS_LLAMADA_ATENDIDA);
 			llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_FIN);
+			llamamdaPendiente.setLlpFechaFin(new Date());
 			llamadaPendienteService.save(llamamdaPendiente);
 			MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(llamamdaPendiente.getUsuAtiende());
 			mod.setMnrDispon(Const.STRING_V);
+			
 			//se aparta el medico y se mandan notifc¡icaciones
 			medicoNotifyAdd(mod);
 			

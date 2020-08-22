@@ -52,6 +52,9 @@ public class LlamadaPendiente implements Serializable {
 	@Transient
 	private String tknAgora;
 	
+	@Column
+	private Date llpFechaFin;
+	
 	
 	public LlamadaPendiente() {
 		
@@ -169,7 +172,20 @@ public class LlamadaPendiente implements Serializable {
 		this.usuAtiende = usuAtiende;
 	}
 	
-	
+	/**
+	 * @return the llpFechaFin
+	 */
+	public Date getLlpFechaFin() {
+		return llpFechaFin;
+	}
+
+
+	/**
+	 * @param llpFechaFin the llpFechaFin to set
+	 */
+	public void setLlpFechaFin(Date llpFechaFin) {
+		this.llpFechaFin = llpFechaFin;
+	}
 	
 
 }
