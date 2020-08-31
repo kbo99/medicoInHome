@@ -6,6 +6,7 @@ package com.medico.home.usuario.dao;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.medico.home.commons.usuario.model.Usuario;
 
@@ -17,6 +18,7 @@ import com.medico.home.commons.usuario.model.Usuario;
 public interface IUsuarioDAO extends PagingAndSortingRepository<Usuario, Integer>{
 
 	@RestResource(path = "busca-usuario")
-	public Usuario findByUsuUsuario (String usuUsuario);
+	public Usuario findByUsuUsuario (@RequestParam String usuUsuario);
+	
 	
 }

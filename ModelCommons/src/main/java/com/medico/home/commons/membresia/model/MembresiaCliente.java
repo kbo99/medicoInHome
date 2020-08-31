@@ -13,10 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.medico.home.commons.cliente.model.ClientePersona;
 
 
@@ -28,7 +32,12 @@ import com.medico.home.commons.cliente.model.ClientePersona;
 @Table(name="membresia_cliente")
 @NamedQuery(name="MembresiaCliente.findAll", query="SELECT m FROM MembresiaCliente m")
 public class MembresiaCliente implements Serializable {
-	private static final long serialVersionUID = 1L;
+	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3855152909007526658L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -53,22 +62,20 @@ public class MembresiaCliente implements Serializable {
 	private int mecFvencimiento;
 
 	//bi-directional many-to-one association to ClientePersona
-	@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name="cpe_id")
 	private ClientePersona clientePersona;
 
 	//bi-directional many-to-one association to Membresia
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="mem_id")
 	private Membresia membresia;
 
-	//bi-directional many-to-one association to MovimientoBeneficioMem
-	@OneToMany(mappedBy="membresiaCliente")
-	private List<MovimientoBeneficioMem> movimientoBeneficioMems;
 
-	//bi-directional many-to-one association to MovimientoMembresia
-	@OneToMany(mappedBy="membresiaCliente")
-	private List<MovimientoMembresia> movimientoMembresias;
+	
+	@Column
+	private String mecFolio;
 
 	public MembresiaCliente() {
 	}
@@ -137,48 +144,23 @@ public class MembresiaCliente implements Serializable {
 		this.membresia = membresia;
 	}
 
-	public List<MovimientoBeneficioMem> getMovimientoBeneficioMems() {
-		return this.movimientoBeneficioMems;
+	
+
+
+	/**
+	 * @return the mecFolio
+	 */
+	public String getMecFolio() {
+		return mecFolio;
 	}
 
-	public void setMovimientoBeneficioMems(List<MovimientoBeneficioMem> movimientoBeneficioMems) {
-		this.movimientoBeneficioMems = movimientoBeneficioMems;
+	/**
+	 * @param mecFolio the mecFolio to set
+	 */
+	public void setMecFolio(String mecFolio) {
+		this.mecFolio = mecFolio;
 	}
-
-	public MovimientoBeneficioMem addMovimientoBeneficioMem(MovimientoBeneficioMem movimientoBeneficioMem) {
-		getMovimientoBeneficioMems().add(movimientoBeneficioMem);
-		movimientoBeneficioMem.setMembresiaCliente(this);
-
-		return movimientoBeneficioMem;
-	}
-
-	public MovimientoBeneficioMem removeMovimientoBeneficioMem(MovimientoBeneficioMem movimientoBeneficioMem) {
-		getMovimientoBeneficioMems().remove(movimientoBeneficioMem);
-		movimientoBeneficioMem.setMembresiaCliente(null);
-
-		return movimientoBeneficioMem;
-	}
-
-	public List<MovimientoMembresia> getMovimientoMembresias() {
-		return this.movimientoMembresias;
-	}
-
-	public void setMovimientoMembresias(List<MovimientoMembresia> movimientoMembresias) {
-		this.movimientoMembresias = movimientoMembresias;
-	}
-
-	public MovimientoMembresia addMovimientoMembresia(MovimientoMembresia movimientoMembresia) {
-		getMovimientoMembresias().add(movimientoMembresia);
-		movimientoMembresia.setMembresiaCliente(this);
-
-		return movimientoMembresia;
-	}
-
-	public MovimientoMembresia removeMovimientoMembresia(MovimientoMembresia movimientoMembresia) {
-		getMovimientoMembresias().remove(movimientoMembresia);
-		movimientoMembresia.setMembresiaCliente(null);
-
-		return movimientoMembresia;
-	}
+	
+	
 
 }

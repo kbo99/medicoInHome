@@ -45,10 +45,11 @@ public class TipoServicio implements Serializable {
 
 	@Column(name="usu_registra")
 	private String usuRegistra;
+	
+	@Column(name = "tps_costo")
+	private Double tpsCosto;
 
-	//bi-directional many-to-one association to Servicio
-	@OneToMany(mappedBy="tipoServicio")
-	private List<Servicio> servicios;
+	
 
 	public TipoServicio() {
 	}
@@ -125,26 +126,20 @@ public class TipoServicio implements Serializable {
 		this.usuRegistra = usuRegistra;
 	}
 
-	public List<Servicio> getServicios() {
-		return this.servicios;
+	
+
+	/**
+	 * @return the tpsCosto
+	 */
+	public Double getTpsCosto() {
+		return tpsCosto;
 	}
 
-	public void setServicios(List<Servicio> servicios) {
-		this.servicios = servicios;
-	}
-
-	public Servicio addServicio(Servicio servicio) {
-		getServicios().add(servicio);
-		servicio.setTipoServicio(this);
-
-		return servicio;
-	}
-
-	public Servicio removeServicio(Servicio servicio) {
-		getServicios().remove(servicio);
-		servicio.setTipoServicio(null);
-
-		return servicio;
+	/**
+	 * @param tpsCosto the tpsCosto to set
+	 */
+	public void setTpsCosto(Double tpsCosto) {
+		this.tpsCosto = tpsCosto;
 	}
 
 }

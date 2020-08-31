@@ -1,7 +1,12 @@
-package com.medico.home.commons.usuario.model;
+	package com.medico.home.commons.usuario.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.medico.home.commons.persona.model.Persona;
+
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
+
 import java.util.List;
 
 
@@ -15,6 +20,7 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="usu_id")
 	private int usuId;
 
@@ -29,6 +35,9 @@ public class Usuario implements Serializable {
 
 	@Column
 	private Integer perId;
+	
+	@Transient
+	private Persona persona;
 	
 	//bi-directional many-to-many association to Grupo
 	@ManyToMany(mappedBy="usuarios")
@@ -90,6 +99,8 @@ public class Usuario implements Serializable {
 	public void setGrupos(List<Grupo> grupos) {
 		this.grupos = grupos;
 	}
+
+
 
 
 }

@@ -13,10 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.medico.home.commons.doctor.model.Paciente;
 import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.persona.model.Persona;
@@ -45,32 +47,23 @@ public class ClientePersona implements Serializable {
 	@Column(name="cpe_fultima_mod")
 	private Date cpeFultimaMod;
 
-	//bi-directional many-to-one association to ClienteDireccion
-	@OneToMany(mappedBy="clientePersona")
-	private List<ClienteDireccion> clienteDireccions;
-
+	
 	//bi-directional many-to-one association to Cliente
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="cli_id")
 	private Cliente cliente;
 
 	//bi-directional many-to-one association to PerfilPersonaCliente
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="ppc_id")
 	private PerfilPersonaCliente perfilPersonaCliente;
 
 	//bi-directional many-to-one association to Persona
-	@ManyToOne
+	
+	@OneToOne
 	@JoinColumn(name="per_id")
 	private Persona persona;
 
-	//bi-directional many-to-one association to MembresiaCliente
-	@OneToMany(mappedBy="clientePersona")
-	private List<MembresiaCliente> membresiaClientes;
-
-	//bi-directional many-to-one association to Paciente
-	@OneToMany(mappedBy="clientePersona")
-	private List<Paciente> pacientes;
 
 	public ClientePersona() {
 	}
@@ -99,27 +92,7 @@ public class ClientePersona implements Serializable {
 		this.cpeFultimaMod = cpeFultimaMod;
 	}
 
-	public List<ClienteDireccion> getClienteDireccions() {
-		return this.clienteDireccions;
-	}
-
-	public void setClienteDireccions(List<ClienteDireccion> clienteDireccions) {
-		this.clienteDireccions = clienteDireccions;
-	}
-
-	public ClienteDireccion addClienteDireccion(ClienteDireccion clienteDireccion) {
-		getClienteDireccions().add(clienteDireccion);
-		clienteDireccion.setClientePersona(this);
-
-		return clienteDireccion;
-	}
-
-	public ClienteDireccion removeClienteDireccion(ClienteDireccion clienteDireccion) {
-		getClienteDireccions().remove(clienteDireccion);
-		clienteDireccion.setClientePersona(null);
-
-		return clienteDireccion;
-	}
+	
 
 	public Cliente getCliente() {
 		return this.cliente;
@@ -145,48 +118,6 @@ public class ClientePersona implements Serializable {
 		this.persona = persona;
 	}
 
-	public List<MembresiaCliente> getMembresiaClientes() {
-		return this.membresiaClientes;
-	}
 
-	public void setMembresiaClientes(List<MembresiaCliente> membresiaClientes) {
-		this.membresiaClientes = membresiaClientes;
-	}
-
-	public MembresiaCliente addMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().add(membresiaCliente);
-		membresiaCliente.setClientePersona(this);
-
-		return membresiaCliente;
-	}
-
-	public MembresiaCliente removeMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().remove(membresiaCliente);
-		membresiaCliente.setClientePersona(null);
-
-		return membresiaCliente;
-	}
-
-	public List<Paciente> getPacientes() {
-		return this.pacientes;
-	}
-
-	public void setPacientes(List<Paciente> pacientes) {
-		this.pacientes = pacientes;
-	}
-
-	public Paciente addPaciente(Paciente paciente) {
-		getPacientes().add(paciente);
-		paciente.setClientePersona(this);
-
-		return paciente;
-	}
-
-	public Paciente removePaciente(Paciente paciente) {
-		getPacientes().remove(paciente);
-		paciente.setClientePersona(null);
-
-		return paciente;
-	}
 
 }

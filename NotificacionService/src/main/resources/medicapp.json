@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "medicapp-64483",
+  "private_key_id": "ec6ac237c667a5d1c147e95481954e9c0a181d1f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDfc6vWi4t7oAYh\n5oUqssWIEPVgmIXt6TU8L06h0mPS2QiMU/gA0yViVajPK2bq7PO1AoSH6CUt37dF\n6LWfcHgMXPRe30+NdbL/nW+Ou53plEtumj7k0N7ss2fPWvLjtFQhFiA2Y/T+Dfk+\nLlPK7FEoIyFUdFNNuC8zSIxBGvjaNO9Lnjl31AVBbV4QUqkQrDMvJocuUH1W6gUm\nF4TP3mRiaE7VzQJiZtqFAhP02HSDFyWwdNqgDdSGpUuHeBBrIRr7DuUVqYcwHQ3K\nHcb0RUaL//xHCCa9WBlXOyOsQGGWtR906vfTWYz7tPpZl69ASOj7eq0bLM3+ZB8b\ndfZD4VlvAgMBAAECggEAAskdXkpVDdB74xZNmK+r2LtlY7PjD4k1ua9ZSpkl124P\nNjihwdjgAW7R8Os4mDsl+p6yakNRm1XLohp5kShExtqtzTT5d+j8t0UOK/hYyp2n\npxRTLmUQMmE2LRaUKpSH6/WrpyHt3vDrp4PKVaBGjrqJYtUkaLagGAKShQlCCu5S\nCsVKYmIEWNR/ednhJc2iOsUJMWLsvBrs4gkyUGMSdtceBMGVWjSgzaYo89Lq/NbK\nHBCrMFUSBum0M+Z2l8YtB9FQUBYEbFun9W/Oumpam/RRW6edsz7pUVt3zS5VxOyR\nd028VSL+Q+bHObWnXbLKfotXdgcZns2RgZ1/qzn8UQKBgQDvjZ74U6DKd5IX8tmP\nU45P1sNcF7l/TE9o4OGizpemrkpoFNJpCCxhmNFKnkd4p4qQdOOnGw3bYQVHfQ6u\nCYHtBAohZn8lOlnCkdIKIWS+1VAAQSrQYqIHeRGD66aSLyhfGHhwMVpC4PwZDo9A\nvrwE7FsXwHpWOm45LYBhfhGCuQKBgQDuyw2enpdFLTwAIW9jKPmHuSBwNFIE7PFo\n5P1fKKLo+N6mjvgO6/A1J2xyO/kSfo56pOtdMZHgtijo52wMw8UnszqeRXdOGhXq\nrn+zWoc4V3RaCLFbuXZI7oYCkJ3mMn1GguzY1AefrfqkWhx2Oq+cgxxyxV7qepRa\nHycABYdJZwKBgQCs+gtvbxus93hTuLVmbERX3FFG/46foB+7MJ9da2ZQIoxx6Y8h\n7pf1hV6jTfV35ysEMpNsR/nSjpU8UM4313+tAPy7r4JiBGdqOtd7Hy/bKLbS6Dud\nK4uqb765DoFCD7FMMaROByURI9qF0WCZtOCZgX4pgYAVIa4TtYp9W4YTaQKBgQDl\nGtBAZWxBJLsybOHPw5pVS5sBzFD9BNBBkaI+0GAtIcmNCBKbTmcyuFZl64B27BGL\nPfvLeCm77Umm25JhVNst0dnlzERBHOn2NeGzlKGzvsSVNU3k8TW5l4/fmhzEpaBo\nLGlNR3DhFS0qzoIMNRYUFf8PZqpAUcdQCB+E98jq9QKBgQDmq8HqYuFWPQXVe82F\n6m7TmHrkw/G61ey+671Kr0fSk5QdPv69oqwNHaBCGyEaoKQOmOlIrgSoBTgVQi8b\ncfoH+pRW8fse1zJcN1BI8pmcQNxgZ8l5ZerPS5OPx72qlFFy3FPNqI86SLDkowa4\nziZKbC1SQqgMEdbctdLdVXUjZA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-kbfvs@medicapp-64483.iam.gserviceaccount.com",
+  "client_id": "103380907358557651579",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-kbfvs%40medicapp-64483.iam.gserviceaccount.com"
+}

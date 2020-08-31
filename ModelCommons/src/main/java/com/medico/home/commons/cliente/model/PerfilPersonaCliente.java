@@ -31,10 +31,7 @@ public class PerfilPersonaCliente implements Serializable {
 	@Column(name="ppc_desc")
 	private String ppcDesc;
 
-	//bi-directional many-to-one association to ClientePersona
-	@OneToMany(mappedBy="perfilPersonaCliente")
-	private List<ClientePersona> clientePersonas;
-
+	
 	public PerfilPersonaCliente() {
 	}
 
@@ -54,26 +51,6 @@ public class PerfilPersonaCliente implements Serializable {
 		this.ppcDesc = ppcDesc;
 	}
 
-	public List<ClientePersona> getClientePersonas() {
-		return this.clientePersonas;
-	}
-
-	public void setClientePersonas(List<ClientePersona> clientePersonas) {
-		this.clientePersonas = clientePersonas;
-	}
-
-	public ClientePersona addClientePersona(ClientePersona clientePersona) {
-		getClientePersonas().add(clientePersona);
-		clientePersona.setPerfilPersonaCliente(this);
-
-		return clientePersona;
-	}
-
-	public ClientePersona removeClientePersona(ClientePersona clientePersona) {
-		getClientePersonas().remove(clientePersona);
-		clientePersona.setPerfilPersonaCliente(null);
-
-		return clientePersona;
-	}
+	
 
 }

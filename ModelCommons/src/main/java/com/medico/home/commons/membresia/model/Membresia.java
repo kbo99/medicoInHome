@@ -2,6 +2,10 @@ package com.medico.home.commons.membresia.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.medico.home.commons.beneficio.model.Beneficio;
+
 import java.util.Date;
 import java.util.List;
 
@@ -41,11 +45,22 @@ public class Membresia implements Serializable {
 
 	//bi-directional many-to-one association to MembresiaBeneficio
 	@OneToMany(mappedBy="membresia")
+
 	private List<MembresiaBeneficio> membresiaBeneficios;
 
-	//bi-directional many-to-one association to MembresiaCliente
-	@OneToMany(mappedBy="membresia")
-	private List<MembresiaCliente> membresiaClientes;
+	
+	
+	@Column(name="mem_costo")
+	private Integer memCosto;
+
+	@Column(name="mem_costo_ben_ad")
+	private Integer memCostoBenAd;
+
+	@Column(name="mem_numero_bene")
+	private Integer memNumeroBene;
+    
+	@Transient
+	private List<Beneficio> beneficios;
 
 	public Membresia() {
 	}
@@ -106,6 +121,7 @@ public class Membresia implements Serializable {
 		this.usuRegistra = usuRegistra;
 	}
 
+	@JsonIgnore
 	public List<MembresiaBeneficio> getMembresiaBeneficios() {
 		return this.membresiaBeneficios;
 	}
@@ -128,26 +144,38 @@ public class Membresia implements Serializable {
 		return membresiaBeneficio;
 	}
 
-	public List<MembresiaCliente> getMembresiaClientes() {
-		return this.membresiaClientes;
+
+
+	public Integer getMemCosto() {
+		return memCosto;
 	}
 
-	public void setMembresiaClientes(List<MembresiaCliente> membresiaClientes) {
-		this.membresiaClientes = membresiaClientes;
+	public void setMemCosto(Integer memCosto) {
+		this.memCosto = memCosto;
 	}
 
-	public MembresiaCliente addMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().add(membresiaCliente);
-		membresiaCliente.setMembresia(this);
-
-		return membresiaCliente;
+	public Integer getMemCostoBenAd() {
+		return memCostoBenAd;
 	}
 
-	public MembresiaCliente removeMembresiaCliente(MembresiaCliente membresiaCliente) {
-		getMembresiaClientes().remove(membresiaCliente);
-		membresiaCliente.setMembresia(null);
+	public void setMemCostoBenAd(Integer memCostoBenAd) {
+		this.memCostoBenAd = memCostoBenAd;
+	}
 
-		return membresiaCliente;
+	public Integer getMemNumeroBene() {
+		return memNumeroBene;
+	}
+
+	public void setMemNumeroBene(Integer memNumeroBene) {
+		this.memNumeroBene = memNumeroBene;
+	}
+
+	public List<Beneficio> getBeneficios() {
+		return beneficios;
+	}
+
+	public void setBeneficios(List<Beneficio> beneficios) {
+		this.beneficios = beneficios;
 	}
 
 }

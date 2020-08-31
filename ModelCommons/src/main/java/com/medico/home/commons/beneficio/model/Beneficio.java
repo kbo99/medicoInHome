@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.medico.home.commons.membresia.model.MembresiaBeneficio;
+import com.medico.home.commons.servicio.model.TipoServicio;
 
 
 /**
@@ -46,15 +49,21 @@ public class Beneficio implements Serializable {
 
 	@Column(name="usu_registra")
 	private String usuRegistra;
+	
+	@Column(name="ben_cantidad_aplica")
+	private int benCantidadAplica;
 
-	//bi-directional many-to-one association to BeneficioDetalle
-	@OneToMany(mappedBy="beneficio")
-	private List<BeneficioDetalle> beneficioDetalles;
+	@Column(name="ben_descuento")
+	private int benDescuento;
 
-	//bi-directional many-to-one association to MembresiaBeneficio
-	@OneToMany(mappedBy="beneficio")
-	private List<MembresiaBeneficio> membresiaBeneficios;
+	@Column(name="ben_periodo_renovacion_dias")
+	private int benPeriodoRenovacionDias;
 
+	@ManyToOne
+	@JoinColumn(name="tps_id")
+	private TipoServicio tipoServicio;
+
+	
 	public Beneficio() {
 	}
 
@@ -106,48 +115,39 @@ public class Beneficio implements Serializable {
 		this.usuRegistra = usuRegistra;
 	}
 
-	public List<BeneficioDetalle> getBeneficioDetalles() {
-		return this.beneficioDetalles;
+	public int getBenCantidadAplica() {
+		return benCantidadAplica;
 	}
 
-	public void setBeneficioDetalles(List<BeneficioDetalle> beneficioDetalles) {
-		this.beneficioDetalles = beneficioDetalles;
+	public void setBenCantidadAplica(int benCantidadAplica) {
+		this.benCantidadAplica = benCantidadAplica;
 	}
 
-	public BeneficioDetalle addBeneficioDetalle(BeneficioDetalle beneficioDetalle) {
-		getBeneficioDetalles().add(beneficioDetalle);
-		beneficioDetalle.setBeneficio(this);
-
-		return beneficioDetalle;
+	public int getBenDescuento() {
+		return benDescuento;
 	}
 
-	public BeneficioDetalle removeBeneficioDetalle(BeneficioDetalle beneficioDetalle) {
-		getBeneficioDetalles().remove(beneficioDetalle);
-		beneficioDetalle.setBeneficio(null);
-
-		return beneficioDetalle;
+	public void setBenDescuento(int besDescuento) {
+		this.benDescuento = besDescuento;
 	}
 
-	public List<MembresiaBeneficio> getMembresiaBeneficios() {
-		return this.membresiaBeneficios;
+	public int getBenPeriodoRenovacionDias() {
+		return benPeriodoRenovacionDias;
 	}
 
-	public void setMembresiaBeneficios(List<MembresiaBeneficio> membresiaBeneficios) {
-		this.membresiaBeneficios = membresiaBeneficios;
+	public void setBenPeriodoRenovacionDias(int benPeriodoRenovacionDias) {
+		this.benPeriodoRenovacionDias = benPeriodoRenovacionDias;
 	}
 
-	public MembresiaBeneficio addMembresiaBeneficio(MembresiaBeneficio membresiaBeneficio) {
-		getMembresiaBeneficios().add(membresiaBeneficio);
-		membresiaBeneficio.setBeneficio(this);
-
-		return membresiaBeneficio;
+	public TipoServicio getTipoServicio() {
+		return tipoServicio;
 	}
 
-	public MembresiaBeneficio removeMembresiaBeneficio(MembresiaBeneficio membresiaBeneficio) {
-		getMembresiaBeneficios().remove(membresiaBeneficio);
-		membresiaBeneficio.setBeneficio(null);
-
-		return membresiaBeneficio;
+	public void setTipoServicio(TipoServicio tipoServicio) {
+		this.tipoServicio = tipoServicio;
 	}
+
+	
+
 
 }

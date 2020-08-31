@@ -41,6 +41,15 @@ public class Persona implements Serializable {
 
 	@Column(name="per_rfc")
 	private String perRfc;
+	
+	@Column(name="per_telefono")
+	private String perTelefono;
+	
+	@Transient
+	private String password;
+	
+	@Transient
+	private Integer membresia;
 
 	/**
 	 * @return the perId
@@ -153,6 +162,50 @@ public class Persona implements Serializable {
 	public void setPerRfc(String perRfc) {
 		this.perRfc = perRfc;
 	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the perTelefono
+	 */
+	public String getPerTelefono() {
+		return perTelefono;
+	}
+
+	/**
+	 * @param perTelefono the perTelefono to set
+	 */
+	public void setPerTelefono(String perTelefono) {
+		this.perTelefono = perTelefono;
+	}
+
+	/**
+	 * @return the membresia
+	 */
+	public Integer getMembresia() {
+		return membresia;
+	}
+
+	/**
+	 * @param membresia the membresia to set
+	 */
+	public void setMembresia(Integer membresia) {
+		this.membresia = membresia;
+	}
+	
+	
 	
 	
 
