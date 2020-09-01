@@ -112,7 +112,8 @@ public class ClienteService implements IClienteService {
 			
 			//Se le cuelga su membresia
 			cp.getPersona().setMembresia(membresoa);
-			membresiaAdmonService.save(cp, Const.MOV_MEM_ADD_NEW);
+			membresiaAdmonService.save(cp, perfId == Const.PERFIL_PER_BENE ? Const.MOV_MEM_ADD_NEW_BENE :
+				Const.MOV_MEM_ADD_NEW);
 			
 		} catch (Exception e) {
 			logger.error("Error al generar el  nuevo cliente persona",e);
@@ -177,7 +178,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public List<ClientePersona> findallClientePersona() {
 		List<ClientePersona> result = new ArrayList<ClientePersona>();
-		clientePersonaDAO.findAll().forEach(a -> result.add(a));
+		clientePersonaDAO.findByPerfilPersonaClientePpcId(Const.PERFIL_PER_TITULAR).forEach(a -> result.add(a));
 		return result;
 	}
 

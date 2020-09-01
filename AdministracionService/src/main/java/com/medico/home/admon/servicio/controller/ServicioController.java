@@ -6,6 +6,9 @@ package com.medico.home.admon.servicio.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +17,11 @@ import com.medico.home.admon.membresia.service.IMembresiaAdmonService;
 import com.medico.home.admon.servicio.service.IServicio;
 import com.medico.home.commons.beneficio.model.Beneficio;
 import com.medico.home.commons.membresia.model.Membresia;
+import com.medico.home.commons.persona.model.Persona;
 import com.medico.home.commons.servicio.model.TipoServicio;
 import com.medico.home.commons.util.Const;
+import com.medico.home.commons.util.IconAlert;
+import com.medico.home.commons.util.Response;
 
 /**
  * @author macpro
@@ -62,13 +68,59 @@ public class ServicioController {
 		return membresiaAdmonService.getBeneficioAdmonMembresia(benEstatus, Const.ESTATUS_ACTIVO);
 	}
 	
+
 	@PostMapping("/guardarMem")
-	public Membresia save(@RequestBody Membresia tpoSer) throws Exception{
-		return membresiaAdmonService.nueva(tpoSer);
+	public ResponseEntity<Response> detalle(@RequestBody Membresia tpoSer) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(membresiaAdmonService.nueva(tpoSer));
+			response.setMessage("La Membresia  se guardo correctamente");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
 	}
 
 	@PostMapping("/findAllTipoMem")
-	public List<Membresia> findAllMem() throws Exception {
-		return membresiaAdmonService.findAllByMem();
+	public ResponseEntity<Response>  findAllMem() {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(membresiaAdmonService.findAllByMem());
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	
+	@PostMapping("/findMovMem")
+	public ResponseEntity<Response> findMovMem(@RequestBody String mecFolio) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(membresiaAdmonService.findMovAllByMem(mecFolio));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
 	}
 }

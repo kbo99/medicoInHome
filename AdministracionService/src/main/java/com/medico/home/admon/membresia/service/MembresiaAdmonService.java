@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.medico.home.admon.membresia.dao.IBeneficioDAO;
+import com.medico.home.admon.membresia.dao.IMembresiaBeneficioDAO;
 import com.medico.home.admon.membresia.dao.IMembresiaClienteDAO;
 import com.medico.home.admon.membresia.dao.IMembresiaDAO;
 import com.medico.home.admon.membresia.dao.IMovimientoMembresiaDAO;
@@ -26,7 +27,7 @@ import com.medico.home.commons.membresia.model.TipoMovimientoMembresia;
 import com.medico.home.commons.util.Const;
 
 /**
- * @author macpro
+ * @author macpro 
  *
  */
 @Service
@@ -45,6 +46,9 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	
 	@Autowired
 	IMovimientoMembresiaDAO movimientoMembresiaDAO;
+	
+	@Autowired
+	IMembresiaBeneficioDAO membresiaBeneficioDAO;
 	
 
 	@Override
@@ -107,26 +111,28 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	}
 
 	@Override
-	public Membresia nueva(final Membresia membresia) throws Exception {
-		Membresia membresiaTmp = new Membresia();
+	public Membresia nueva( Membresia membresia) throws Exception {
+		
 		try {
 			membresia.setMemEstatus(Const.ESTATUS_ACTIVO);
 			membresia.setMemFcreacion(new Date());
-			List<MembresiaBeneficio> lstTmp = new ArrayList<MembresiaBeneficio>();
+			List<Beneficio> lstTmp = membresia.getBeneficios();
+			
+			membresia = save(membresia);
+			membresia.setBeneficios(lstTmp);
+			final Membresia membresiaTmp = membresia;
 			membresia.getBeneficios().forEach(item-> {
 				MembresiaBeneficio tmp = new MembresiaBeneficio();
 				tmp.setBeneficio(item);
-				tmp.setMembresia(membresia);
-				lstTmp.add(tmp);
+				tmp.setMembresia(membresiaTmp);
+				tmp.setMebEstatus(Const.ESTATUS_ACTIVO);
+				membresiaBeneficioDAO.save(tmp);
 			});
-			membresiaTmp = membresia;
-			membresiaTmp.setMembresiaBeneficios(lstTmp);
-			membresiaTmp = save(membresiaTmp);
 		} catch (Exception e) {
 			logger.error("Error al guardar memebresia", e);
 			throw new Exception(e);
 		}
-		return membresiaTmp;
+		return membresia;
 	}
 
 	
@@ -213,6 +219,7 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 		MembresiaCliente membresia = new MembresiaCliente();
 		try {
 			membresia =  membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(user);
+			membresia.getMembresia().setBeneficios(membresiaBeneficioDAO.getBeneficiosBymm(membresia.getMembresia().getMemId()));
 			
 		} catch (Exception e) {
 			logger.error("Error al buscar Membresias del Cliente", e);
@@ -224,7 +231,28 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	
 	@Override
 	public List<Membresia> findAllByMem()  throws Exception {
-		return membresiaDAO.findByMemEstatus("AC");
+		 List<Membresia> lstM = membresiaDAO.findByMemEstatus("AC");
+		 lstM.forEach(item -> {
+			 item.setBeneficios(membresiaBeneficioDAO.getBeneficiosBymm(item.getMemId()));
+		 });
+		 
+		 return lstM;
+	}
+
+	@Override
+	public List<MovimientoMembresia> findMovAllByMem(String mecFolio) throws Exception {
+		List<MovimientoMembresia>  lstMov = new ArrayList<MovimientoMembresia>();
+		try {
+			movimientoMembresiaDAO.findByMembresiaClienteMecFolio(mecFolio).forEach(item -> {
+				lstMov.add(item);
+			});
+			
+		} catch (Exception e) {
+			logger.error("Error al buscar Membresias del Cliente", e);
+			throw new Exception(e);
+		}
+		
+		return lstMov;
 	}
 
 }
