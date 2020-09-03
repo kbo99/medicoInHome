@@ -34,7 +34,7 @@ public class PagoEstatusService implements IPagoEstatus {
 	public List<PagoEstatus> findByEstatus(String estatus) throws Exception {
 		List<PagoEstatus> lsyPagoEst = new ArrayList<PagoEstatus>();
 		try {
-			pagoEstatsDAO.findByPgsEstatus(estatus);
+			lsyPagoEst = pagoEstatsDAO.findByPgsEstatus(estatus);
 
 		} catch (Exception e) {
 			logger.error("Error al buscar forma de pago  \n" + e + "\n" + e.getMessage() + e.getStackTrace());

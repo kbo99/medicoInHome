@@ -2,6 +2,9 @@ package com.medico.home.commons.pago.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.medico.home.commons.membresia.model.MembresiaCliente;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -57,6 +60,9 @@ public class Pago implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="tpp_id")
 	private TipoPago tipoPago;
+	
+	@Transient
+	private MembresiaCliente membresia;
 
 	public Pago() {
 	}
@@ -147,6 +153,20 @@ public class Pago implements Serializable {
 
 	public void setTipoPago(TipoPago tipoPago) {
 		this.tipoPago = tipoPago;
+	}
+
+	/**
+	 * @return the membresia
+	 */
+	public MembresiaCliente getMembresia() {
+		return membresia;
+	}
+
+	/**
+	 * @param membresia the membresia to set
+	 */
+	public void setMembresia(MembresiaCliente membresia) {
+		this.membresia = membresia;
 	}
 
 }
