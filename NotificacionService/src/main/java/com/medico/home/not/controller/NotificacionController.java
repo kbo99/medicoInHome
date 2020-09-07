@@ -4,12 +4,17 @@
 package com.medico.home.not.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
+import com.medico.home.commons.util.IconAlert;
+import com.medico.home.commons.util.Response;
 import com.medico.home.not.model.LlamadaPendiente;
 import com.medico.home.not.model.Token;
 import com.medico.home.not.service.INotifyService;
@@ -33,10 +38,27 @@ public class NotificacionController  {
 		
 	}
 	
+	
+
 	@PostMapping("/send")
-	public String sendUser(@RequestBody String user) {
-		return notificacionService.sendNotificacionLlamadaEntrante(user);
+	public ResponseEntity<Response> sendUser(@RequestBody String user) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(notificacionService.sendNotificacionLlamadaEntrante(user));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
 	}
+	
+	
 	
 	@PostMapping("/sendMessageSingUp")
 	public String sendMessageSingUp(@RequestBody Usuario persona) throws Exception {
