@@ -182,6 +182,18 @@ public class ClienteService implements IClienteService {
 		return result;
 	}
 
+	@Override
+	public ClientePersona findByCpeId(Integer cpeId) throws Exception {
+		ClientePersona cliente;
+		try {
+			cliente = clientePersonaDAO.findByCpeId(cpeId);
+		} catch (Exception e) {
+			logger.error("Error al generar el  nuevo cliente beneficiario",e);
+			throw new Exception(e);
+		}
+		return null;
+	}
+
 
 
 

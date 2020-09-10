@@ -33,8 +33,22 @@ public class NotificacionController  {
 	  
 	
 	@PostMapping("/susNot")
-	public String subscribeUser(@RequestBody Token user) {
-		return notificacionService.userTokenSubscribe(user.getUsuario(), user.getToken());
+	public ResponseEntity<Response> subscribeUser(@RequestBody Token user) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(notificacionService.userTokenSubscribe(user.getUsuario(), user.getToken()));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+		
 		
 	}
 	
@@ -61,38 +75,105 @@ public class NotificacionController  {
 	
 	
 	@PostMapping("/sendMessageSingUp")
-	public String sendMessageSingUp(@RequestBody Usuario persona) throws Exception {
-		return notificacionService.sendNotificacionSingUp(persona);
+	public ResponseEntity<Response> sendMessageSingUp(@RequestBody Usuario persona)  {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(notificacionService.sendNotificacionSingUp(persona));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	
 		
 	}
 	
 	@PostMapping("/getCallPend")
-	public LlamadaPendiente consultaLlamada(@RequestBody String user) {
-		LlamadaPendiente llamada = null;
+	public ResponseEntity<Response> consultaLlamada(@RequestBody String user) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
 		try {
-			llamada= notificacionService.buscaAtiendeLlamadaPendiente(user, null);
+			response.setResponse(notificacionService.buscaAtiendeLlamadaPendiente(user, null));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
 		} catch (Exception e) {
-			
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
 		}
-		return llamada;
+		return new ResponseEntity<Response>(response, estatus);
+		
 	}
 	
 	@PostMapping("/atiendeLlamado")
-	public NotificacionVO atiendeLlamada(@RequestBody NotificacionVO notificacion) throws Exception{
-		return notificacionService.atiendeLlamada(notificacion);
+	public ResponseEntity<Response>  atiendeLlamada(@RequestBody NotificacionVO notificacion) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(notificacionService.atiendeLlamada(notificacion));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+
 	}
 	
 	
+
+	
 	@PostMapping("/finalizaCall")
-	public void finalizaLlamda(@RequestBody String idSol) throws Exception{
-		notificacionService.finalizaLlamada(idSol);
+	public ResponseEntity<Response> finalizaLlamda(@RequestBody String idSol)  {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			
+			response.setResponse(notificacionService.finalizaLlamada(idSol));
+			response.setMessage("Llamada Finalizada");
+			response.setTitle("Fin LLamada");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
 	}
 	
 	@PostMapping("/notificacionjs")
-	public NotificacionVO sendMessageSingUp() throws Exception {
-		NotificacionVO not = new  NotificacionVO();
-		not.setTopicDestino(notificacionService.getSktCnt());
-		return not;
+	public ResponseEntity<Response> sendMessageSingUp() {
+		
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			NotificacionVO not = new  NotificacionVO();
+			not.setTopicDestino(notificacionService.getSktCnt());
+			response.setResponse(not);
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+		
 		
 	}
 	

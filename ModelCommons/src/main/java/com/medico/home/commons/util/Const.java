@@ -67,5 +67,12 @@ public class Const {
 	
 	public static final Integer ESTATUS_PAGO_REALIZADO = 1;
 	
+	public static final Integer INTEGER_CERO_ID = 0;
+	
+	public static final Integer TIPO_CUES_HISTORIAL = 1;
+	
+	public static final String ESTATUS_OLD = "OD";
+	
+	public static final String ESTATUS_ERR = "ER";
 	
 }

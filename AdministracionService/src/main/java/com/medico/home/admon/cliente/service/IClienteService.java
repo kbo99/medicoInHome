@@ -28,6 +28,8 @@ public interface IClienteService {
 	 */
 	List<ClientePersona> findallClientePersona();
 	
+	ClientePersona findByCpeId(Integer cpeId)throws Exception;
+	
 
 	
 
