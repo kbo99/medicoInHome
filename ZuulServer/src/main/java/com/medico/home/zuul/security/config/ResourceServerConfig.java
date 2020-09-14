@@ -43,8 +43,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		resources.tokenStore(tokenStore());
 	}
 
-	@Bean
-    public TomcatServletWebServerFactory servletContainer() {
+	//@Bean
+    /*public TomcatServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
             protected void postProcessContext(Context context) {
@@ -67,7 +67,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
         connector.setSecure(false);
         connector.setRedirectPort(8090);
         return connector;
-    }
+    }*/
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
