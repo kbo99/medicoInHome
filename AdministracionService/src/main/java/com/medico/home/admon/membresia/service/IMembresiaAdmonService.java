@@ -40,5 +40,7 @@ public interface IMembresiaAdmonService {
 	MembresiaCliente getMembresiaByUser(String user)throws Exception;
 	
 	List<Membresia> findAllByMem() throws Exception;
+	
+	List<MovimientoMembresia> findMovAllByMem(String mecFolio) throws Exception;
 
 }

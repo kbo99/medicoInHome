@@ -199,7 +199,7 @@ public class NotifyService implements INotifyService {
 			.append(" Su password es: ")
 			.append(persona.getUsuPassword())
 			.append("/n")
-			.append("Ingresar a www.doctoresensucasa.com/admin/login");
+			.append("Ingresar a www.doctoresensucasa.com/admin/#/login");
 			
 			Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
 					Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE,Const.URL_SKT_MESSAGE_SENDER);
@@ -341,9 +341,10 @@ public class NotifyService implements INotifyService {
 
 
 	@Override
-	public void finalizaLlamada(String userSol) throws Exception {
+	public LlamadaPendiente finalizaLlamada(String userSol) throws Exception {
+		LlamadaPendiente llamamdaPendiente = new LlamadaPendiente();
 		try {
-			LlamadaPendiente llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(userSol, 
+			 llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(userSol, 
 					Const.ESTATUS_LLAMADA_ATENDIDA);
 			llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_FIN);
 			llamamdaPendiente.setLlpFechaFin(new Date());
@@ -356,7 +357,9 @@ public class NotifyService implements INotifyService {
 			
 		} catch (Exception e) {
 			logger.error("",e);
+			throw new Exception();
 		}
+		return llamamdaPendiente;
 	}
 
 

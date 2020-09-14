@@ -29,7 +29,7 @@ public interface INotifyService {
 	
 	NotificacionVO atiendeLlamada(NotificacionVO medico) throws Exception;
 	
-	void finalizaLlamada(String userSol)throws Exception;
+	LlamadaPendiente finalizaLlamada(String userSol)throws Exception;
 	
 	String getSktCnt()throws Exception;
 	

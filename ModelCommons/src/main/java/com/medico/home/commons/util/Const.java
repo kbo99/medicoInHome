@@ -57,10 +57,22 @@ public class Const {
 	
 	public static final Integer MOV_MEM_ADD_NEW = 1;
 	
+	public static final Integer MOV_MEM_ADD_NEW_BENE = 2;
+	
+	public static final Integer MOV_MEM_ADD_NEW_PAGO = 3;
+	
 	public static final String USER_NM_MESSAGE = "USER_NM_MESSAGE";
 	
 	public static final String URL_SKT_MESSAGE_SENDER = "URL_SKT_SENDER_SENDER";
 	
+	public static final Integer ESTATUS_PAGO_REALIZADO = 1;
 	
+	public static final Integer INTEGER_CERO_ID = 0;
+	
+	public static final Integer TIPO_CUES_HISTORIAL = 1;
+	
+	public static final String ESTATUS_OLD = "OD";
+	
+	public static final String ESTATUS_ERR = "ER";
 	
 }
