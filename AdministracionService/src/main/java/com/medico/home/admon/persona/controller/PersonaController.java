@@ -38,6 +38,8 @@ public class PersonaController {
 	@Autowired
 	IClienteService clienteService;
 	
+
+	
 	@Autowired
 	IPersonaAdmonService personaAdmonService;
 	
@@ -179,7 +181,7 @@ public class PersonaController {
 	 }
 	
 	
-    @GetMapping("/doctor/listar")
+	@GetMapping("/listardoc")
 	public List<Doctor>findallDoctor(){
 		return personaAdmonService.findallDoctor();
 		
