@@ -143,7 +143,7 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 	public List<Doctor> findallDoctor() {
 		List<Doctor> result = new ArrayList<Doctor>();
 		doctorDAO.findAll().forEach(a -> result.add(a));
-		return null;
+		return result;
 	}
 
 	/*@Override
