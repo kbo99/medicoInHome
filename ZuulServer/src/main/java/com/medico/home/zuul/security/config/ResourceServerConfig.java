@@ -4,18 +4,11 @@ import java.util.Arrays;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cloud.commons.httpclient.ApacheHttpClientConnectionManagerFactory;
-import org.springframework.cloud.commons.httpclient.ApacheHttpClientFactory;
-import org.springframework.cloud.netflix.zuul.filters.ProxyRequestHelper;
-import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
-import org.springframework.cloud.netflix.zuul.filters.route.SimpleHostRoutingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -43,8 +36,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		resources.tokenStore(tokenStore());
 	}
 
-	//@Bean
-    /*public TomcatServletWebServerFactory servletContainer() {
+	@Bean
+    public TomcatServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             @Override
             protected void postProcessContext(Context context) {
@@ -67,7 +60,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
         connector.setSecure(false);
         connector.setRedirectPort(8090);
         return connector;
-    }*/
+    }
 	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
