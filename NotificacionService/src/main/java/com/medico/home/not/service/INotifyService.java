@@ -3,6 +3,7 @@
  */
 package com.medico.home.not.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.medico.home.commons.notificacion.NotificacionVO;
@@ -32,5 +33,9 @@ public interface INotifyService {
 	LlamadaPendiente finalizaLlamada(String userSol)throws Exception;
 	
 	String getSktCnt()throws Exception;
+
+	List<LlamadaPendiente> findallPendiente();
+
+	
 	
 }

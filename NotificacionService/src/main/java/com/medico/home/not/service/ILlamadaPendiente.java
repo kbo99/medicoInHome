@@ -23,4 +23,10 @@ public interface ILlamadaPendiente {
 	
 	LlamadaPendiente asignaLlamadaMedicoGral()throws Exception;
 
+	List<LlamadaPendiente> findallLlamadaPendiente();
+
+	
+
+	
+
 }

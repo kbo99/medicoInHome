@@ -3,13 +3,17 @@
  */
 package com.medico.home.not.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
@@ -17,6 +21,7 @@ import com.medico.home.commons.util.IconAlert;
 import com.medico.home.commons.util.Response;
 import com.medico.home.not.model.LlamadaPendiente;
 import com.medico.home.not.model.Token;
+import com.medico.home.not.service.ILlamadaPendiente;
 import com.medico.home.not.service.INotifyService;
 
 /**
@@ -29,6 +34,7 @@ public class NotificacionController  {
 	
 	@Autowired
 	INotifyService notificacionService;
+	
 	
 	  
 	
@@ -174,6 +180,13 @@ public class NotificacionController  {
 		}
 		return new ResponseEntity<Response>(response, estatus);
 		
+		
+	}
+	
+	
+	@GetMapping("/listarllamada")
+	public List<LlamadaPendiente>findallLlamadaPendiente(){
+		return notificacionService.findallPendiente();
 		
 	}
 	

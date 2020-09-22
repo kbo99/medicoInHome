@@ -3,6 +3,7 @@
  */
 package com.medico.home.not.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.util.Const;
 import com.medico.home.not.dao.ILlamadaPendienteDAO;
 import com.medico.home.not.model.LlamadaPendiente;
@@ -78,6 +80,13 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 			throw new Exception(e);
 		}
 		return lstCallTmp;
+	}
+	
+	@Override
+	public List<LlamadaPendiente> findallLlamadaPendiente() {
+		List<LlamadaPendiente> result = new ArrayList<LlamadaPendiente>();
+		llamdaPendienteDAO.findAll().forEach(a -> result.add(a));
+		return result;
 	}
 
 
