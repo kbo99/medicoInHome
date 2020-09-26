@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
+import com.medico.home.commons.util.Const;
 import com.medico.home.commons.util.IconAlert;
 import com.medico.home.commons.util.Response;
 import com.medico.home.not.model.LlamadaPendiente;
@@ -35,6 +35,8 @@ public class NotificacionController  {
 	@Autowired
 	INotifyService notificacionService;
 	
+	@Autowired
+	ILlamadaPendiente llamadaPendienteService;
 	
 	  
 	
@@ -184,9 +186,46 @@ public class NotificacionController  {
 	}
 	
 	
-	@GetMapping("/listarllamada")
-	public List<LlamadaPendiente>findallLlamadaPendiente(){
-		return notificacionService.findallPendiente();
+	@PostMapping("/llamadaMedico")
+	public ResponseEntity<Response> llamadaMedico(@RequestBody String user) {
+		
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(llamadaPendienteService.getLlamdaMedico(user));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+		
+		
+	}
+	
+	@PostMapping("/llamadaUser")
+	public ResponseEntity<Response> llamadaUsuario(@RequestBody String user) {
+		
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(llamadaPendienteService.getLlamdaPaciente(user, 
+					Const.ESTATUS_LLAMADA_ATENDIDA_FIN));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar llamada");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+		
 		
 	}
 	

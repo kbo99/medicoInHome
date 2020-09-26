@@ -105,7 +105,8 @@ public class NotifyService implements INotifyService {
 			mapConfig.put(Const.USER_NM_MESSAGE, item.getMnrUsu());
 			//se manda la notificacion al sockete
 			sendNotificationToSocket(item.getMnrUsu(),mapConfig.get(Const.URL_SKT_MESSAGE),
-					"Un paciente solicita una videollamada",mapConfig.get(Const.TOPIC_LLAMADA_DOC)+item.getMnrUsu(),
+					"Paciente solicita videollamada: "
+					+ "https://doctoresensucasa.com/admin/#/login",mapConfig.get(Const.TOPIC_LLAMADA_DOC)+item.getMnrUsu(),
 					"/medicall", mapConfig.get(Const.TKN_LLAMADA_ANGORA),userFrom, mapConfig);
 			
 		});
@@ -198,8 +199,7 @@ public class NotifyService implements INotifyService {
 			.append("Su usuario es su numero telefonico registrado. \n")
 			.append(" Su password es: ")
 			.append(persona.getUsuPassword())
-			.append("/n")
-			.append("Ingresar a www.doctoresensucasa.com/admin/#/login");
+			.append(" Ingresar https://doctoresensucasa.com/admin/#/login");
 			
 			Map<String, String> mapConfig = parametroNotify.getMapByParams(Const.TIWILIO_TKN_MESSAGE,
 					Const.TIWILIO_USER_MESSAGE,Const.TIWILIO_NM_MESSAGE,Const.URL_SKT_MESSAGE_SENDER);
@@ -346,14 +346,20 @@ public class NotifyService implements INotifyService {
 		try {
 			 llamamdaPendiente = llamadaPendienteService.findByUsuSolAndLlpEstatus(userSol, 
 					Const.ESTATUS_LLAMADA_ATENDIDA);
-			llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_FIN);
-			llamamdaPendiente.setLlpFechaFin(new Date());
-			llamadaPendienteService.save(llamamdaPendiente);
-			MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(llamamdaPendiente.getUsuAtiende());
-			mod.setMnrDispon(Const.STRING_V);
-			
-			//se aparta el medico y se mandan notifc¡icaciones
-			medicoNotifyAdd(mod);
+			 if(llamamdaPendiente != null ) {
+				 llamamdaPendiente.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_FIN);
+					llamamdaPendiente.setLlpFechaFin(new Date());
+					llamadaPendienteService.save(llamamdaPendiente);
+					MedicoNotificacion mod = medicoNotificacionDAO.findByMnrUsu(llamamdaPendiente.getUsuAtiende());
+					if(mod != null) {
+						mod.setMnrDispon(Const.STRING_V);
+						
+						//se aparta el medico y se mandan notifc¡icaciones
+						medicoNotifyAdd(mod);
+					}
+					
+					
+			 }
 			
 		} catch (Exception e) {
 			logger.error("",e);

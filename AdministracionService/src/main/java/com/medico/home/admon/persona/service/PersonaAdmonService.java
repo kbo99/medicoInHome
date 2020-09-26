@@ -133,24 +133,11 @@ public class PersonaAdmonService implements IPersonaAdmonService {
 		return doctor;
 	}
 
-	/*@Override
-	public List<Doctor> findallDoctor() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
-	
 	@Override
-	public List<Doctor> findallDoctor() {
-		List<Doctor> result = new ArrayList<Doctor>();
-		doctorDAO.findAll().forEach(a -> result.add(a));
-		return result;
-	}
-
-	/*@Override
 	public List<Doctor> findallDoctor() {
 		List<Doctor> resultDoctors = new ArrayList<Doctor>();
 		doctorDAO.findAll().forEach(a -> resultDoctors.add(a));;
 		return  resultDoctors;
-	}*/
+	}
 
 }

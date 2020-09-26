@@ -18,6 +18,7 @@ import com.medico.home.admon.cuestionario.dao.IResCuestDAO;
 import com.medico.home.admon.cuestionario.dao.IResHijaDAO;
 import com.medico.home.admon.cuestionario.dao.ITipoCuesDAO;
 import com.medico.home.admon.cuestionario.dao.ITipoSeccDAO;
+import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.cuestionario.model.Cuestionario;
 import com.medico.home.commons.cuestionario.model.Pregunta;
 import com.medico.home.commons.cuestionario.model.ResCuest;
@@ -75,7 +76,9 @@ public class CuestionarioService implements ICuestionario {
 			pregunt.getRespuestas().forEach(res -> {
 				if(cueId > 0) {
 					res.setContesto(resCuestDAO.findByResIdAndCueId(res.getResId(), cueId));
-					
+					if(res.getContesto() != null && res.getContesto().size() == 1) {
+						res.setResValorTmp((res.getContesto().get(0)).getRcuValor());
+					}
 					res.setResSelec(res.getContesto() != null && res.getContesto().size() > 0 ? true : false);
 				}
 				res.setPregunta(preguntaChild(resHijaDAO.getPreguntaByResPade(res.getResId()),cueId));
@@ -137,19 +140,13 @@ public class CuestionarioService implements ICuestionario {
 			cuestionario.setCueId(Const.INTEGER_CERO_ID);
 			cuestionario.setCueEstatus(Const.ESTATUS_ACTIVO);
 			cuestionario.setCueFecha(new Date());
-			save(cuestionario);
+			List<Seccion> lstSecc = cuestionario.getTipoCuest().getSecciones();
+			cuestionario = save(cuestionario);
 			
-			cuestionario.getTipoCuest().getSecciones().forEach(item-> {
-				try {
-					saveResCues(item.getPreguntas(),cuestionario.getCueId());
-				} catch (Exception e) {
-					logg.error("Error al generar nueva pregunta cest", e);
-					cuestionario.setCueEstatus(Const.ESTATUS_ERR);
-				} finally {
-					if(cuestionario.getCueEstatus().equals(Const.ESTATUS_ERR))
-						save(cuestionario);
-				}
-			});
+			for(Seccion seccion : lstSecc) {
+				saveResCues(seccion.getPreguntas(),cuestionario.getCueId());
+			}
+			
 			cuestionario.getTipoCuest().setSecciones(getListSeccByTpoCues(cuestionario.getTipoCuest().getTpcId(),
 					cuestionario.getCueId()));
 			
@@ -163,7 +160,7 @@ public class CuestionarioService implements ICuestionario {
 
 	@Override
 	public Cuestionario save(Cuestionario cuestionario)  {
-		cuestionarioDAO.save(cuestionario);
+		cuestionario = cuestionarioDAO.save(cuestionario);
 		return cuestionario;
 	}
 	
@@ -172,6 +169,15 @@ public class CuestionarioService implements ICuestionario {
 		try {
 			lstPregunta.forEach(pregunt ->{
 				pregunt.getRespuestas().forEach(res -> {
+					if(res.getResTipoComp() == 1 && (res.getContesto() == null ||
+							res.getContesto().size() == 0) && res.getResValorTmp() != null
+							&& res.getResValorTmp().length() > 0) {
+						ResCuest resc = new ResCuest();
+						resc.setRcuValor(res.getResValorTmp());
+						resc.setResId(res.getResId());
+						res.setContesto(new ArrayList<ResCuest>());
+						res.getContesto().add(resc);
+					}
 					res.getContesto().forEach(cont-> {
 						cont.setRcuId(Const.INTEGER_CERO_ID);
 						cont.setCueId(cueId);
@@ -189,6 +195,70 @@ public class CuestionarioService implements ICuestionario {
 			throw new Exception();
 		}
 		
+	}
+
+
+	@Override
+	public Cuestionario findByCueId(Integer cueId) throws Exception {
+		Cuestionario cuestTemp= new Cuestionario();
+		try {
+			cuestTemp = cuestionarioDAO.findByCueId(cueId);
+			
+			
+			//se settean sus secciones
+			cuestTemp.getTipoCuest().setSecciones(getListSeccByTpoCues(cuestTemp.getTipoCuest().getTpcId(),
+					cuestTemp.getCueId()));
+		} catch (Exception e) {
+			logg.error("Error al generar nuevo cest", e);
+			throw new Exception();
+		}
+		return cuestTemp;
+	}
+
+
+	@Override
+	public Cuestionario findCuestoByUserName(String userName) throws Exception {
+		Cuestionario cuestTemp= new Cuestionario();
+		try {
+			ClientePersona cppe = clienteService.findByPersonaPerTelefono(userName);
+			if(cppe != null)
+				cuestTemp = getCuestionarioByCpeIdAndTpoCues(cppe.getCpeId(), Const.TIPO_CUES_HISTORIAL);
+			
+		} catch (Exception e) {
+			logg.error("Error al buscar nuevo cest", e);
+			throw new Exception();
+		}
+		return cuestTemp;
+	}
+
+
+	@Override
+	public List<Cuestionario> findByClientePersonaCpeId(Integer cpeId) throws Exception {
+		 List<Cuestionario> lstCues = new ArrayList<Cuestionario>();
+		 try {
+			lstCues = cuestionarioDAO.findByClientePersonaCpeIdOrderByCueIdDesc(cpeId);
+		} catch (Exception e) {
+			logg.error("Error al buscar nuevo cest", e);
+			throw new Exception();
+		}
+		return lstCues;
+	}
+
+
+	@Override
+	public List<Cuestionario> findByClientePersonaUser(String cpeId) throws Exception {
+		 List<Cuestionario> lstCues = new ArrayList<Cuestionario>();
+		 try {
+			 ClientePersona clie = clienteService.findByPersonaPerTelefono(cpeId);
+			 
+			 if(clie != null)
+				 lstCues = findByClientePersonaCpeId(clie.getCpeId());
+			 
+		} catch (Exception e) {
+			logg.error("Error al buscar nuevo cest", e);
+			throw new Exception();
+		}
+		return lstCues;
 	}
 	
 

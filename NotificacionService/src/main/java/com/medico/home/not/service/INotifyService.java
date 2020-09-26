@@ -33,9 +33,6 @@ public interface INotifyService {
 	LlamadaPendiente finalizaLlamada(String userSol)throws Exception;
 	
 	String getSktCnt()throws Exception;
-
-	List<LlamadaPendiente> findallPendiente();
-
 	
 	
 }

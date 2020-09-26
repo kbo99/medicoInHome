@@ -65,6 +65,9 @@ public class Respuesta implements Serializable {
 	
 	@Transient
 	private Boolean resHabilitaChild;
+	
+	@Transient
+	private String resValorTmp;
 
 	public Respuesta() {
 		
@@ -208,6 +211,20 @@ public class Respuesta implements Serializable {
 	 */
 	public void setResHabilitaChild(Boolean resHabilitaChild) {
 		this.resHabilitaChild = resHabilitaChild;
+	}
+
+	/**
+	 * @return the resValorTmp
+	 */
+	public String getResValorTmp() {
+		return resValorTmp;
+	}
+
+	/**
+	 * @param resValorTmp the resValorTmp to set
+	 */
+	public void setResValorTmp(String resValorTmp) {
+		this.resValorTmp = resValorTmp;
 	}
 	
 	

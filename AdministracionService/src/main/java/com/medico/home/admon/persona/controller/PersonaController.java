@@ -180,21 +180,8 @@ public class PersonaController {
 			return mem; 
 	 }
 	
-	
-	@GetMapping("/listardoc")
-	public List<Doctor>findallDoctor(){
+	@GetMapping("/doctor/listar")
+	public List<Doctor> findallClientePersona() {
 		return personaAdmonService.findallDoctor();
-		
 	}
-	
-	/*@GetMapping("/doctor/listar")
-	public List<Doctor>findallDoctorPersona(){
-		return personaAdmonService.findallDoctor();
-		
-	}*/
-	
-	
-	
-	
-	
 }

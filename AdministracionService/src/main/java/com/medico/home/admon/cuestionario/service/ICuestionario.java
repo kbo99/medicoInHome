@@ -24,5 +24,13 @@ public interface ICuestionario {
 	
 	Cuestionario save(Cuestionario cuestionario)throws Exception;
 	
+	Cuestionario findByCueId(Integer cueId)throws Exception;
+	
+	Cuestionario findCuestoByUserName(String userName)throws Exception;
+	
+	List<Cuestionario> findByClientePersonaCpeId(Integer cpeId)throws Exception;
+	
+	List<Cuestionario> findByClientePersonaUser(String cpeId)throws Exception;
+	
 
 }

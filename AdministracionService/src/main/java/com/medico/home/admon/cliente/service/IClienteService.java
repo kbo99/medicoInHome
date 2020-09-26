@@ -30,6 +30,8 @@ public interface IClienteService {
 	
 	ClientePersona findByCpeId(Integer cpeId)throws Exception;
 	
+	ClientePersona findByPersonaPerTelefono(String telefono) throws Exception;
+	
 
 	
 

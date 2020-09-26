@@ -55,6 +55,9 @@ public class LlamadaPendiente implements Serializable {
 	@Column
 	private Date llpFechaFin;
 	
+	@Transient
+	private String duracion;
+	
 	
 	public LlamadaPendiente() {
 		
@@ -185,6 +188,22 @@ public class LlamadaPendiente implements Serializable {
 	 */
 	public void setLlpFechaFin(Date llpFechaFin) {
 		this.llpFechaFin = llpFechaFin;
+	}
+
+
+	/**
+	 * @return the duracion
+	 */
+	public String getDuracion() {
+		return duracion;
+	}
+
+
+	/**
+	 * @param duracion the duracion to set
+	 */
+	public void setDuracion(String duracion) {
+		this.duracion = duracion;
 	}
 	
 

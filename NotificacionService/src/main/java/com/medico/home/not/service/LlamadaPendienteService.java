@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.util.Const;
+import com.medico.home.commons.util.Utils;
 import com.medico.home.not.dao.ILlamadaPendienteDAO;
 import com.medico.home.not.model.LlamadaPendiente;
 
@@ -81,13 +82,6 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 		}
 		return lstCallTmp;
 	}
-	
-	@Override
-	public List<LlamadaPendiente> findallLlamadaPendiente() {
-		List<LlamadaPendiente> result = new ArrayList<LlamadaPendiente>();
-		llamdaPendienteDAO.findAll().forEach(a -> result.add(a));
-		return result;
-	}
 
 
 	@Override
@@ -104,5 +98,39 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 		}
 		// TODO Auto-generated method stub
 		return llamada;
+	}
+
+
+	@Override
+	public List<LlamadaPendiente> getLlamdaMedico(String userNameMedico) throws Exception {
+		 List<LlamadaPendiente> lstCallTmp = new ArrayList<LlamadaPendiente>();
+		 try {
+			 llamdaPendienteDAO.findByUsuAtiendeOrderByLlpFechaDesc(userNameMedico).forEach(item -> {
+				 item.setDuracion(Utils.getDiferenciaHora(item.getLlpFecha(), item.getLlpFechaFin()));
+				 lstCallTmp.add(item);
+				 
+			 });
+		} catch (Exception e) {
+			logger.error("Error al buscar llamadas pendientes by estatus"+ userNameMedico, e);
+			throw new Exception(e);
+		}
+		return lstCallTmp;
+	}
+
+
+	@Override
+	public List<LlamadaPendiente> getLlamdaPaciente(String userNameMedico, String estatus) throws Exception {
+		 List<LlamadaPendiente> lstCallTmp = new ArrayList<LlamadaPendiente>();
+		 try {
+			 llamdaPendienteDAO.findByUsuSolAndLlpEstatusOrderByLlpFechaDesc(userNameMedico, estatus).forEach(item -> {
+				 item.setDuracion(Utils.getDiferenciaHora(item.getLlpFecha(), item.getLlpFechaFin()));
+				 lstCallTmp.add(item);
+				 
+			 });
+		} catch (Exception e) {
+			logger.error("Error al buscar llamadas pendientes by estatus"+ userNameMedico, e);
+			throw new Exception(e);
+		}
+		return lstCallTmp;
 	}
 }

@@ -22,11 +22,9 @@ public interface ILlamadaPendiente {
 	List<LlamadaPendiente> getFirstLlamadaPendienteByEstatus(String estatis)throws Exception;
 	
 	LlamadaPendiente asignaLlamadaMedicoGral()throws Exception;
-
-	List<LlamadaPendiente> findallLlamadaPendiente();
-
 	
-
+	List<LlamadaPendiente> getLlamdaMedico(String userNameMedico)throws Exception;
 	
+	List<LlamadaPendiente> getLlamdaPaciente(String userName, String estatus)throws Exception;
 
 }

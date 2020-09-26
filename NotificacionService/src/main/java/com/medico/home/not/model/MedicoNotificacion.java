@@ -29,6 +29,9 @@ public class MedicoNotificacion implements Serializable {
 	@Column
 	private String mnrDispon;
 	
+	@Column
+	private String mnrName;
+	
 	public MedicoNotificacion() {
 		
 	}
@@ -73,6 +76,20 @@ public class MedicoNotificacion implements Serializable {
 	 */
 	public void setMnrDispon(String mnrDispon) {
 		this.mnrDispon = mnrDispon;
+	}
+
+	/**
+	 * @return the mnrName
+	 */
+	public String getMnrName() {
+		return mnrName;
+	}
+
+	/**
+	 * @param mnrName the mnrName to set
+	 */
+	public void setMnrName(String mnrName) {
+		this.mnrName = mnrName;
 	}
 	
 	

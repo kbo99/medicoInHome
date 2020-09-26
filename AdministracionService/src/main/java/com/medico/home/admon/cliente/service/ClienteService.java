@@ -191,9 +191,20 @@ public class ClienteService implements IClienteService {
 			logger.error("Error al generar el  nuevo cliente beneficiario",e);
 			throw new Exception(e);
 		}
-		return null;
+		return cliente;
 	}
 
+	@Override
+	public ClientePersona findByPersonaPerTelefono(String telefono) throws Exception {
+		ClientePersona cliente = new ClientePersona();
+		try {
+			cliente = clientePersonaDAO.findByPersonaPerTelefono(telefono);
+		} catch (Exception e) {
+			logger.error("Error al generar el  nuevo cliente beneficiario",e);
+			throw new Exception(e);
+		}
+		return cliente;
+	}
 
 
 

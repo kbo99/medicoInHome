@@ -66,4 +66,78 @@ public class CuestionarioController {
 		}
 		return new ResponseEntity<Response>(response, estatus);
 	}
+	
+	@PostMapping("/cuestid")
+	public ResponseEntity<Response> historialByCueId(@RequestBody Integer cueId) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(cuestionarioService.findByCueId(cueId));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al construir historial");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	
+	@PostMapping("/historialusu")
+	public ResponseEntity<Response> historialUsu(@RequestBody String userName) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(cuestionarioService.findCuestoByUserName(userName));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al construir historial");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	
+	@PostMapping("/historialescpe")
+	public ResponseEntity<Response> historialesCpeId(@RequestBody Integer cpeId) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(cuestionarioService.findByClientePersonaCpeId(cpeId));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al construir lista historial");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	@PostMapping("/historialesusu")
+	public ResponseEntity<Response> historialesUsu(@RequestBody String cpeId) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		try {
+			response.setResponse(cuestionarioService.findByClientePersonaUser(cpeId));
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al construir lista historial");
+			response.setTitle("Error");
+		}
+		return new ResponseEntity<Response>(response, estatus);
+	}
 }

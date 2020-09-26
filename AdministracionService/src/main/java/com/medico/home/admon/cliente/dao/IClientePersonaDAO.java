@@ -22,5 +22,7 @@ public interface IClientePersonaDAO extends PagingAndSortingRepository<ClientePe
 	List<ClientePersona> findByPerfilPersonaClientePpcId(Integer pprId); 
 	
 	ClientePersona findByCpeId(Integer cpeId);
+	
+	ClientePersona findByPersonaPerTelefono(String telefono);
 }
     
