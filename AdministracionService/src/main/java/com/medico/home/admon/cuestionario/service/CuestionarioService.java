@@ -53,7 +53,7 @@ public class CuestionarioService implements ICuestionario {
 	IResHijaDAO resHijaDAO;
 
 	@Override
-	public List<Seccion> getListSeccByTpoCues(Integer tpoCues, Integer cueId) throws Exception {
+	public List<Seccion> getListSeccByTpoCues(Integer tpoCues, Integer cueId) throws Exception { 
 		List<Seccion> lstSecci = new ArrayList<Seccion>();
 		try {
 			lstSecci = getListSeccByTpoCues(tpoCues);
@@ -76,8 +76,11 @@ public class CuestionarioService implements ICuestionario {
 			pregunt.getRespuestas().forEach(res -> {
 				if(cueId > 0) {
 					res.setContesto(resCuestDAO.findByResIdAndCueId(res.getResId(), cueId));
+					//se hardcodea ni hablar (mientras optimizar) se amarra al id 1 res para que siempre lo traiga
+					// vacio 
 					if(res.getContesto() != null && res.getContesto().size() == 1) {
-						res.setResValorTmp((res.getContesto().get(0)).getRcuValor());
+						res.setResValorTmp(res.getResId() == 1  ? " " :
+							(res.getContesto().get(0)).getRcuValor());
 					}
 					res.setResSelec(res.getContesto() != null && res.getContesto().size() > 0 ? true : false);
 				}
@@ -187,6 +190,7 @@ public class CuestionarioService implements ICuestionario {
 						saveResCues(res.getPregunta(),cueId);
 					} catch (Exception e) {
 						logg.error("Error al generar nuevo cest", e);
+						
 					}
 				});
 			});

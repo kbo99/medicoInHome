@@ -42,5 +42,9 @@ public interface IMembresiaAdmonService {
 	List<Membresia> findAllByMem() throws Exception;
 	
 	List<MovimientoMembresia> findMovAllByMem(String mecFolio) throws Exception;
+	
+	List<Beneficio> findBeneficioByUser(String username) throws Exception;
+	
+	Membresia getMembresia(String user)throws Exception;
 
 }

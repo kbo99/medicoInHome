@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.medico.home.admon.cliente.service.IClienteService;
 import com.medico.home.admon.membresia.dao.IBeneficioDAO;
 import com.medico.home.admon.membresia.dao.IMembresiaBeneficioDAO;
 import com.medico.home.admon.membresia.dao.IMembresiaClienteDAO;
@@ -49,6 +50,9 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	
 	@Autowired
 	IMembresiaBeneficioDAO membresiaBeneficioDAO;
+	
+	@Autowired
+	private IClienteService clienteService;
 	
 
 	@Override
@@ -206,7 +210,7 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 		List<MembresiaCliente> lstTmp = new ArrayList<MembresiaCliente>();
 		try {
 			//buscamos las membresias del cliente se amarra por el telefono que es el usuario 
-			//lstTmp = membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(usuario);
+		//	lstTmp = membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(usuario);
 		} catch (Exception e) {
 			logger.error("Error al buscar Membresias del Cliente", e);
 			throw new Exception(e);
@@ -218,7 +222,8 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 	public MembresiaCliente getMembresiaByUser(String user) throws Exception {
 		MembresiaCliente membresia = new MembresiaCliente();
 		try {
-			membresia =  membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(user);
+			String userCon = user.substring(1, 11);
+			membresia =  membresiaClienteDAO.findByClientePersonaPersonaPerTelefono(userCon);
 			membresia.getMembresia().setBeneficios(membresiaBeneficioDAO.getBeneficiosBymm(membresia.getMembresia().getMemId()));
 			
 		} catch (Exception e) {
@@ -253,6 +258,34 @@ public class MembresiaAdmonService implements IMembresiaAdmonService {
 		}
 		
 		return lstMov;
+	}
+
+	@Override
+	public List<Beneficio> findBeneficioByUser(String username) throws Exception {
+		List<Beneficio>  lstMov = new ArrayList<Beneficio>();
+		try {
+			lstMov = findBeneficioByBenEstatus(Const.ESTATUS_ACTIVO);
+			
+		} catch (Exception e) {
+			logger.error("Error al buscar Membresias del Cliente", e);
+			throw new Exception(e);
+		}
+		
+		return lstMov;
+	}
+
+	@Override
+	public Membresia getMembresia(String user) throws Exception {
+		ClientePersona perTmp = clienteService.findByPersonaPerTelefono(user);
+		List<MembresiaCliente> lstMem = membresiaClienteDAO.
+				findByClientePersonaClienteCliId(perTmp.getCliente().getCliId());
+		Membresia mem;
+		if(lstMem != null && lstMem.size() > 0) {
+			mem = lstMem.get(0).getMembresia();
+		}else {
+			mem = new Membresia();
+		}
+		return mem;
 	}
 
 }

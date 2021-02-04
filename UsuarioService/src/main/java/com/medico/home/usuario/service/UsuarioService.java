@@ -3,9 +3,13 @@
  */
 package com.medico.home.usuario.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -94,6 +98,13 @@ public class UsuarioService implements IUsuario {
 			}
 		
 		return user;
+	}
+
+	@Override
+	public List<Grupo> findGpoByUser(String user) throws Exception {
+		String userCon = user.substring(1, 11);
+		Usuario userTmp = usuGrupoDAO.getUsuUsuario(userCon); 
+		return userTmp.getGrupos();
 	}
 	
 

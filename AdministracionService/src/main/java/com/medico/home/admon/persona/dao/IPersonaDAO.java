@@ -23,4 +23,6 @@ public interface IPersonaDAO extends PagingAndSortingRepository<Persona, Integer
 	
 	@RestResource(path = "busca-nombre")
 	public List<Persona> findByPerNombreIgnoreCaseContaining (@RequestParam String perNombre);
+	
+	Persona findByPerTelefono(String perTelefono);
 }

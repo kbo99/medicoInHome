@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.WebpushConfig;
@@ -77,6 +79,8 @@ public class NotifyService implements INotifyService {
 			//si existe una llamada se cancela(llamada Perdida) 
 			llam.setLlpEstatus(Const.ESTATUS_LLAMADA_NO_ATENDIDA);
 			llam.setLlpAtendida(Const.STRING_F);
+			llam.setLlpFecha(new Date());
+			llam.setUsuSol(userFrom);
 			llamadaPendienteService.save(llam);
 		}
 		//Se genera la nueva llamada
@@ -178,7 +182,8 @@ public class NotifyService implements INotifyService {
 			                .build())
 			            .setToken(token)
 			            .build();
-			
+		Message message2 = Message.builder().setAndroidConfig(AndroidConfig.builder().
+				setNotification(AndroidNotification.builder().setTitle("Notificacion").build()).build()).build();
 			 
 		 response = FirebaseMessaging.getInstance().send(message);
 				 

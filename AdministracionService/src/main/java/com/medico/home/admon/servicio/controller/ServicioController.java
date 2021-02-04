@@ -3,6 +3,7 @@
  */
 package com.medico.home.admon.servicio.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.medico.home.admon.membresia.service.IMembresiaAdmonService;
 import com.medico.home.admon.servicio.service.IServicio;
 import com.medico.home.commons.beneficio.model.Beneficio;
 import com.medico.home.commons.membresia.model.Membresia;
+import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.servicio.model.TipoServicio;
 import com.medico.home.commons.util.Const;
 import com.medico.home.commons.util.IconAlert;
@@ -120,5 +122,30 @@ public class ServicioController {
 			response.setTitle("Error");
 		}
 		return new ResponseEntity<Response>(response, estatus);
+	}
+	
+	
+	@PostMapping("/findMiBeneficio")
+	public List<Beneficio> getMiBenefico(@RequestBody String username) {
+		HttpStatus estatus = HttpStatus.OK;
+		Response response = new Response();
+		List<Beneficio> lstBene = new ArrayList<Beneficio>();
+		try {
+			lstBene = membresiaAdmonService.findBeneficioByUser(username);
+			response.setMessage("");
+			response.setTitle("");
+			response.setTypeMessage(IconAlert.SUCCESS);
+		} catch (Exception e) {
+			estatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			response.setTypeMessage(IconAlert.ERROR);
+			response.setMsError("Error al guardar Perona");
+			response.setTitle("Error");
+		}
+		return lstBene;
+	}
+	
+	@PostMapping("/findMembresia")
+	public MembresiaCliente findMembresiaByUser(@RequestBody String user) throws Exception {
+		return membresiaAdmonService.getMembresiaByUser(user);
 	}
 }

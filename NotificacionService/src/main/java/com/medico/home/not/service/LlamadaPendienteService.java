@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.util.Const;
 import com.medico.home.commons.util.Utils;
 import com.medico.home.not.dao.ILlamadaPendienteDAO;
@@ -61,7 +60,8 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 	public LlamadaPendiente findByUsuSolAndLlpEstatus(String usuSol, String estatus) throws Exception {
 		LlamadaPendiente llamTmp = null;
 		try {
-			llamTmp = llamdaPendienteDAO.findByUsuSolAndLlpEstatus(usuSol, estatus);
+			List<LlamadaPendiente> lstLlam = llamdaPendienteDAO.findByUsuSolAndLlpEstatusOrderByLlpIdDesc(usuSol, estatus);
+			llamTmp = lstLlam != null && lstLlam.size() > 0 ? lstLlam.get(0) : new LlamadaPendiente();
 		} catch (Exception e) {
 			logger.error("Error al buscar llamada pendiente");
 			throw new Exception(e);
@@ -106,7 +106,8 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 		 List<LlamadaPendiente> lstCallTmp = new ArrayList<LlamadaPendiente>();
 		 try {
 			 llamdaPendienteDAO.findByUsuAtiendeOrderByLlpFechaDesc(userNameMedico).forEach(item -> {
-				 item.setDuracion(Utils.getDiferenciaHora(item.getLlpFecha(), item.getLlpFechaFin()));
+				 if(item.getLlpFecha() != null &&  item.getLlpFechaFin() != null)
+					 item.setDuracion(Utils.getDiferenciaHora(item.getLlpFecha(), item.getLlpFechaFin()));
 				 lstCallTmp.add(item);
 				 
 			 });

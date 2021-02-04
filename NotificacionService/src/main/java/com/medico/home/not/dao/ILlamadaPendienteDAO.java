@@ -15,7 +15,7 @@ import com.medico.home.not.model.LlamadaPendiente;
  */
 public interface ILlamadaPendienteDAO extends PagingAndSortingRepository<LlamadaPendiente, Long> {
 	
-	LlamadaPendiente findByUsuSolAndLlpEstatus(String usuSol, String estatus);
+	List<LlamadaPendiente> findByUsuSolAndLlpEstatusOrderByLlpIdDesc(String usuSol, String estatus);
 	
 	List<LlamadaPendiente> findByLlpEstatusOrderByLlpFechaAsc(String estatus);
 	
