@@ -46,16 +46,12 @@ public class Paciente implements Serializable {
 
 	//bi-directional many-to-one association to Consulta
 	@OneToMany(mappedBy="paciente")
-	private List<Consulta> consultas;
-
-	//bi-directional many-to-one association to DoctorPacientePref
-	@OneToMany(mappedBy="paciente")
 	private List<DoctorPacientePref> doctorPacientePrefs;
 
 	//bi-directional many-to-one association to ClientePersona
-	@ManyToOne
-	@JoinColumn(name="cpe_id")
-	private ClientePersona clientePersona;
+//	@ManyToOne
+//	@JoinColumn(name="cpe_id")
+//	private ClientePersona clientePersona;
 
 	
 
@@ -93,14 +89,14 @@ public class Paciente implements Serializable {
 	public void setPacTpoSangre(String pacTpoSangre) {
 		this.pacTpoSangre = pacTpoSangre;
 	}
-
-	public List<Consulta> getConsultas() {
-		return this.consultas;
-	}
-
-	public void setConsultas(List<Consulta> consultas) {
-		this.consultas = consultas;
-	}
+//
+//	public List<Consulta> getConsultas() {
+//		return this.consultas;
+//	}
+//
+//	public void setConsultas(List<Consulta> consultas) {
+//		this.consultas = consultas;
+//	}
 
 
 
@@ -126,13 +122,13 @@ public class Paciente implements Serializable {
 		return doctorPacientePref;
 	}
 
-	public ClientePersona getClientePersona() {
-		return this.clientePersona;
-	}
-
-	public void setClientePersona(ClientePersona clientePersona) {
-		this.clientePersona = clientePersona;
-	}
+//	public ClientePersona getClientePersona() {
+//		return this.clientePersona;
+//	}
+//
+//	public void setClientePersona(ClientePersona clientePersona) {
+//		this.clientePersona = clientePersona;
+//	}
 
 	
 }

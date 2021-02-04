@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.medico.home.commons.cliente.model.ClientePersona;
 import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.doctor.model.Paciente;
 
@@ -66,14 +67,14 @@ public class Consulta implements Serializable {
 	private Doctor doctor;
 
 	//bi-directional many-to-one association to MedioConsulta
-	@ManyToOne
-	@JoinColumn(name="mec_id")
-	private MedioConsulta medioConsulta;
+	//@ManyToOne
+	//@JoinColumn(name="mec_id")
+	//private MedioConsulta medioConsulta;
 
 	//bi-directional many-to-one association to Paciente
 	@ManyToOne
-	@JoinColumn(name="pac_id")
-	private Paciente paciente;
+	@JoinColumn(name="cep_id")
+	private ClientePersona clientePersona;
 
 	//bi-directional many-to-one association to DiagnosticoConsulta
 	@OneToMany(mappedBy="consulta")
@@ -84,8 +85,8 @@ public class Consulta implements Serializable {
 	private List<RecetaConsulta> recetaConsultas;
 
 	//bi-directional many-to-one association to ServicioConsulta
-	@OneToMany(mappedBy="consulta")
-	private List<ServicioConsulta> servicioConsultas;
+	//@OneToMany(mappedBy="consulta")
+	//private List<ServicioConsulta> servicioConsultas;
 
 	public Consulta() {
 	}
@@ -162,21 +163,14 @@ public class Consulta implements Serializable {
 		this.doctor = doctor;
 	}
 
-	public MedioConsulta getMedioConsulta() {
-		return this.medioConsulta;
-	}
+//	public MedioConsulta getMedioConsulta() {
+//		return this.medioConsulta;
+//	}
+//
+//	public void setMedioConsulta(MedioConsulta medioConsulta) {
+//		this.medioConsulta = medioConsulta;
+//	}
 
-	public void setMedioConsulta(MedioConsulta medioConsulta) {
-		this.medioConsulta = medioConsulta;
-	}
-
-	public Paciente getPaciente() {
-		return this.paciente;
-	}
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
 
 	public List<DiagnosticoConsulta> getDiagnosticoConsultas() {
 		return this.diagnosticoConsultas;
@@ -222,26 +216,40 @@ public class Consulta implements Serializable {
 		return recetaConsulta;
 	}
 
-	public List<ServicioConsulta> getServicioConsultas() {
-		return this.servicioConsultas;
+//	public List<ServicioConsulta> getServicioConsultas() {
+//		return this.servicioConsultas;
+//	}
+//
+//	public void setServicioConsultas(List<ServicioConsulta> servicioConsultas) {
+//		this.servicioConsultas = servicioConsultas;
+//	}
+
+//	public ServicioConsulta addServicioConsulta(ServicioConsulta servicioConsulta) {
+//		getServicioConsultas().add(servicioConsulta);
+//		servicioConsulta.setConsulta(this);
+//
+//		return servicioConsulta;
+//	}
+//
+//	public ServicioConsulta removeServicioConsulta(ServicioConsulta servicioConsulta) {
+//		getServicioConsultas().remove(servicioConsulta);
+//		servicioConsulta.setConsulta(null);
+//
+//		return servicioConsulta;
+//	}
+
+	/**
+	 * @return the clientePersona
+	 */
+	public ClientePersona getClientePersona() {
+		return clientePersona;
 	}
 
-	public void setServicioConsultas(List<ServicioConsulta> servicioConsultas) {
-		this.servicioConsultas = servicioConsultas;
-	}
-
-	public ServicioConsulta addServicioConsulta(ServicioConsulta servicioConsulta) {
-		getServicioConsultas().add(servicioConsulta);
-		servicioConsulta.setConsulta(this);
-
-		return servicioConsulta;
-	}
-
-	public ServicioConsulta removeServicioConsulta(ServicioConsulta servicioConsulta) {
-		getServicioConsultas().remove(servicioConsulta);
-		servicioConsulta.setConsulta(null);
-
-		return servicioConsulta;
+	/**
+	 * @param clientePersona the clientePersona to set
+	 */
+	public void setClientePersona(ClientePersona clientePersona) {
+		this.clientePersona = clientePersona;
 	}
 
 }

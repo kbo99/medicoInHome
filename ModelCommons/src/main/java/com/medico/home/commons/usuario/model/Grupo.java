@@ -2,6 +2,9 @@ package com.medico.home.commons.usuario.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -28,6 +31,7 @@ public class Grupo implements Serializable {
 	private String grpNombre;
 
 	//bi-directional many-to-many association to Usuario
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 		name="usu_grupo"
