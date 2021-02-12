@@ -75,4 +75,12 @@ public class Const {
 	
 	public static final String ESTATUS_ERR = "ER";
 	
+	public static final String RESULT_SUCCESS = "success";
+	
+	public static final String RESULT_FAIL = "fail";
+	
+	public static final String ATIENDE_OPERADOR = "V";
+	
+	
+	
 }

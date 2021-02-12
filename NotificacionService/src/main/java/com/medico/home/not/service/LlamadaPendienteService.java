@@ -134,4 +134,17 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 		}
 		return lstCallTmp;
 	}
+
+
+	@Override
+	public LlamadaPendiente findById(Integer llamadaId) throws Exception {
+		LlamadaPendiente llamadaPendiente = null;
+		 try {
+			 llamadaPendiente = llamdaPendienteDAO.findByLlpId(llamadaId.longValue());
+		} catch (Exception e) {
+			logger.error("Error al buscar llamadas pendientes by estatus"+ llamadaId, e);
+			throw new Exception(e);
+		}
+		return llamadaPendiente;
+	}
 }

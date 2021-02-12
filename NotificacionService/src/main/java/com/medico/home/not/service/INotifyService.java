@@ -10,6 +10,7 @@ import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.not.model.LlamadaPendiente;
 import com.medico.home.not.model.MedicoNotificacion;
+import com.medico.home.not.model.NotificacionFcm;
 
 
 /**
@@ -20,7 +21,7 @@ public interface INotifyService {
 
 	String userTokenSubscribe(String usuario, String token);
 	
-	String sendNotificacionLlamadaEntrante(String userFrom);
+	LlamadaPendiente sendNotificacionLlamadaEntrante(String userFrom);
 	
 	String sendNotificacionSingUp(Usuario persona) throws Exception;
 	
@@ -34,5 +35,6 @@ public interface INotifyService {
 	
 	String getSktCnt()throws Exception;
 	
+	LlamadaPendiente atiendeOperador(NotificacionFcm llamadaId)throws Exception;
 	
 }

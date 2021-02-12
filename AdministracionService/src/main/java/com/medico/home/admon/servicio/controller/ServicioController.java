@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.medico.home.admon.membresia.service.IMembresiaAdmonService;
 import com.medico.home.admon.servicio.service.IServicio;
 import com.medico.home.commons.beneficio.model.Beneficio;
+import com.medico.home.commons.doctor.model.Doctor;
 import com.medico.home.commons.membresia.model.Membresia;
 import com.medico.home.commons.membresia.model.MembresiaCliente;
 import com.medico.home.commons.servicio.model.TipoServicio;
@@ -148,4 +149,7 @@ public class ServicioController {
 	public MembresiaCliente findMembresiaByUser(@RequestBody String user) throws Exception {
 		return membresiaAdmonService.getMembresiaByUser(user);
 	}
+	
+	
+
 }

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.medico.home.commons.consulta.model.Consulta;
 import com.medico.home.commons.contacto.model.ContactoDoctor;
 import com.medico.home.commons.persona.model.Persona;
@@ -52,9 +53,7 @@ public class Doctor implements Serializable {
 	@JoinColumn(name="per_id")
 	private Persona persona;
 
-	//bi-directional many-to-one association to DoctorPacientePref
-	@OneToMany(mappedBy="doctor")
-	private List<DoctorPacientePref> doctorPacientePrefs;
+	
 
 	//bi-directional many-to-many association to Especialidad
 	@ManyToMany(mappedBy="doctors")
@@ -87,6 +86,7 @@ public class Doctor implements Serializable {
 		this.docDescripcion = docDescripcion;
 	}
 
+	@JsonIgnore
 	public List<Consulta> getConsultas() {
 		return this.consultas;
 	}
@@ -96,7 +96,7 @@ public class Doctor implements Serializable {
 	}
 
 	
-
+	@JsonIgnore
 	public List<ContactoDoctor> getContactoDoctors() {
 		return this.contactoDoctors;
 	}
@@ -126,28 +126,7 @@ public class Doctor implements Serializable {
 	public void setPersona(Persona persona) {
 		this.persona = persona;
 	}
-
-	public List<DoctorPacientePref> getDoctorPacientePrefs() {
-		return this.doctorPacientePrefs;
-	}
-
-	public void setDoctorPacientePrefs(List<DoctorPacientePref> doctorPacientePrefs) {
-		this.doctorPacientePrefs = doctorPacientePrefs;
-	}
-
-	public DoctorPacientePref addDoctorPacientePref(DoctorPacientePref doctorPacientePref) {
-		getDoctorPacientePrefs().add(doctorPacientePref);
-		doctorPacientePref.setDoctor(this);
-
-		return doctorPacientePref;
-	}
-
-	public DoctorPacientePref removeDoctorPacientePref(DoctorPacientePref doctorPacientePref) {
-		getDoctorPacientePrefs().remove(doctorPacientePref);
-		doctorPacientePref.setDoctor(null);
-
-		return doctorPacientePref;
-	}
+	
 
 	public List<Especialidad> getEspecialidads() {
 		return this.especialidads;

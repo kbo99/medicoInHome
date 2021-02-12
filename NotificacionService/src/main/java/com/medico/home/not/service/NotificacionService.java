@@ -45,14 +45,18 @@ public class NotificacionService implements INotificacionFCM {
 	}
 
 	@Override
-	public List<NotificacionFcm> findTknDoctorUrgencia(NotificacionFcm user) {
+	public List<NotificacionFcm> findTknDoctorUrgencia(NotificacionFcm user,
+			String tpoAtiende, String enLlamada) {
 		List<NotificacionFcm> lstNoti = new ArrayList<NotificacionFcm>();
-		lstNoti = notificaFcmDAO.findByNfcDoctorAndNfcEnllamada("V", "F");
+		lstNoti = notificaFcmDAO.findByNfcDoctorAndNfcEnllamada(tpoAtiende, enLlamada);
 		lstNoti.forEach(item -> {
 			item.setTitulo(user.getTitulo());
 			item.setMensaje(user.getMensaje());
 			item.setLatitude(user.getLatitude());
 			item.setLongitude(user.getLongitude());
+			item.setCanal(user.getCanal());
+			item.setTknAgora(user.getTknAgora());
+			item.setIdLlamada(user.getIdLlamada());
 		});
 		return lstNoti;
 		

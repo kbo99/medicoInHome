@@ -26,5 +26,7 @@ public interface ILlamadaPendiente {
 	List<LlamadaPendiente> getLlamdaMedico(String userNameMedico)throws Exception;
 	
 	List<LlamadaPendiente> getLlamdaPaciente(String userName, String estatus)throws Exception;
+	
+	LlamadaPendiente findById(Integer llamadaId)throws Exception;
 
 }

@@ -46,6 +46,14 @@ public class NotificacionFcm implements Serializable {
 
 	@Transient
 	private String latitude;
+	
+	@Transient
+	private String canal;
+	
+	@Transient
+	private String tknAgora;
+	@Transient
+	private Integer idLlamada;
 
 	public NotificacionFcm() {
 	}
@@ -152,6 +160,48 @@ public class NotificacionFcm implements Serializable {
 	 */
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+
+	/**
+	 * @return the canal
+	 */
+	public String getCanal() {
+		return canal;
+	}
+
+	/**
+	 * @param canal the canal to set
+	 */
+	public void setCanal(String canal) {
+		this.canal = canal;
+	}
+
+	/**
+	 * @return the tknAgora
+	 */
+	public String getTknAgora() {
+		return tknAgora;
+	}
+
+	/**
+	 * @param tknAgora the tknAgora to set
+	 */
+	public void setTknAgora(String tknAgora) {
+		this.tknAgora = tknAgora;
+	}
+
+	/**
+	 * @return the idLlamada
+	 */
+	public Integer getIdLlamada() {
+		return idLlamada;
+	}
+
+	/**
+	 * @param idLlamada the idLlamada to set
+	 */
+	public void setIdLlamada(Integer idLlamada) {
+		this.idLlamada = idLlamada;
 	}
 	
 	
