@@ -9,6 +9,7 @@ import java.util.Map;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.not.model.LlamadaPendiente;
+import com.medico.home.not.model.MedicoLlamada;
 import com.medico.home.not.model.MedicoNotificacion;
 import com.medico.home.not.model.NotificacionFcm;
 

@@ -22,5 +22,7 @@ public interface INotificaFcmDAO extends PagingAndSortingRepository<Notificacion
 	NotificacionFcm save(NotificacionFcm notifica);
 	
 	List<NotificacionFcm> findByNfcDoctorAndNfcEnllamada(String doctor, String llamada);
+	
+	NotificacionFcm findByUsuUsuario(String usuario);
 
 }

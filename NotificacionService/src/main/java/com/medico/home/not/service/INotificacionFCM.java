@@ -5,6 +5,7 @@ package com.medico.home.not.service;
 
 import java.util.List;
 
+import com.medico.home.not.model.MedicoLlamada;
 import com.medico.home.not.model.NotificacionFcm;
 
 /**
@@ -19,5 +20,9 @@ public interface INotificacionFCM {
 			String tpoAtiende, String enLlamada);
 	
 	public List<String> findTknDoctorAsignado(List<Integer> lstDoc);
+	
+	public NotificacionFcm generaNotificaLlamada(NotificacionFcm user);
+	
+	public MedicoLlamada guardaDetalleLlamada(MedicoLlamada medico);
 
 }
