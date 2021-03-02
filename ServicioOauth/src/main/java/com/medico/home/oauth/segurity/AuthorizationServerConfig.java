@@ -52,7 +52,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		.secret(passwordEncoder.encode(env.getProperty("config.security.oaut.client.secret")))
 		.scopes("read", "write")
 		.authorizedGrantTypes("password", "refresh_token")
-		.accessTokenValiditySeconds(43200)
+		.accessTokenValiditySeconds(60 * 60 * 24 * 60)
 		.refreshTokenValiditySeconds(43200);
 	}
 

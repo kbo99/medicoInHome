@@ -18,8 +18,9 @@ public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="grp_id")
-	private int grpId;
+	private Integer grpId;
 
 	@Column(name="grp_desc")
 	private String grpDesc;
@@ -36,10 +37,10 @@ public class Grupo implements Serializable {
 	@JoinTable(
 		name="usu_grupo"
 		, joinColumns={
-			@JoinColumn(name="grp_id")
+			@JoinColumn(name="grp_id", nullable = false, updatable = false)
 			}
 		, inverseJoinColumns={
-			@JoinColumn(name="usu_id")
+			@JoinColumn(name="usu_id", nullable = false, updatable = false)
 			}
 		)
 	private List<Usuario> usuarios;
@@ -51,7 +52,7 @@ public class Grupo implements Serializable {
 		return this.grpId;
 	}
 
-	public void setGrpId(int grpId) {
+	public void setGrpId(Integer grpId) {
 		this.grpId = grpId;
 	}
 

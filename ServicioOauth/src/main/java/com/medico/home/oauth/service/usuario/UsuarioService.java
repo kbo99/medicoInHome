@@ -53,7 +53,7 @@ public class UsuarioService implements UserDetailsService {
 		} catch (FeignException e) {
 			String mns = "Error en el Login: no existe el usuario '" + username + "' en el sistema!";
 			logger.error(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-			logger.error(mns);
+			logger.error(mns, e);
 			
 			tracer.currentSpan().tag("error login", mns + ": " + e.getMessage());
 			

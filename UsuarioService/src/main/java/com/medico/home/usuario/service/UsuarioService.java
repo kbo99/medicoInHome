@@ -106,7 +106,13 @@ public class UsuarioService implements IUsuario {
 		Usuario userTmp = usuGrupoDAO.getUsuUsuario(userCon); 
 		return userTmp.getGrupos();
 	}
-	
 
+	@Override
+	public Usuario findByUsuUsuario(String usuUsuario) {
+		Usuario usu = usuarioDAO.findByUsuUsuario(usuUsuario);
+		return usu;
+	}
+	
+	
 
 }

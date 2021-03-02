@@ -100,6 +100,14 @@ public class Usuario implements Serializable {
 		this.grupos = grupos;
 	}
 
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
 
 
 

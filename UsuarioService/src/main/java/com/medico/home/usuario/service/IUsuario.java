@@ -19,4 +19,6 @@ public interface IUsuario {
 	Usuario generateNuevo(Usuario usuario) throws Exception;
 	
 	List<Grupo> findGpoByUser(String user) throws Exception;
+	
+	Usuario findByUsuUsuario(String usuUsuario);
 }

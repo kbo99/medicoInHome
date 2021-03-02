@@ -166,8 +166,9 @@ public class ClienteService implements IClienteService {
 		try {
 			ClientePersona clitmp = clientePersonaDAO.findByPersonaPerTelefonoAndPerfilPersonaClientePpcId(usuer, 
 					Const.PERFIL_PER_TITULAR);
-			lstBen = clientePersonaDAO.findByClienteCliIdAndPerfilPersonaClientePpcId(clitmp.getCliente().getCliId(),
-					Const.PERFIL_PER_BENE);      
+			if (clitmp != null)
+				lstBen = clientePersonaDAO.findByClienteCliIdAndPerfilPersonaClientePpcId(
+						clitmp.getCliente().getCliId(),Const.PERFIL_PER_BENE);      
 		} catch (Exception e) {
 			logger.error("Error al generar el  nuevo cliente beneficiario",e);
 			throw new Exception(e);
