@@ -4,6 +4,7 @@
 package com.medico.home.not.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,7 @@ public class NotificacionService implements INotificacionFCM {
 	@Override
 	public MedicoLlamada guardaDetalleLlamada(MedicoLlamada medico) {
 		medico.setMllId(0);
+		medico.setMllHora(new Date());
 		medico = medicoLlmadaDAO.save(medico);
 		return medico;
 	}

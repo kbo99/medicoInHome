@@ -45,6 +45,10 @@ public class Paciente implements Serializable {
 	private String pacTpoSangre;
 
 	//bi-directional many-to-one association to Consulta
+//	@OneToMany(mappedBy="paciente")
+//	private List<Consulta> consultas;
+
+	//bi-directional many-to-one association to DoctorPacientePref
 	@OneToMany(mappedBy="paciente")
 	private List<DoctorPacientePref> doctorPacientePrefs;
 

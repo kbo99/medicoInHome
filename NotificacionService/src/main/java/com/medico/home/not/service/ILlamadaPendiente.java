@@ -6,6 +6,7 @@ package com.medico.home.not.service;
 import java.util.List;
 
 import com.medico.home.not.model.LlamadaPendiente;
+import com.medico.home.not.model.MedicoLlamada;
 
 /**
  * @author macpro
@@ -28,5 +29,7 @@ public interface ILlamadaPendiente {
 	List<LlamadaPendiente> getLlamdaPaciente(String userName, String estatus)throws Exception;
 	
 	LlamadaPendiente findById(Integer llamadaId)throws Exception;
+	
+	MedicoLlamada save(MedicoLlamada medicoLlamada) throws Exception;
 
 }

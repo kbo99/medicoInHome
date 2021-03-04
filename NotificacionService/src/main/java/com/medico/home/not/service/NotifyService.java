@@ -21,9 +21,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medico.home.commons.notificacion.NotificacionVO;
 import com.medico.home.commons.usuario.model.Usuario;
 import com.medico.home.commons.util.Const;
+import com.medico.home.not.dao.IMedicoLlamadaDAO;
 import com.medico.home.not.dao.IMedicoNotifiacionDAO;
 import com.medico.home.not.dao.ITokenDAO;
 import com.medico.home.not.model.LlamadaPendiente;
+import com.medico.home.not.model.MedicoLlamada;
 import com.medico.home.not.model.MedicoNotificacion;
 import com.medico.home.not.model.NotificacionFcm;
 import com.medico.home.not.model.Token;
@@ -49,6 +51,9 @@ public class NotifyService implements INotifyService {
 	
 	@Autowired
 	ILlamadaPendiente llamadaPendienteService;
+	
+	@Autowired
+	IMedicoLlamadaDAO medicoLlamadaDAO;
 	
 	
 	
@@ -344,6 +349,43 @@ public class NotifyService implements INotifyService {
 			llamda = llamadaPendienteService.save(llamda);
 		}
 		return llamda;
+	}
+
+
+	@Override
+	public MedicoLlamada atiendeDoctor(NotificacionFcm llamadaId) throws Exception {
+		MedicoLlamada medicoLlamada = null;
+		try {
+			if(llamadaId.getIdLlamada() == null || llamadaId.getIdLlamada() == 0) {
+				List<MedicoLlamada> lstMedic = medicoLlamadaDAO.findByUserMedicoAndMllEstatus(llamadaId.getUsuUsuario(), 
+						Const.ESTATUS_LLAMADA_X_ATENDER);
+				for(MedicoLlamada medico : lstMedic) {
+					medicoLlamada = medico;
+					break;
+				}
+			}else {
+				medicoLlamada = medicoLlamadaDAO.findByLlpIdAndUserMedico(llamadaId.getIdLlamada(), llamadaId.getUsuUsuario());
+			}
+			
+			if(medicoLlamada != null && medicoLlamada.getMllEstatus().equals(Const.ESTATUS_LLAMADA_X_ATENDER)) {
+				LlamadaPendiente llamda = llamadaPendienteService.findById(medicoLlamada.getLlpId());
+				if(llamda != null && llamda.getLlpEstatus().equals(Const.ESTATUS_LLAMADA_ATENDIDA)) {
+					llamda.setLlpEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_DOCTOR);
+					llamadaPendienteService.save(llamda);
+					medicoLlamada.setMllEstatus(Const.ESTATUS_LLAMADA_ATENDIDA_DOCTOR);
+				}else {
+					medicoLlamada.setMllEstatus(Const.ESTATUS_LLAMADA_NO_ATENDIDA);
+				}
+				medicoLlamada = medicoLlamadaDAO.save(medicoLlamada);
+			}
+			
+			
+		} catch (Exception e) {
+			logger.error("Error al tomar la llamada",e);
+			throw new Exception();
+		}
+		// TODO Auto-generated method stub
+		return medicoLlamada;
 	}
 
 	

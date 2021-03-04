@@ -136,4 +136,18 @@ public class UsuarioController {
 	public Usuario findByNombreByUsuario(@RequestParam String usuUsuario)throws Exception {
 		return	usuarioService.findByUsuUsuario(usuUsuario);
 	}
+	
+	
+	@PostMapping("/findGpr")
+	public List<Grupo> getUserGrupo(@RequestBody String usuario)throws Exception {
+		List<Grupo> lstGrp = new ArrayList<Grupo>();
+		try {
+			lstGrp = usuarioService.findGpoByUser(usuario);
+		} catch (Exception e) {
+			throw new Exception();
+		}
+		
+		
+		return lstGrp;
+	}
 }

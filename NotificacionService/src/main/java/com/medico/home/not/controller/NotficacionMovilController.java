@@ -142,6 +142,7 @@ public class NotficacionMovilController {
 		if(result != null) {
 			 NotificacionFcm user = new NotificacionFcm();
 			 user.setCanal(result.getUsuSol());
+			 user.setUsuUsuario(medicoLlamda.getUserMedico());
 				user.setTknAgora(parametroNotify.getMapByParams(Const.TKN_LLAMADA_ANGORA).
 						get(Const.TKN_LLAMADA_ANGORA));
 				user.setTitulo("Video llamada");
@@ -152,12 +153,13 @@ public class NotficacionMovilController {
 				RestTemplate restTemplate = new RestTemplate();
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
-				String url = "https://www.doctoresensucasa.com/SenderNotWeb-0.0.1-SNAPSHOT/channelVideoCall";
-			//	String url = "http://localhost:8089/channelVideoCall";
+				medicoLlamda = notificacionFcm.guardaDetalleLlamada(medicoLlamda);
+				//String url = "https://www.doctoresensucasa.com/SenderNotWeb-0.0.1-SNAPSHOT/channelVideoCall";
+				String url = "http://localhost:8089/channelVideoCall";
 				try {
 					HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(lstNoti), headers);
 					restTemplate.exchange(url, HttpMethod.POST, entity, NotificacionFcm.class);
-					medicoLlamda = notificacionFcm.guardaDetalleLlamada(medicoLlamda);
+					
 				} catch (Exception e) {
 					lstNoti = null;
 					logger.error("Error al generar llamada " + e.getMessage(), e);
@@ -169,6 +171,11 @@ public class NotficacionMovilController {
 	}
 	
 	
+	@PostMapping("/atiendeDoctor")
+	public MedicoLlamada atiendeDoctor(@RequestBody NotificacionFcm notifica) throws Exception {
+		return notifyService.atiendeDoctor(notifica);
+		
+	}
 	
 	
 }

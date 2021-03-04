@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import com.medico.home.commons.util.Const;
 import com.medico.home.commons.util.Utils;
 import com.medico.home.not.dao.ILlamadaPendienteDAO;
+import com.medico.home.not.dao.IMedicoLlamadaDAO;
 import com.medico.home.not.model.LlamadaPendiente;
+import com.medico.home.not.model.MedicoLlamada;
 
 /**
  * @author macpro
@@ -29,6 +31,9 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 	
 	@Autowired
 	ILlamadaPendienteDAO llamdaPendienteDAO;
+	
+	@Autowired
+	IMedicoLlamadaDAO medicoLlamadaDAO;
 
 	@Override
 	public LlamadaPendiente save(LlamadaPendiente llamada) throws Exception {
@@ -146,5 +151,17 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 			throw new Exception(e);
 		}
 		return llamadaPendiente;
+	}
+
+
+	@Override
+	public MedicoLlamada save(MedicoLlamada medicoLlamada) throws Exception {
+		try {
+			medicoLlamada = medicoLlamadaDAO.save(medicoLlamada);
+		} catch (Exception e) {
+			logger.error("Error al buscar llamadas pendientes by estatus"+ medicoLlamada.getUserMedico(), e);
+			throw new Exception(e);
+		}
+		return medicoLlamada;
 	}
 }

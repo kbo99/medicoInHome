@@ -41,6 +41,8 @@ public class Const {
 	
 	public static final String ESTATUS_LLAMADA_ATENDIDA = "LLAT";
 	
+	public static final String ESTATUS_LLAMADA_ATENDIDA_DOCTOR = "LLATD";
+	
 	public static final String ESTATUS_LLAMADA_ATENDIDA_FIN = "LLATF";
 	
 	public static final String ESTATUS_LLAMADA_X_ATENDER = "LLPAT";

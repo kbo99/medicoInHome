@@ -38,4 +38,8 @@ public interface INotifyService {
 	
 	LlamadaPendiente atiendeOperador(NotificacionFcm llamadaId)throws Exception;
 	
+	MedicoLlamada atiendeDoctor(NotificacionFcm llamadaId)throws Exception;
+	
+	
+	
 }
