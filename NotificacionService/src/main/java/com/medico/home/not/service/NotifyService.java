@@ -340,7 +340,7 @@ public class NotifyService implements INotifyService {
 
 	@Override
 	public LlamadaPendiente atiendeOperador(NotificacionFcm llamadaId) throws Exception {
-		LlamadaPendiente llamda = llamadaPendienteService.findById(llamadaId.getIdLlamada());
+		LlamadaPendiente llamda = llamadaPendienteService.asignaLlamadaMedicoGral();
 		
 		if(llamda != null && llamda.getLlpEstatus().equals(Const.ESTATUS_LLAMADA_X_ATENDER)) {
 			llamda.setLlpAtendida(Const.STRING_V);

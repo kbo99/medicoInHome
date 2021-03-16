@@ -80,7 +80,7 @@ public class LlamadaPendienteService implements ILlamadaPendiente {
 	public List<LlamadaPendiente> getFirstLlamadaPendienteByEstatus(String estatis) throws Exception {
 		 List<LlamadaPendiente> lstCallTmp = null;
 		 try {
-			lstCallTmp = llamdaPendienteDAO.findByLlpEstatusOrderByLlpFechaAsc(estatis);
+			lstCallTmp = llamdaPendienteDAO.findByLlpEstatusOrderByLlpFechaDesc(estatis);
 		} catch (Exception e) {
 			logger.error("Error al buscar llamadas pendientes by estatus"+ estatis, e);
 			throw new Exception(e);

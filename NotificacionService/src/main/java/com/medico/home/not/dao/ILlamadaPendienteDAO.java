@@ -19,6 +19,8 @@ public interface ILlamadaPendienteDAO extends PagingAndSortingRepository<Llamada
 	
 	List<LlamadaPendiente> findByLlpEstatusOrderByLlpFechaAsc(String estatus);
 	
+	List<LlamadaPendiente> findByLlpEstatusOrderByLlpFechaDesc(String estatus);
+	
 	List<LlamadaPendiente> findByUsuAtiendeOrderByLlpFechaDesc(String usuAtiende);
 	
 	List<LlamadaPendiente> findByUsuSolAndLlpEstatusOrderByLlpFechaDesc(String usuAtiende, String estatus);
