@@ -154,8 +154,8 @@ public class NotficacionMovilController {
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				medicoLlamda = notificacionFcm.guardaDetalleLlamada(medicoLlamda);
-				//String url = "https://www.doctoresensucasa.com/SenderNotWeb-0.0.1-SNAPSHOT/channelVideoCall";
-				String url = "http://localhost:8089/channelVideoCall";
+				String url = "https://www.doctoresensucasa.com/SenderNotWeb-0.0.1-SNAPSHOT/channelVideoCall";
+				//String url = "http://localhost:8089/channelVideoCall";
 				try {
 					HttpEntity<String> entity = new HttpEntity<String>(new ObjectMapper().writeValueAsString(lstNoti), headers);
 					restTemplate.exchange(url, HttpMethod.POST, entity, NotificacionFcm.class);
