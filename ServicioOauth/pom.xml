@@ -95,6 +95,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				 <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <parameters>true</parameters>
+            </configuration>
 			</plugin>
 		</plugins>
 	</build>
